@@ -26,7 +26,7 @@ public class SignupActivity extends Activity {
     static final String TAG = "SingupActivity";
 
     Button button, btn_toLogin;
-    EditText id, password, name, e_mail, date_of_birth;
+    EditText id, password, e_mail, date_of_birth;
     String st_id, st_password, st_name, st_e_mail, st_date_of_birth;
     String token="";
 
@@ -39,8 +39,6 @@ public class SignupActivity extends Activity {
 
         id=findViewById(R.id.et_signup_id);
         password=findViewById(R.id.et_signup_pwd);
-//        name=findViewById(R.id.name);
-        name = id;
         e_mail=findViewById(R.id.et_signup_email);
         date_of_birth=findViewById(R.id.et_signup_dob);
 
@@ -54,8 +52,6 @@ public class SignupActivity extends Activity {
 
                         st_id=id.getText().toString();
                         st_password=password.getText().toString();
-//        st_name=name.getText().toString();
-                        st_name = null;
                         st_e_mail=e_mail.getText().toString();
                         st_date_of_birth=date_of_birth.getText().toString(); //날짜형태
 
@@ -71,7 +67,7 @@ public class SignupActivity extends Activity {
                         // member_info db로 전송
                         RegisterActivity task = new RegisterActivity();
 //                task.execute("http://" + IP_ADDRESS + "/insert.php", name,country);
-                        task.execute("http://" + "synergyflight.dothome.co.kr" + "/insert_member_info.php", st_name, st_date_of_birth, st_e_mail, st_id, st_password, token);
+                        task.execute("http://" + "synergyflight.dothome.co.kr" + "/insert_member_info.php", st_id, st_e_mail, st_date_of_birth, st_password, token);
 
                         Intent intent = new Intent(v.getContext(), MypageActivity.class);
                         intent.putExtra("st_id", st_id);
@@ -116,12 +112,11 @@ public class SignupActivity extends Activity {
             String serverURL = (String) params[0];
 
             // 1. PHP 파일을 실행시킬 수 있는 주소와 전송할 데이터를 준비합니다.
-            String name = (String) params[1];
-            String date_of_birth = (String) params[2];
-            String e_mail = (String) params[3];
-            String id = (String) params[4];
-            String password = (String) params[5];
-            String token = (String) params[6];
+            String id = (String) params[1];
+            String e_mail = (String) params[2];
+            String date_of_birth = (String) params[3];
+            String password = (String) params[4];
+            String token = (String) params[5];
 
 //            System.out.println("in" + token);
 
@@ -130,8 +125,8 @@ public class SignupActivity extends Activity {
             // 여기에 적어준 이름을 나중에 PHP에서 사용하여 값을 얻게 됩니다.
 
             // ex : String postParameters = "name=" + name + "&country=" + country;
-            String postParameters = "name=" + name + "&date_of_birth=" + date_of_birth + "&e_mail=" + e_mail
-                    + "&id=" + id + "&password=" + password + "&token=" + token;
+            String postParameters = "id=" + id + "&e_mail=" + e_mail + "&date_of_birth=" + date_of_birth
+                    + "&password=" + password + "&token=" + token;
 
             try {
                 // 2. HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송합니다.
