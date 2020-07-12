@@ -28,6 +28,7 @@ public class MypageActivity extends Activity {
 
     private ImageButton btn_home, btn_profile;
     private TextView login, email, birth;
+    private String id, st_email, st_birth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,30 +76,28 @@ public class MypageActivity extends Activity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), SignupActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                Intent intent = new Intent(view.getContext(), LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivityForResult(intent, 1000);
             }
         });
         email = (TextView) findViewById(R.id.email);
         birth = (TextView) findViewById(R.id.birth);
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==1000){
-            if(resultCode==2000){
-                String id = data.getStringExtra("st_id");
-                String st_email = data.getStringExtra("st_email");
-                String st_birth = data.getStringExtra("st_date_of_birth");
-                login.setText(id+"님 안녕하세요");
-                login.setOnClickListener(null);
-                email.setText(st_email);
-                birth.setText(st_birth);
-            }
+        Intent intent = getIntent();
+        id = intent.getStringExtra("id");
+        st_email = intent.getStringExtra("e_mail");
+        st_birth = intent.getStringExtra("date_of_birth");
+
+        if(id!=null){
+            login.setText(id+"님 안녕하세요");
+            login.setOnClickListener(null);
+            email.setText(st_email);
+            birth.setText(st_birth);
         }
     }
+
 
     class BaseAdapter_mypage extends BaseAdapter {
 

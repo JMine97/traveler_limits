@@ -69,12 +69,10 @@ public class SignupActivity extends Activity {
 //                task.execute("http://" + IP_ADDRESS + "/insert.php", name,country);
                         task.execute("http://" + "synergyflight.dothome.co.kr" + "/insert_member_info.php", st_id, st_e_mail, st_date_of_birth, st_password, token);
 
-                        Intent intent = new Intent(v.getContext(), MypageActivity.class);
-                        intent.putExtra("st_id", st_id);
-                        intent.putExtra("st_email", st_e_mail);
-                        intent.putExtra("st_date_of_birth", st_date_of_birth);
-                        setResult(2000, intent);
-                        SignupActivity.this.finish();
+                        Intent intent = new Intent(v.getContext(), LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
                         // TODO : 회원가입 성공 시에만 종료되어야함
                         // TODO : 이후 마이페이지 정보 변화 및 로그아웃 기능 필요
                     }
