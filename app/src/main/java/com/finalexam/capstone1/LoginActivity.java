@@ -40,8 +40,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d(TAG, "회원가입 to 로그인");
                 Intent intent = new Intent(view.getContext(), SignupActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
         });

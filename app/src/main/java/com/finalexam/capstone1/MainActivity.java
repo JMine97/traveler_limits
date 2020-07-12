@@ -25,19 +25,29 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
-
+    private String id, password, st_email, st_birth;
     private ImageButton btn_flight, btn_home, btn_profile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
+        Intent intent = getIntent();
+        id = intent.getStringExtra("id");
+        st_email = intent.getStringExtra("e_mail");
+        st_birth = intent.getStringExtra("date_of_birth");
+        password = intent.getStringExtra("password");
+
         btn_flight = (ImageButton) findViewById(R.id.btn_home_f);
         btn_flight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // flight search Activity로 가는 인텐트 생성
-                Intent intent = new Intent(view.getContext(), SearchActivity.class);    // this 오류 해결(anonymous)
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);    // this 오류 해결(anonymous)
+                intent.putExtra("id", id);
+                intent.putExtra("password", password);
+                intent.putExtra("e_mail", st_email);
+                intent.putExtra("date_of_birth", st_birth);
                 // 액티비티 시작
                 startActivity(intent);
             }
@@ -55,10 +65,16 @@ public class MainActivity extends AppCompatActivity {
         btn_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MypageActivity.class);
+                Intent intent = new Intent(MainActivity.this, MypageActivity.class);
+                intent.putExtra("id", id);
+                intent.putExtra("password", password);
+                intent.putExtra("e_mail", st_email);
+                intent.putExtra("date_of_birth", st_birth);
                 startActivity(intent);
             }
         });
     }
+
+
 
 }

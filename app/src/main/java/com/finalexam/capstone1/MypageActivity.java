@@ -28,14 +28,33 @@ public class MypageActivity extends Activity {
 
     private ImageButton btn_home, btn_profile;
     private TextView login, email, birth;
-    private String id, st_email, st_birth;
+    private String id, password, st_email, st_birth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mypage_profile);
 
+        email = (TextView) findViewById(R.id.email);
+        birth = (TextView) findViewById(R.id.birth);
         mListView = (ListView) findViewById(R.id.list_mypage);
+        btn_home = (ImageButton)findViewById(R.id.btn_mp_home);
+        btn_profile = (ImageButton)findViewById(R.id.btn_mp_profile);
+        login=(TextView) findViewById(R.id.login);
+
+        Intent intent = getIntent();
+        id = intent.getStringExtra("id");
+        st_email = intent.getStringExtra("e_mail");
+        st_birth = intent.getStringExtra("date_of_birth");
+        password = intent.getStringExtra("password");
+
+        if(id!=null){
+            login.setText(id+"님 안녕하세요");
+            login.setOnClickListener(null);
+            email.setText(st_email);
+            birth.setText(st_birth);
+        }
+
         list_menu = new ArrayList<String>();
         list_menu.add("개인정보"); list_menu.add("알람설정"); list_menu.add("알람목록");
         adapter = new BaseAdapter_mypage(this, list_menu);
@@ -46,25 +65,31 @@ public class MypageActivity extends Activity {
                 //Toast.makeText(getApplicationContext(), i+"번째 id="+l, Toast.LENGTH_SHORT).show();
                 if (i == 2) {
                     Intent intent = new Intent(view.getContext(), MypageAlarmsActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra("id", id);
+                    intent.putExtra("password", password);
+                    intent.putExtra("e_mail", st_email);
+                    intent.putExtra("date_of_birth", st_birth);
                     startActivity(intent);
                 }
             }
         });
 
-        btn_home = (ImageButton)findViewById(R.id.btn_mp_home);
         btn_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                Intent intent = new Intent(MypageActivity.this, MainActivity.class);
+                intent.putExtra("id", id);
+                intent.putExtra("password", password);
+                intent.putExtra("e_mail", st_email);
+                intent.putExtra("date_of_birth", st_birth);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
         });
 
-        btn_profile = (ImageButton)findViewById(R.id.btn_mp_profile);
         btn_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,30 +97,16 @@ public class MypageActivity extends Activity {
             }
         });
 
-        login=(TextView) findViewById(R.id.login);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivityForResult(intent, 1000);
+                startActivity(intent);
             }
         });
-        email = (TextView) findViewById(R.id.email);
-        birth = (TextView) findViewById(R.id.birth);
 
-        Intent intent = getIntent();
-        id = intent.getStringExtra("id");
-        st_email = intent.getStringExtra("e_mail");
-        st_birth = intent.getStringExtra("date_of_birth");
-
-        if(id!=null){
-            login.setText(id+"님 안녕하세요");
-            login.setOnClickListener(null);
-            email.setText(st_email);
-            birth.setText(st_birth);
-        }
     }
 
 
