@@ -2,6 +2,7 @@ package com.finalexam.capstone1;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
 import com.finalexam.capstone1.alarms.MypageAlarmsActivity;
 
@@ -62,9 +64,24 @@ public class MypageActivity extends Activity {
             email.setText(st_email);
             birth.setText(st_birth);
         }
+        else{
+            login.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(view.getContext(), LoginActivity.class);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+        }
 
         list_menu = new ArrayList<String>();
         list_menu.add("개인정보"); list_menu.add("알람설정"); list_menu.add("알람목록");
+        if(id!=null){
+            list_menu.add("로그아웃");
+        }
         adapter = new BaseAdapter_mypage(this, list_menu);
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -83,6 +100,28 @@ public class MypageActivity extends Activity {
                     intent.putExtra("CurState", CurState);
                     startActivity(intent);
                     finish();
+                }
+                else if(i==3){
+                    AlertDialog.Builder alert = new AlertDialog.Builder(MypageActivity.this);
+                    alert.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();     //닫기
+                        }
+                    });
+                    alert.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            PreferenceManager pref = new PreferenceManager(MypageActivity.this);
+                            pref.clear();
+                            Intent intent = getIntent();
+                            startActivity(intent);
+                            finish();
+
+                        }
+                    });
+                    alert.setMessage("정말 로그아웃하시겠습니까?");
+                    alert.show();
                 }
             }
         });
@@ -107,17 +146,6 @@ public class MypageActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "You're looking mypage already", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), LoginActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-                finish();
             }
         });
 

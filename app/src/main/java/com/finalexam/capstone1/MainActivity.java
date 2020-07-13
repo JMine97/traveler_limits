@@ -84,6 +84,11 @@ public class MainActivity extends AppCompatActivity {
         alert.setPositiveButton("네", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                PreferenceManager pref = new PreferenceManager(MainActivity.this);
+                boolean b = pref.getValue("auto", false);
+                if(b==false){
+                    pref.clear();
+                }
                 finish();
             }
         });

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     static final String TAG = "LoginActivity";
     Button btn_toSignup, btn_login;
     private EditText et_login_id, et_login_password;
+    CheckBox chAuto;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "로그인 액티비티 실행됨");
 
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
+
+        chAuto = findViewById(R.id.chAutoLog);
 
         et_login_id = findViewById(R.id.et_login_id);
         et_login_password = findViewById(R.id.et_login_password);
@@ -75,6 +79,12 @@ public class LoginActivity extends AppCompatActivity {
                                 pref.put("password", password);
                                 pref.put("e_mail", e_mail);
                                 pref.put("date_of_birth", date_of_birth);
+                                if(chAuto.isChecked()){
+                                    pref.put("auto", true);
+                                }
+                                else{
+                                    pref.put("auto", false);
+                                }
                                 Intent intent = new Intent(LoginActivity.this, MypageActivity.class);
                                 /*intent.putExtra("id", id);
                                 intent.putExtra("password", password);

@@ -68,7 +68,7 @@ public class PreferenceManager {
         edit.commit();
     }
 
-    public static void clear(){
+    public void clear(){
         SharedPreferences prefs = mContext.getSharedPreferences(PREFERENCES_NAME,Activity.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
         edit.clear();
