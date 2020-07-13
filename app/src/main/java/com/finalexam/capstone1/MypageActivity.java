@@ -153,13 +153,8 @@ public class MypageActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(MypageActivity.this, MainActivity.class);
-        /*intent.putExtra("id", id);
-        intent.putExtra("password", password);
-        intent.putExtra("e_mail", st_email);
-        intent.putExtra("date_of_birth", st_birth);
-        */
-        startActivity(intent);
+        //Intent intent = new Intent(MypageActivity.this, MainActivity.class);
+        //startActivity(intent);
         finish();
     }
 

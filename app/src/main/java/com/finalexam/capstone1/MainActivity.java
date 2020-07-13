@@ -2,7 +2,9 @@ package com.finalexam.capstone1;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -67,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("e_mail", st_email);
                 intent.putExtra("date_of_birth", st_birth);*/
                 startActivity(intent);
-                finish();
             }
         });
     }
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 if(b==false){
                     pref.clear();
                 }
-                finish();
+                ActivityCompat.finishAffinity(MainActivity.this);
             }
         });
         alert.setMessage("정말 종료하시겠습니까?");

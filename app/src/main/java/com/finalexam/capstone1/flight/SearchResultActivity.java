@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 
 import com.finalexam.capstone1.MainActivity;
 import com.finalexam.capstone1.MypageActivity;
+import com.finalexam.capstone1.PreferenceManager;
 import com.finalexam.capstone1.R;
 
 import java.util.ArrayList;
@@ -31,8 +32,7 @@ public class SearchResultActivity extends Activity {
 
     private ListView lv_search;
     private ArrayList<Flight> list;
-    private String id, password, st_email, st_birth;
-
+    private String id;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,10 +46,6 @@ public class SearchResultActivity extends Activity {
         final String date = intent.getStringExtra("DATE");
         final int adlt = intent.getIntExtra("ADULT", 0);
         final int chld = intent.getIntExtra("CHILD", 0);
-        id = intent.getStringExtra("id");
-        st_email = intent.getStringExtra("e_mail");
-        st_birth = intent.getStringExtra("date_of_birth");
-        password = intent.getStringExtra("password");
 
         tv_date = (TextView)findViewById(R.id.tv_fsearch_date);
         tv_date.setText(date);
@@ -77,6 +73,10 @@ public class SearchResultActivity extends Activity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                PreferenceManager pref = new PreferenceManager(SearchResultActivity.this);
+                id = pref.getValue("id", null);
+
                 if(id!=null) {
                     Intent intent = new Intent(view.getContext(), SetAlarmDetailActivity.class);
                     intent.putExtra("DEPARTURE", dep);
@@ -84,11 +84,6 @@ public class SearchResultActivity extends Activity {
                     intent.putExtra("DATE", date);
                     intent.putExtra("ADULT", adlt);
                     intent.putExtra("CHILD", chld);
-
-                    intent.putExtra("id", id);
-                    intent.putExtra("password", password);
-                    intent.putExtra("e_mail", st_email);
-                    intent.putExtra("date_of_birth", st_birth);
 
                     startActivity(intent);
                 }
@@ -105,11 +100,8 @@ public class SearchResultActivity extends Activity {
                 Intent intent = new Intent(view.getContext(), MainActivity.class);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                intent.putExtra("id", id);
-                intent.putExtra("password", password);
-                intent.putExtra("e_mail", st_email);
-                intent.putExtra("date_of_birth", st_birth);
                 startActivity(intent);
+                finish();
             }
         });
         btn_profile = (ImageButton) findViewById(R.id.btn_fsearch2_profile);
@@ -118,9 +110,6 @@ public class SearchResultActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), MypageActivity.class);
                 intent.putExtra("id", id);
-                intent.putExtra("password", password);
-                intent.putExtra("e_mail", st_email);
-                intent.putExtra("date_of_birth", st_birth);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);

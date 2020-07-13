@@ -25,7 +25,6 @@ import java.util.List;
 public class SearchActivity extends AppCompatActivity {
 
     static final String TAG = "SearchActivity"; // DEBUG
-    private String id, password, st_email, st_birth;
 
     private Button btn_dep, btn_arr, btn_date, btn_search, btn_minus1, btn_plus1, btn_minus2, btn_plus2;
     private TextView tv_adlt, tv_chld;
@@ -48,10 +47,6 @@ public class SearchActivity extends AppCompatActivity {
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
 
         Intent intent = getIntent();
-        id = intent.getStringExtra("id");
-        st_email = intent.getStringExtra("e_mail");
-        st_birth = intent.getStringExtra("date_of_birth");
-        password = intent.getStringExtra("password");
 
         try {
             String dep = intent.getStringExtra("AIRPORT_kr");
@@ -159,11 +154,6 @@ public class SearchActivity extends AppCompatActivity {
                 intent.putExtra("ADULT", num_adlt);
                 intent.putExtra("CHILD", num_chld);
 
-                intent.putExtra("id", id);
-                intent.putExtra("password", password);
-                intent.putExtra("e_mail", st_email);
-                intent.putExtra("date_of_birth", st_birth);
-
 //                intent.putExtra("TRAVEL", dep + "/" + arr + "/" + "");
                 startActivity(intent);
             }
@@ -175,10 +165,6 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), MainActivity.class);
-                intent.putExtra("id", id);
-                intent.putExtra("password", password);
-                intent.putExtra("e_mail", st_email);
-                intent.putExtra("date_of_birth", st_birth);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
@@ -190,13 +176,10 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), MypageActivity.class);
-                intent.putExtra("id", id);
-                intent.putExtra("password", password);
-                intent.putExtra("e_mail", st_email);
-                intent.putExtra("date_of_birth", st_birth);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -204,10 +187,6 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(SearchActivity.this, MainActivity.class);
-        intent.putExtra("id", id);
-        intent.putExtra("password", password);
-        intent.putExtra("e_mail", st_email);
-        intent.putExtra("date_of_birth", st_birth);
         //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
