@@ -38,6 +38,8 @@ public class SearchResultActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.f_search2);
 
+        getWindow().setWindowAnimations(0); //화면전환 효과 제거
+
         Intent intent = getIntent();
         final String arr = intent.getStringExtra("ARRIVAL");
         final String dep = intent.getStringExtra("DEPARTURE");

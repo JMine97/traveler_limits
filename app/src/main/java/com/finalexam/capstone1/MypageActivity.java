@@ -28,12 +28,15 @@ public class MypageActivity extends Activity {
 
     private ImageButton btn_home, btn_profile;
     private TextView login, email, birth;
-    private String id, password, st_email, st_birth;
+    private String id, st_email, st_birth;
+    private String CurState = "CheckAlarm"; //알람 조회 페이지에서 뒤로가기로 이동할 구간을 구분하기 위함
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mypage_profile);
+
+        getWindow().setWindowAnimations(0); //화면전환 효과 제거
 
         email = (TextView) findViewById(R.id.email);
         birth = (TextView) findViewById(R.id.birth);
@@ -42,12 +45,17 @@ public class MypageActivity extends Activity {
         btn_profile = (ImageButton)findViewById(R.id.btn_mp_profile);
         login=(TextView) findViewById(R.id.login);
 
+        PreferenceManager pref = new PreferenceManager(this);
+        id = pref.getValue("id", null);
+        st_email = pref.getValue("e_mail", null);
+        st_birth = pref.getValue("date_of_birth", null);
+
         Intent intent = getIntent();
-        id = intent.getStringExtra("id");
+        /*id = intent.getStringExtra("id");
         st_email = intent.getStringExtra("e_mail");
         st_birth = intent.getStringExtra("date_of_birth");
         password = intent.getStringExtra("password");
-
+        */
         if(id!=null){
             login.setText(id+"님 안녕하세요");
             login.setOnClickListener(null);
@@ -67,11 +75,14 @@ public class MypageActivity extends Activity {
                     Intent intent = new Intent(view.getContext(), MypageAlarmsActivity.class);
                     //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    intent.putExtra("id", id);
+                    /*intent.putExtra("id", id);
                     intent.putExtra("password", password);
                     intent.putExtra("e_mail", st_email);
                     intent.putExtra("date_of_birth", st_birth);
+                     */
+                    intent.putExtra("CurState", CurState);
                     startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -80,13 +91,15 @@ public class MypageActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MypageActivity.this, MainActivity.class);
-                intent.putExtra("id", id);
+                /*intent.putExtra("id", id);
                 intent.putExtra("password", password);
                 intent.putExtra("e_mail", st_email);
                 intent.putExtra("date_of_birth", st_birth);
+                 */
                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -101,14 +114,26 @@ public class MypageActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
+                finish();
             }
         });
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(MypageActivity.this, MainActivity.class);
+        /*intent.putExtra("id", id);
+        intent.putExtra("password", password);
+        intent.putExtra("e_mail", st_email);
+        intent.putExtra("date_of_birth", st_birth);
+        */
+        startActivity(intent);
+        finish();
+    }
 
     class BaseAdapter_mypage extends BaseAdapter {
 

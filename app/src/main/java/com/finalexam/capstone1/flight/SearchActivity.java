@@ -45,6 +45,8 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.f_search1);
 
+        getWindow().setWindowAnimations(0); //화면전환 효과 제거
+
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
         st_email = intent.getStringExtra("e_mail");
@@ -180,6 +182,7 @@ public class SearchActivity extends AppCompatActivity {
                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
+                finish();
             }
         });
         btn_profile = (ImageButton) findViewById(R.id.btn_fsearch_p);
@@ -198,7 +201,18 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(SearchActivity.this, MainActivity.class);
+        intent.putExtra("id", id);
+        intent.putExtra("password", password);
+        intent.putExtra("e_mail", st_email);
+        intent.putExtra("date_of_birth", st_birth);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
+    }
 
     private void settingList() {
         // 대한민국

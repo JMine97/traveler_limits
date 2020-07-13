@@ -42,11 +42,17 @@ public class MypageAlarmsActivity extends AppCompatActivity {
     ArrayList<Alarm> list;
     public GetAlarm alrm;
     private List<HashMap<String, String>> alarmList = null;
+    private String CurState;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mypage_alarm);
+
+        getWindow().setWindowAnimations(0); //화면전환 효과 제거
+
+        Intent intent = getIntent();
+        CurState = intent.getStringExtra("CurState");
 
         lv_alarm = (ListView) findViewById(R.id.lv_alarm);
 
@@ -58,6 +64,7 @@ public class MypageAlarmsActivity extends AppCompatActivity {
                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
+                finish();
             }
         });
         btn_profile = (ImageButton) findViewById(R.id.btn_ma_profile);
@@ -68,6 +75,7 @@ public class MypageAlarmsActivity extends AppCompatActivity {
                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -88,6 +96,24 @@ public class MypageAlarmsActivity extends AppCompatActivity {
         lv_alarm.setAdapter(adapter);
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        switch (CurState){
+            case "SetAlarm":
+                Intent intent = new Intent(MypageAlarmsActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            case "CheckAlarm":
+                intent = new Intent(MypageAlarmsActivity.this, MypageActivity.class);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+                break;
+        }
     }
 
     void test_listview() {

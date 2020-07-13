@@ -21,11 +21,14 @@ public class SetAlarmDetailActivity extends Activity {
     private EditText ed_price_limit, ed_airline;
     private float price_limit;
     private String airline;
+    private String id, password, st_email, st_birth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.f_alarm1);
+
+        getWindow().setWindowAnimations(0); //화면전환 효과 제거
 
         ed_price_limit=findViewById(R.id.price_limit);
         ed_airline=findViewById(R.id.airline);
@@ -36,14 +39,18 @@ public class SetAlarmDetailActivity extends Activity {
         final String date = intent.getStringExtra("DATE");
         final int adlt = intent.getIntExtra("ADULT", 0);
         final int chld = intent.getIntExtra("CHILD", 0);
+        id = intent.getStringExtra("id");
+        st_email = intent.getStringExtra("e_mail");
+        st_birth = intent.getStringExtra("date_of_birth");
+        password = intent.getStringExtra("password");
 
         btn_save = (Button)findViewById(R.id.btn_fsavealarm2);
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), PriceDistributionActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
                 price_limit = Float.parseFloat(String.valueOf(ed_price_limit.getText()));
                 airline = String.valueOf(ed_airline.getText());
@@ -55,6 +62,11 @@ public class SetAlarmDetailActivity extends Activity {
                 intent.putExtra("CHILD", chld);
                 intent.putExtra("PRICELIMIT", price_limit);
                 intent.putExtra("AIRLINE", airline);
+
+                intent.putExtra("id", id);
+                intent.putExtra("password", password);
+                intent.putExtra("e_mail", st_email);
+                intent.putExtra("date_of_birth", st_birth);
                 startActivity(intent);
             }
         });
@@ -64,8 +76,12 @@ public class SetAlarmDetailActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.putExtra("id", id);
+                intent.putExtra("password", password);
+                intent.putExtra("e_mail", st_email);
+                intent.putExtra("date_of_birth", st_birth);
                 startActivity(intent);
             }
         });
@@ -74,8 +90,12 @@ public class SetAlarmDetailActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), MypageActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.putExtra("id", id);
+                intent.putExtra("password", password);
+                intent.putExtra("e_mail", st_email);
+                intent.putExtra("date_of_birth", st_birth);
                 startActivity(intent);
             }
         });

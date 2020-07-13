@@ -35,6 +35,8 @@ public class SignupActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
 
+        getWindow().setWindowAnimations(0); //화면전환 효과 제거
+
         button=findViewById(R.id.btn_signup);
 
         id=findViewById(R.id.et_signup_id);
@@ -96,6 +98,7 @@ public class SignupActivity extends Activity {
 
 
     } //onCreate
+
 
     // member_info db로 토큰 등 전송
     public class RegisterActivity extends AsyncTask<String, Void, String> {

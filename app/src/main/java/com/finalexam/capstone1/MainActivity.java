@@ -1,8 +1,10 @@
 package com.finalexam.capstone1;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,18 +27,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
-    private String id, password, st_email, st_birth;
     private ImageButton btn_flight, btn_home, btn_profile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
+        getWindow().setWindowAnimations(0); //화면전환 효과 제거
+
         Intent intent = getIntent();
-        id = intent.getStringExtra("id");
-        st_email = intent.getStringExtra("e_mail");
-        st_birth = intent.getStringExtra("date_of_birth");
-        password = intent.getStringExtra("password");
 
         btn_flight = (ImageButton) findViewById(R.id.btn_home_f);
         btn_flight.setOnClickListener(new View.OnClickListener() {
@@ -44,12 +43,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // flight search Activity로 가는 인텐트 생성
                 Intent intent = new Intent(MainActivity.this, SearchActivity.class);    // this 오류 해결(anonymous)
-                intent.putExtra("id", id);
-                intent.putExtra("password", password);
-                intent.putExtra("e_mail", st_email);
-                intent.putExtra("date_of_birth", st_birth);
                 // 액티비티 시작
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -66,15 +62,32 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, MypageActivity.class);
-                intent.putExtra("id", id);
+                /*intent.putExtra("id", id);
                 intent.putExtra("password", password);
                 intent.putExtra("e_mail", st_email);
-                intent.putExtra("date_of_birth", st_birth);
+                intent.putExtra("date_of_birth", st_birth);*/
                 startActivity(intent);
+                finish();
             }
         });
     }
 
-
-
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();     //닫기
+            }
+        });
+        alert.setPositiveButton("네", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        alert.setMessage("정말 종료하시겠습니까?");
+        alert.show();
+    }
 }

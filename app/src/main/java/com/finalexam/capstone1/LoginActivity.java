@@ -29,6 +29,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login);
         Log.d(TAG, "로그인 액티비티 실행됨");
 
+        getWindow().setWindowAnimations(0); //화면전환 효과 제거
+
         et_login_id = findViewById(R.id.et_login_id);
         et_login_password = findViewById(R.id.et_login_password);
 
@@ -67,14 +69,20 @@ public class LoginActivity extends AppCompatActivity {
                                 String date_of_birth = jsonObject.getString("date_of_birth");
 
                                 Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(LoginActivity.this, MypageActivity.class);
 
-                                intent.putExtra("id", id);
+                                PreferenceManager pref = new PreferenceManager(LoginActivity.this);
+                                pref.put("id", id);
+                                pref.put("password", password);
+                                pref.put("e_mail", e_mail);
+                                pref.put("date_of_birth", date_of_birth);
+                                Intent intent = new Intent(LoginActivity.this, MypageActivity.class);
+                                /*intent.putExtra("id", id);
                                 intent.putExtra("password", password);
                                 intent.putExtra("e_mail", e_mail);
                                 intent.putExtra("date_of_birth", date_of_birth);
-
+                                 */
                                 startActivity(intent);
+                                finish();
                             } else{
                                 Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
                                 return;
@@ -90,4 +98,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 }
