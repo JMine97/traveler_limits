@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -30,6 +31,7 @@ public class SearchResultActivity extends Activity {
 
     private ListView lv_search;
     private ArrayList<Flight> list;
+    private String id, password, st_email, st_birth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +44,10 @@ public class SearchResultActivity extends Activity {
         final String date = intent.getStringExtra("DATE");
         final int adlt = intent.getIntExtra("ADULT", 0);
         final int chld = intent.getIntExtra("CHILD", 0);
+        id = intent.getStringExtra("id");
+        st_email = intent.getStringExtra("e_mail");
+        st_birth = intent.getStringExtra("date_of_birth");
+        password = intent.getStringExtra("password");
 
         tv_date = (TextView)findViewById(R.id.tv_fsearch_date);
         tv_date.setText(date);
@@ -69,13 +75,24 @@ public class SearchResultActivity extends Activity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), SetAlarmDetailActivity.class);
-                intent.putExtra("DEPARTURE", dep);
-                intent.putExtra("ARRIVAL", arr);
-                intent.putExtra("DATE", date);
-                intent.putExtra("ADULT", adlt);
-                intent.putExtra("CHILD", chld);
-                startActivity(intent);
+                if(id!=null) {
+                    Intent intent = new Intent(view.getContext(), SetAlarmDetailActivity.class);
+                    intent.putExtra("DEPARTURE", dep);
+                    intent.putExtra("ARRIVAL", arr);
+                    intent.putExtra("DATE", date);
+                    intent.putExtra("ADULT", adlt);
+                    intent.putExtra("CHILD", chld);
+
+                    intent.putExtra("id", id);
+                    intent.putExtra("password", password);
+                    intent.putExtra("e_mail", st_email);
+                    intent.putExtra("date_of_birth", st_birth);
+
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "먼저 로그인해주세요", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -84,8 +101,12 @@ public class SearchResultActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.putExtra("id", id);
+                intent.putExtra("password", password);
+                intent.putExtra("e_mail", st_email);
+                intent.putExtra("date_of_birth", st_birth);
                 startActivity(intent);
             }
         });
@@ -94,8 +115,12 @@ public class SearchResultActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), MypageActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.putExtra("id", id);
+                intent.putExtra("password", password);
+                intent.putExtra("e_mail", st_email);
+                intent.putExtra("date_of_birth", st_birth);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
         });
