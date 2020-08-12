@@ -3,10 +3,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -25,10 +29,11 @@ public class SignupActivity extends Activity {
 
     static final String TAG = "SingupActivity";
 
-    Button button, btn_toLogin;
-    EditText id, password, e_mail, date_of_birth;
-    String st_id, st_password, st_name, st_e_mail, st_date_of_birth;
+    Button button, btn_toLogin, idCheck;
+    EditText id, password, e_mail, date_of_birth, password2;
+    String st_id, st_password, st_e_mail, st_date_of_birth;
     String token="";
+    TextView pwCheck;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,47 +43,75 @@ public class SignupActivity extends Activity {
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
 
         button=findViewById(R.id.btn_signup);
-
+        idCheck = findViewById(R.id.idCheck);
+        pwCheck = findViewById(R.id.pwCheck);
         id=findViewById(R.id.et_signup_id);
         password=findViewById(R.id.et_signup_pwd);
+        password2=findViewById(R.id.et_signup_pwd2);
         e_mail=findViewById(R.id.et_signup_email);
         date_of_birth=findViewById(R.id.et_signup_dob);
+
+        password2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(password.getText().toString().equals(password2.getText().toString())){
+                    pwCheck.setText("");
+                }else{
+                    pwCheck.setText("비밀번호가 일치하지 않습니다.");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         //버튼 클릭시발동
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
-                    @Override
-                    public void onSuccess(InstanceIdResult instanceIdResult) {
+                if(password.getText().toString().equals(password2.getText().toString())){
+                    FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                        @Override
+                        public void onSuccess(InstanceIdResult instanceIdResult) {
 
-                        st_id=id.getText().toString();
-                        st_password=password.getText().toString();
-                        st_e_mail=e_mail.getText().toString();
-                        st_date_of_birth=date_of_birth.getText().toString(); //날짜형태
+                            st_id=id.getText().toString();
+                            st_password=password.getText().toString();
+                            st_e_mail=e_mail.getText().toString();
+                            st_date_of_birth=date_of_birth.getText().toString(); //날짜형태
 
-                        token = instanceIdResult.getToken();
-                        // Do whatever you want with your token now
-                        // i.e. store it on SharedPreferences or DB
-                        // or directly send it to server
+                            token = instanceIdResult.getToken();
+                            // Do whatever you want with your token now
+                            // i.e. store it on SharedPreferences or DB
+                            // or directly send it to server
 
-                        Log.d("FCM Log", "FCM 토큰: " + token);
+                            Log.d("FCM Log", "FCM 토큰: " + token);
 //                        Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
 //                System.out.println("outt" + token);
 
-                        // member_info db로 전송
-                        RegisterActivity task = new RegisterActivity();
+                            // member_info db로 전송
+                            RegisterActivity task = new RegisterActivity();
 //                task.execute("http://" + IP_ADDRESS + "/insert.php", name,country);
-                        task.execute("http://" + "synergyflight.dothome.co.kr" + "/insert_member_info.php", st_id, st_e_mail, st_date_of_birth, st_password, token);
+                            task.execute("http://" + "synergyflight.dothome.co.kr" + "/insert_member_info.php", st_id, st_e_mail, st_date_of_birth, st_password, token);
 
-                        Intent intent = new Intent(v.getContext(), LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        startActivity(intent);
-                        // TODO : 회원가입 성공 시에만 종료되어야함
-                        // TODO : 이후 마이페이지 정보 변화 및 로그아웃 기능 필요
-                    }
-                });
+                            Intent intent = new Intent(v.getContext(), LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            startActivity(intent);
+                            // TODO : 회원가입 성공 시에만 종료되어야함
+                            // TODO : 이후 마이페이지 정보 변화 및 로그아웃 기능 필요
+                        }
+                    });
+                }else{
+                    Toast.makeText(getApplicationContext(), "비밀번호가 맞지 않습니다", Toast.LENGTH_SHORT).show();
+                }
+
 
             }});
 

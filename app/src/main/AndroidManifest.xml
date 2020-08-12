@@ -13,7 +13,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name=".GlobalApplication">
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="b3038f2227eab8d62724e632fd038208"/>
 
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
