@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,12 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.finalexam.capstone1.alarms.MypageAlarmsActivity;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MypageActivity extends Activity {
@@ -88,18 +96,36 @@ public class MypageActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //Toast.makeText(getApplicationContext(), i+"번째 id="+l, Toast.LENGTH_SHORT).show();
-                if (i == 2) {
-                    Intent intent = new Intent(view.getContext(), MypageAlarmsActivity.class);
-                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                if(i == 0){
+                    if(id==null) {
+                        Toast.makeText(getApplicationContext(), "먼저 로그인해주세요", Toast.LENGTH_SHORT).show();
+                    } else{
+                        Intent intent = new Intent(view.getContext(), MemberInfoActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+                else if(i == 1){
+                    if(id==null) {
+                        Toast.makeText(getApplicationContext(), "먼저 로그인해주세요", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else if (i == 2) {
+                    if(id==null){
+                        Toast.makeText(getApplicationContext(), "먼저 로그인해주세요", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Intent intent = new Intent(view.getContext(), MypageAlarmsActivity.class);
+                        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     /*intent.putExtra("id", id);
                     intent.putExtra("password", password);
                     intent.putExtra("e_mail", st_email);
                     intent.putExtra("date_of_birth", st_birth);
                      */
-                    intent.putExtra("CurState", CurState);
-                    startActivity(intent);
-                    finish();
+                        intent.putExtra("CurState", CurState);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
                 else if(i==3){
                     AlertDialog.Builder alert = new AlertDialog.Builder(MypageActivity.this);
@@ -112,6 +138,7 @@ public class MypageActivity extends Activity {
                     alert.setPositiveButton("네", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+
                             PreferenceManager pref = new PreferenceManager(MypageActivity.this);
                             pref.clear();
                             Intent intent = getIntent();
@@ -197,5 +224,7 @@ public class MypageActivity extends Activity {
             return view;
         }
     }
+
+
 }
 
