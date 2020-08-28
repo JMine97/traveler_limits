@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="ID 중복 확인"
-        android:id="@+id/idCheck"
+        android:id="@+id/validateButton"
         android:layout_marginHorizontal="10dp" />
     <LinearLayout
         android:layout_width="match_parent"

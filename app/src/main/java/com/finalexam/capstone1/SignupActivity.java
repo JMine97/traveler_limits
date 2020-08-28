@@ -1,5 +1,6 @@
 package com.finalexam.capstone1;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,9 +15,18 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -24,16 +34,21 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends Activity {
 
     static final String TAG = "SingupActivity";
 
-    Button button, btn_toLogin, idCheck;
-    EditText id, password, e_mail, date_of_birth, password2;
-    String st_id, st_password, st_e_mail, st_date_of_birth;
-    String token="";
-    TextView pwCheck;
+    private Button button, btn_toLogin, validateButton;
+    private EditText id, password, e_mail, date_of_birth, password2;
+    private String st_id, st_password, st_e_mail, st_date_of_birth, c_id;
+    private String token="";
+    private TextView pwCheck;
+    private boolean validate = false;
+
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,13 +58,14 @@ public class SignupActivity extends Activity {
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
 
         button=findViewById(R.id.btn_signup);
-        idCheck = findViewById(R.id.idCheck);
+        validateButton = findViewById(R.id.validateButton);
         pwCheck = findViewById(R.id.pwCheck);
         id=findViewById(R.id.et_signup_id);
         password=findViewById(R.id.et_signup_pwd);
         password2=findViewById(R.id.et_signup_pwd2);
         e_mail=findViewById(R.id.et_signup_email);
         date_of_birth=findViewById(R.id.et_signup_dob);
+
 
         password2.addTextChangedListener(new TextWatcher() {
             @Override
@@ -69,6 +85,52 @@ public class SignupActivity extends Activity {
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+
+        validateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String userID = id.getText().toString();
+                if(validate){
+                    return;
+                }
+                if(userID.equals("")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+                    dialog = builder.setMessage("아이디는 빈 칸일 수 없습니다")
+                            .setPositiveButton("확인", null).create();
+                    dialog.show();
+                    return;
+                }
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try{
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean success = jsonResponse.getBoolean("success");
+                            if(success){
+                                AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+                                dialog = builder.setMessage("사용할 수 있는 아이디입니다")
+                                        .setPositiveButton("확인",null).create();
+                                dialog.show();
+                                id.setEnabled(false);
+                                validate = true;
+                                validateButton.setEnabled(false);
+                            }
+                            else{
+                                AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+                                dialog=builder.setMessage("사용할 수 없는 아이디입니다")
+                                        .setNegativeButton("확인", null).create();
+                                dialog.show();
+                            }
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                ValidateRequest validateRequest = new ValidateRequest(userID, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(SignupActivity.this);
+                queue.add(validateRequest);
             }
         });
 
@@ -225,6 +287,23 @@ public class SignupActivity extends Activity {
 
         }
 
+    }
+
+    public class ValidateRequest extends StringRequest{ //ID 중복 check
+        final static private String URL="http://synergyflight.dothome.co.kr/UserValidate.php";
+        private Map<String, String> map;
+
+        public ValidateRequest(String userID, Response.Listener<String>listener){
+            super(Method.POST, URL, listener,null);
+
+            map = new HashMap<>();
+            map.put("userID", userID);
+        }
+
+        @Override
+        protected Map<String, String> getParams() throws AuthFailureError {
+            return map;
+        }
     }
 
 }
