@@ -92,9 +92,6 @@ public class SignupActivity extends Activity {
             @Override
             public void onClick(View view) {
                 String userID = id.getText().toString();
-                if(validate){
-                    return;
-                }
                 if(userID.equals("")){
                     AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
                     dialog = builder.setMessage("아이디는 빈 칸일 수 없습니다")
@@ -138,42 +135,51 @@ public class SignupActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if(password.getText().toString().equals(password2.getText().toString())){
-                    FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
-                        @Override
-                        public void onSuccess(InstanceIdResult instanceIdResult) {
+                if(validate==true){
+                    if(password.getText().toString().equals(password2.getText().toString())){ //비밀번호와 비밀번호 확인이 일치하는지 여부
+                        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                            @Override
+                            public void onSuccess(InstanceIdResult instanceIdResult) {
 
-                            st_id=id.getText().toString();
-                            st_password=password.getText().toString();
-                            st_e_mail=e_mail.getText().toString();
-                            st_date_of_birth=date_of_birth.getText().toString(); //날짜형태
+                                st_id=id.getText().toString();
+                                st_password=password.getText().toString();
+                                st_e_mail=e_mail.getText().toString();
+                                st_date_of_birth=date_of_birth.getText().toString(); //날짜형태
 
-                            token = instanceIdResult.getToken();
-                            // Do whatever you want with your token now
-                            // i.e. store it on SharedPreferences or DB
-                            // or directly send it to server
+                                token = instanceIdResult.getToken();
+                                // Do whatever you want with your token now
+                                // i.e. store it on SharedPreferences or DB
+                                // or directly send it to server
 
-                            Log.d("FCM Log", "FCM 토큰: " + token);
+                                Log.d("FCM Log", "FCM 토큰: " + token);
 //                        Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
 //                System.out.println("outt" + token);
 
-                            // member_info db로 전송
-                            RegisterActivity task = new RegisterActivity();
+                                // member_info db로 전송
+                                RegisterActivity task = new RegisterActivity();
 //                task.execute("http://" + IP_ADDRESS + "/insert.php", name,country);
-                            task.execute("http://" + "synergyflight.dothome.co.kr" + "/insert_member_info.php", st_id, st_e_mail, st_date_of_birth, st_password, token);
+                                task.execute("http://" + "synergyflight.dothome.co.kr" + "/insert_member_info.php", st_id, st_e_mail, st_date_of_birth, st_password, token);
 
-                            Intent intent = new Intent(v.getContext(), LoginActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                            startActivity(intent);
-                            // TODO : 회원가입 성공 시에만 종료되어야함
-                            // TODO : 이후 마이페이지 정보 변화 및 로그아웃 기능 필요
-                        }
-                    });
+                                Intent intent = new Intent(v.getContext(), LoginActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                startActivity(intent);
+                                // TODO : 회원가입 성공 시에만 종료되어야함
+                                // TODO : 이후 마이페이지 정보 변화 및 로그아웃 기능 필요
+                            }
+                        });
+                    }else{
+                        AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+                        dialog=builder.setMessage("비밀번호가 맞지 않습니다")
+                                .setNegativeButton("확인", null).create();
+                        dialog.show();
+                    }
                 }else{
-                    Toast.makeText(getApplicationContext(), "비밀번호가 맞지 않습니다", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+                    dialog=builder.setMessage("아이디 중복확인이 필요합니다")
+                            .setNegativeButton("확인", null).create();
+                    dialog.show();
                 }
-
 
             }});
 
