@@ -86,8 +86,8 @@ public class MypageActivity extends Activity {
         }
 
         list_menu = new ArrayList<String>();
-        list_menu.add("개인정보"); list_menu.add("알람설정"); list_menu.add("알람목록");
         if(id!=null){
+            list_menu.add("개인정보"); list_menu.add("알람설정"); list_menu.add("알람목록");
             list_menu.add("로그아웃");
         }
         adapter = new BaseAdapter_mypage(this, list_menu);
@@ -97,35 +97,26 @@ public class MypageActivity extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //Toast.makeText(getApplicationContext(), i+"번째 id="+l, Toast.LENGTH_SHORT).show();
                 if(i == 0){
-                    if(id==null) {
-                        Toast.makeText(getApplicationContext(), "먼저 로그인해주세요", Toast.LENGTH_SHORT).show();
-                    } else{
-                        Intent intent = new Intent(view.getContext(), MemberInfoActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
+                    Intent intent = new Intent(view.getContext(), MemberInfoActivity.class);
+                    startActivity(intent);
+                    finish();
+
                 }
                 else if(i == 1){
-                    if(id==null) {
-                        Toast.makeText(getApplicationContext(), "먼저 로그인해주세요", Toast.LENGTH_SHORT).show();
-                    }
+
                 }
                 else if (i == 2) {
-                    if(id==null){
-                        Toast.makeText(getApplicationContext(), "먼저 로그인해주세요", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Intent intent = new Intent(view.getContext(), MypageAlarmsActivity.class);
-                        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    Intent intent = new Intent(view.getContext(), MypageAlarmsActivity.class);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     /*intent.putExtra("id", id);
                     intent.putExtra("password", password);
                     intent.putExtra("e_mail", st_email);
                     intent.putExtra("date_of_birth", st_birth);
                      */
-                        intent.putExtra("CurState", CurState);
-                        startActivity(intent);
-                        finish();
-                    }
+                    intent.putExtra("CurState", CurState);
+                    startActivity(intent);
+                    finish();
                 }
                 else if(i==3){
                     AlertDialog.Builder alert = new AlertDialog.Builder(MypageActivity.this);

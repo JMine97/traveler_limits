@@ -48,7 +48,6 @@ public class SignupActivity extends Activity {
     private TextView pwCheck;
     private boolean validate = false;
 
-    private AlertDialog dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,10 +92,10 @@ public class SignupActivity extends Activity {
             public void onClick(View view) {
                 String userID = id.getText().toString();
                 if(userID.equals("")){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
-                    dialog = builder.setMessage("아이디는 빈 칸일 수 없습니다")
+                    AlertDialog.Builder dlg = new AlertDialog.Builder(SignupActivity.this);
+                    dlg.setMessage("아이디는 빈 칸일 수 없습니다")
                             .setPositiveButton("확인", null).create();
-                    dialog.show();
+                    dlg.show();
                     return;
                 }
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -106,19 +105,19 @@ public class SignupActivity extends Activity {
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean success = jsonResponse.getBoolean("success");
                             if(success){
-                                AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
-                                dialog = builder.setMessage("사용할 수 있는 아이디입니다")
+                                AlertDialog.Builder dlg = new AlertDialog.Builder(SignupActivity.this);
+                                dlg.setMessage("사용할 수 있는 아이디입니다")
                                         .setPositiveButton("확인",null).create();
-                                dialog.show();
+                                dlg.show();
                                 id.setEnabled(false);
                                 validate = true;
                                 validateButton.setEnabled(false);
                             }
                             else{
-                                AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
-                                dialog=builder.setMessage("사용할 수 없는 아이디입니다")
+                                AlertDialog.Builder dlg = new AlertDialog.Builder(SignupActivity.this);
+                                dlg.setMessage("사용할 수 없는 아이디입니다")
                                         .setNegativeButton("확인", null).create();
-                                dialog.show();
+                                dlg.show();
                             }
                         }catch (JSONException e){
                             e.printStackTrace();
@@ -169,16 +168,16 @@ public class SignupActivity extends Activity {
                             }
                         });
                     }else{
-                        AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
-                        dialog=builder.setMessage("비밀번호가 맞지 않습니다")
+                        AlertDialog.Builder dlg = new AlertDialog.Builder(SignupActivity.this);
+                        dlg.setMessage("비밀번호가 일치하지 않습니다")
                                 .setNegativeButton("확인", null).create();
-                        dialog.show();
+                        dlg.show();
                     }
                 }else{
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
-                    dialog=builder.setMessage("아이디 중복확인이 필요합니다")
+                    AlertDialog.Builder dlg = new AlertDialog.Builder(SignupActivity.this);
+                    dlg.setMessage("아이디 중복확인이 필요합니다")
                             .setNegativeButton("확인", null).create();
-                    dialog.show();
+                    dlg.show();
                 }
 
             }});
