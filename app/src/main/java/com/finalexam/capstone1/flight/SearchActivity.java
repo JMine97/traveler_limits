@@ -1,4 +1,4 @@
-package com.finalexam.capstone1.flight;
+package com.finalexam.capstone1;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -13,10 +13,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.finalexam.capstone1.MainActivity;
-import com.finalexam.capstone1.MypageActivity;
-import com.finalexam.capstone1.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,14 +31,14 @@ public class SearchActivity extends AppCompatActivity {
     int     y = cal_today.get(cal_today.YEAR),
             m = cal_today.get(cal_today.MONTH),
             d = cal_today.get(cal_today.DATE);
-    int num_adlt = 2, num_chld = 0;             // 인원
+    int num_adlt = 1, num_chld = 0;             // 인원
 
     private static List<Airport> list; // 원본 리스트
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.f_search1);
+        setContentView(R.layout.search);
 
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
 
@@ -79,7 +75,21 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         btn_date = (Button)findViewById(R.id.btn_fsearch_date);
-        btn_date.setText(String.valueOf(y + "." + (m + 1) + "." + d));
+        if(m<9){
+            if(d<10){
+                btn_date.setText(String.valueOf(y + "-0" + (m + 1) + "-0" + d));
+            }
+            else{
+                btn_date.setText(String.valueOf(y + "-0" + (m + 1) + "-" + d));
+            }
+        }else{
+            if(d<10){
+                btn_date.setText(String.valueOf(y + "-" + (m + 1) + "-0" + d));
+            }
+            else{
+                btn_date.setText(String.valueOf(y + "-" + (m + 1) + "-" + d));
+            }
+        }
         btn_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -95,7 +105,20 @@ public class SearchActivity extends AppCompatActivity {
                             y = i;
                             m = i1;
                             d = i2;
-                            btn_date.setText(String.valueOf(y + "." + (m + 1) + "." + d));
+                            if(m<9){
+                                if(d<10){
+                                    btn_date.setText(String.valueOf(y + "-0" + (m + 1) + "-0" + d));
+                                } else{
+                                    btn_date.setText(String.valueOf(y + "-0" + (m + 1) + "-" + d));
+                                }
+                            }else{
+                                if(d<10){
+                                    btn_date.setText(String.valueOf(y + "-" + (m + 1) + "-0" + d));
+                                }else{
+                                    btn_date.setText(String.valueOf(y + "-" + (m + 1) + "-" + d));
+                                }
+                            }
+
                         }
                     }
                 }, y, m, d);    // 오늘 날짜로 초기화, 이후 설정된 날짜로 초기화
@@ -140,7 +163,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        btn_search = (Button)findViewById(R.id.btn_fsearch);
+        btn_search = (Button)findViewById(R.id.b_search);
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -150,36 +173,25 @@ public class SearchActivity extends AppCompatActivity {
                 String arr = String.valueOf(btn_arr.getText());
                 intent.putExtra("DEPARTURE", dep);
                 intent.putExtra("ARRIVAL", arr);
-                intent.putExtra("DATE", y + "."+(m + 1) + "." + d);
+                if(m<9){
+                    if(d<10){
+                        intent.putExtra("DATE", y + "-0"+(m + 1) + "-0" + d);
+                    }else{
+                        intent.putExtra("DATE", y + "-0"+(m + 1) + "-" + d);
+                    }
+                }else{
+                    if(d<10){
+                        intent.putExtra("DATE", y + "-"+(m + 1) + "-0" + d);
+                    }else{
+                        intent.putExtra("DATE", y + "-"+(m + 1) + "-" + d);
+                    }
+                }
+
                 intent.putExtra("ADULT", num_adlt);
                 intent.putExtra("CHILD", num_chld);
 
 //                intent.putExtra("TRAVEL", dep + "/" + arr + "/" + "");
                 startActivity(intent);
-            }
-        });
-
-        // 단축키 동작
-        btn_home = (ImageButton) findViewById(R.id.btn_fsearch_h);
-        btn_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MainActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-                finish();
-            }
-        });
-        btn_profile = (ImageButton) findViewById(R.id.btn_fsearch_p);
-        btn_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MypageActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-                finish();
             }
         });
     }

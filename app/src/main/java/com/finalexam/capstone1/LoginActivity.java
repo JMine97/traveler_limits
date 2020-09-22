@@ -30,6 +30,8 @@ import com.kakao.util.exception.KakaoException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Member;
+
 import static com.kakao.usermgmt.StringSet.id;
 import static com.kakao.usermgmt.StringSet.profile;
 
@@ -104,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
                                 else{
                                     pref.put("auto", false);
                                 }
-                                Intent intent = new Intent(LoginActivity.this, MypageActivity.class);
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 /*intent.putExtra("id", id);
                                 intent.putExtra("password", password);
                                 intent.putExtra("e_mail", e_mail);
@@ -127,6 +129,16 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

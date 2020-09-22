@@ -1,16 +1,12 @@
-package com.finalexam.capstone1.flight;
+package com.finalexam.capstone1;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
-
-import com.finalexam.capstone1.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,7 +110,7 @@ public class AirportListViewAdapter extends BaseAdapter {
         airportList.clear();
         if (charText.length() == 0) {
             airportList.addAll(arrayList);
-            Log.d(TAG, "필터링 할 검색어 없엄");
+            Log.d(TAG, "필터링 할 검색어 없음");
         } else {
             for (Airport airport : arrayList) {
 //                String name = context.getResources().getString(airport.name_en);

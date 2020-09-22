@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +18,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
-import com.finalexam.capstone1.alarms.MypageAlarmsActivity;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class MypageActivity extends Activity {
@@ -66,13 +56,13 @@ public class MypageActivity extends Activity {
         st_birth = intent.getStringExtra("date_of_birth");
         password = intent.getStringExtra("password");
         */
-        if(id!=null){
+        if(id!=null) {
             login.setText(id+"님 안녕하세요");
             login.setOnClickListener(null);
             email.setText(st_email);
             birth.setText(st_birth);
         }
-        else{
+        else {
             login.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -87,8 +77,8 @@ public class MypageActivity extends Activity {
 
         list_menu = new ArrayList<String>();
         if(id!=null){
-            list_menu.add("개인정보"); list_menu.add("알람설정"); list_menu.add("알람목록");
-            list_menu.add("로그아웃");
+            list_menu.add("개인정보"); list_menu.add("알람설정");
+            list_menu.add("알람목록"); list_menu.add("로그아웃");
         }
         adapter = new BaseAdapter_mypage(this, list_menu);
         mListView.setAdapter(adapter);
@@ -96,16 +86,16 @@ public class MypageActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //Toast.makeText(getApplicationContext(), i+"번째 id="+l, Toast.LENGTH_SHORT).show();
-                if(i == 0){
+                if(i == 0){ // 개인정보
                     Intent intent = new Intent(view.getContext(), MemberInfoActivity.class);
                     startActivity(intent);
                     finish();
 
                 }
-                else if(i == 1){
+                else if(i == 1){    // 알람설정
 
                 }
-                else if (i == 2) {
+                else if (i == 2) {  // 알람목록
                     Intent intent = new Intent(view.getContext(), MypageAlarmsActivity.class);
                     //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -118,7 +108,7 @@ public class MypageActivity extends Activity {
                     startActivity(intent);
                     finish();
                 }
-                else if(i==3){
+                else if(i==3){  // 로그아웃
                     AlertDialog.Builder alert = new AlertDialog.Builder(MypageActivity.this);
                     alert.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                         @Override

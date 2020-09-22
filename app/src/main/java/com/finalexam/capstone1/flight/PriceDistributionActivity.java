@@ -1,4 +1,4 @@
-package com.finalexam.capstone1.flight;
+package com.finalexam.capstone1;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,8 +14,7 @@ import androidx.annotation.Nullable;
 import com.finalexam.capstone1.MainActivity;
 import com.finalexam.capstone1.MypageActivity;
 import com.finalexam.capstone1.R;
-import com.finalexam.capstone1.alarms.Alarm;
-import com.finalexam.capstone1.alarms.MypageAlarmsActivity;
+import com.finalexam.capstone1.MypageAlarmsActivity;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

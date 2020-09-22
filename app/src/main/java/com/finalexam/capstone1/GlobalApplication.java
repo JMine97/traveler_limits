@@ -1,9 +1,15 @@
 package com.finalexam.capstone1;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDialog;
 
 import com.kakao.auth.ApprovalType;
 import com.kakao.auth.AuthType;
@@ -14,6 +20,7 @@ import com.kakao.auth.KakaoSDK;
 
 public class GlobalApplication extends Application {
     private static GlobalApplication instance;
+    private AppCompatDialog progressDialog;
 
     public static GlobalApplication getGlobalApplicationContext(){
         if(instance == null){
@@ -79,5 +86,41 @@ public class GlobalApplication extends Application {
             };
         }
 
+    }
+
+    public void progressOn(Activity activity, String message){
+        if(activity == null || activity.isFinishing()){
+            return;
+        }
+
+        if(progressDialog != null && progressDialog.isShowing()){
+
+        } else{
+            progressDialog = new AppCompatDialog(activity);
+            progressDialog.setCancelable(false);
+            progressDialog.setContentView(R.layout.dialog_loading);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            progressDialog.show();
+        }
+
+
+        final ImageView img_loading_frame = (ImageView) progressDialog.findViewById(R.id.iv_frame_loading);
+        if(img_loading_frame!=null){
+            final AnimationDrawable frameAnimation = (AnimationDrawable) img_loading_frame.getBackground();
+            img_loading_frame.post(new Runnable() {
+                @Override
+                public void run() {
+                    frameAnimation.start();
+                }
+            });
+        }
+
+
+    }
+
+    public void progressOFF(){
+        if(progressDialog != null && progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
     }
 }

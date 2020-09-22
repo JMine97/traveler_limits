@@ -1,4 +1,4 @@
-package com.finalexam.capstone1.flight;
+package com.finalexam.capstone1;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,10 +9,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
-
-import com.finalexam.capstone1.MainActivity;
-import com.finalexam.capstone1.MypageActivity;
-import com.finalexam.capstone1.R;
 
 public class SetAlarmDetailActivity extends Activity {
 

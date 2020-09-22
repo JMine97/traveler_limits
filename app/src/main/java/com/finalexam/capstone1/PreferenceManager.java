@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class PreferenceManager {
+    // auto
+    // id, e_mail, date_of_birth
+
     public static final String PREFERENCES_NAME = "rebuild_preference";
     public static final String PREF_INTRO_USER_AGREEMENT = "PREF_USER_AGREEMENT";
     public static final String PREF_MAIN_VALUE = "PREF_MAIN_VALUE";

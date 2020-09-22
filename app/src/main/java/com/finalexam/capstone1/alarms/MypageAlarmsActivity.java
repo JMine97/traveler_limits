@@ -1,4 +1,4 @@
-package com.finalexam.capstone1.alarms;
+package com.finalexam.capstone1;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,11 +15,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.finalexam.capstone1.MainActivity;
-import com.finalexam.capstone1.MypageActivity;
-import com.finalexam.capstone1.R;
-import com.finalexam.capstone1.alarms.Alarm;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -100,20 +95,25 @@ public class MypageAlarmsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        switch (CurState){
-            case "SetAlarm":
-                Intent intent = new Intent(MypageAlarmsActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-            case "CheckAlarm":
-                intent = new Intent(MypageAlarmsActivity.this, MypageActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-                finish();
-                break;
-        }
+//        switch (CurState){
+//            case "SetAlarm":
+//                Intent intent = new Intent(MypageAlarmsActivity.this, MainActivity.class);
+//                startActivity(intent);
+//                finish();
+//                break;
+//            case "CheckAlarm":
+//                intent = new Intent(MypageAlarmsActivity.this, MypageActivity.class);
+//                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                startActivity(intent);
+//                finish();
+//                break;
+//        }
+
+        // 항상 홈 화면으로
+        Intent intent = new Intent(MypageAlarmsActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     void test_listview() {

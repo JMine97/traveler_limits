@@ -133,6 +133,16 @@ public class MemberInfoActivity extends AppCompatActivity {
         });
     }
 
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(MemberInfoActivity.this, MainActivity.class);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
+    }
+
     public class DeleteActivity extends StringRequest {
 
         final static private String URL="http://synergyflight.dothome.co.kr/delete_member_info.php";

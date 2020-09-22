@@ -1,4 +1,4 @@
-package com.finalexam.capstone1.alarms;
+package com.finalexam.capstone1;
 
 import java.util.Date;
 
