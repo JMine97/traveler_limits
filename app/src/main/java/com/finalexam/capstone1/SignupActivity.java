@@ -157,7 +157,7 @@ public class SignupActivity extends Activity {
                                 // member_info db로 전송
                                 RegisterActivity task = new RegisterActivity();
 //                task.execute("http://" + IP_ADDRESS + "/insert.php", name,country);
-                                task.execute("http://" + "synergyflight.dothome.co.kr" + "/insert_member_info.php", st_id, st_e_mail, st_date_of_birth, st_password, token);
+                                task.execute("http://" + "52.78.216.182" + "/insert_member_info.php", st_id, st_e_mail, st_date_of_birth, st_password, token);
 
                                 Intent intent = new Intent(v.getContext(), LoginActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -295,7 +295,7 @@ public class SignupActivity extends Activity {
     }
 
     public class ValidateRequest extends StringRequest{ //ID 중복 check
-        final static private String URL="http://synergyflight.dothome.co.kr/UserValidate.php";
+        final static private String URL="http://52.78.216.182/UserValidate.php";
         private Map<String, String> map;
 
         public ValidateRequest(String userID, Response.Listener<String>listener){
