@@ -38,6 +38,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    //noinspection GradleCompatible
+    implementation 'com.google.android.material:material:1.0.0-alpha1'
+
     // 카카오 로그인
     implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.29.0'
+
+    //아마데우스
+    implementation "com.amadeus:amadeus-java:5.2.0"
 }

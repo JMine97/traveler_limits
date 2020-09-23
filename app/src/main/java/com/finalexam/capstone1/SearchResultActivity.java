@@ -78,7 +78,6 @@ public class SearchResultActivity extends BaseActivity {
         }
 
         progressBar = findViewById(R.id.progress_bar);
-        progress_layout = findViewById(R.id.progress_layout);
 
         lv_search = (ListView) findViewById(R.id.lv_search);
 

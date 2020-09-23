@@ -37,14 +37,14 @@
 
         <!-- mypage -->
         <activity android:name=".MypageActivity"/>
-        <activity android:name=".alarms.MypageAlarmsActivity"/>
+        <activity android:name=".MypageAlarmsActivity"/>
 
 
         <!-- flight -->
-        <activity android:name=".flight.SearchActivity"/>
-        <activity android:name=".flight.SearchResultActivity"/>
-        <activity android:name=".flight.SetAlarmDetailActivity"/>
-        <activity android:name=".flight.PriceDistributionActivity"/>
+        <activity android:name=".SearchActivity"/>
+        <activity android:name=".SearchResultActivity"/>
+        <activity android:name=".SetAlarmDetailActivity"/>
+        <activity android:name=".PriceDistributionActivity"/>
 
         <!-- signup-->
         <activity android:name=".SignupActivity">
@@ -55,6 +55,7 @@
 
         <activity android:name=".LoginActivity"/>
         <activity android:name=".MemberInfoActivity"/>
+        <activity android:name=".BaseActivity"/>
     </application>
 
 </manifest>
