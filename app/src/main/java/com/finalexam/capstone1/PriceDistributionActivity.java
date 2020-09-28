@@ -23,11 +23,13 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import static com.finalexam.capstone1.SearchActivity.TAG;
+
 public class PriceDistributionActivity extends Activity {
 
     private Button btn_save;
     ImageButton btn_home, btn_profile;
-    String adlt, chld, limit;
+    String adlt, chld, limit, id;
     private String CurState = "SetAlarm"; //알람 조회 페이지에서 뒤로가기로 이동할 구간을 구분하기 위함
 
     @Override
@@ -60,8 +62,12 @@ public class PriceDistributionActivity extends Activity {
                 chld= String.valueOf(int_chld);
                 limit=String.valueOf(float_limit);
 
+                PreferenceManager pref = new PreferenceManager(PriceDistributionActivity.this);
+                id = pref.getValue("id", null);
+                Log.d(TAG, "POST response code aa " + id);
+
                 SaveAlarmActivity task = new SaveAlarmActivity();
-                task.execute("http://" + "synergyflight.dothome.co.kr" + "/insert_alarm_data.php", dep, arr, date, adlt, chld, airline, limit);
+                task.execute("http://" + "52.78.216.182" + "/insert_alarm_data.php", dep, arr, date, adlt, chld, airline, limit, id);
             }
         });
 
@@ -109,6 +115,7 @@ public class PriceDistributionActivity extends Activity {
             int child = Integer.parseInt(params[5]);
             String airline_info = (String) params[6];
             float price_limit = Float.parseFloat(params[7]);
+            String id=(String) params[8];
 
 //            System.out.println("in" + token);
 
@@ -118,7 +125,9 @@ public class PriceDistributionActivity extends Activity {
 
             // ex : String postParameters = "name=" + name + "&country=" + country;
             String postParameters = "dept_city=" + dept_city + "&arr_city=" + arr_city + "&dept_date=" + dept_date
-                    + "&adult=" + adult + "&child=" + child + "&airline_info=" + airline_info + "&price_limit=" + price_limit;
+                    + "&adult=" + adult + "&child=" + child + "&airline_info=" + airline_info + "&price_limit=" + price_limit+"&id="+id;
+
+            Log.d(TAG, "POST response code aa " + id);
 
 //            System.out.println("in" + price_limit+ adult);
             try {

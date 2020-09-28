@@ -3,12 +3,15 @@ package com.finalexam.capstone1;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
+
+import static com.finalexam.capstone1.SearchActivity.TAG;
 
 public class SetAlarmDetailActivity extends Activity {
 
@@ -40,6 +43,8 @@ public class SetAlarmDetailActivity extends Activity {
         st_birth = intent.getStringExtra("date_of_birth");
         password = intent.getStringExtra("password");
 
+
+
         btn_save = (Button)findViewById(R.id.btn_fsavealarm2);
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +71,7 @@ public class SetAlarmDetailActivity extends Activity {
                 startActivity(intent);
             }
         });
+
 
         btn_home = (ImageButton) findViewById(R.id.btn_falarm_home);
         btn_home.setOnClickListener(new View.OnClickListener() {
