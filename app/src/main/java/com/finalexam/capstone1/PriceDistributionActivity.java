@@ -67,7 +67,7 @@ public class PriceDistributionActivity extends Activity {
                 Log.d(TAG, "POST response code aa " + id);
 
                 SaveAlarmActivity task = new SaveAlarmActivity();
-                task.execute("http://" + "52.78.216.182" + "/insert_alarm_data.php", dep, arr, date, adlt, chld, airline, limit, id);
+                task.execute("http://" + "52.78.216.182" + "/insert_alarm_data.php", dep, arr, date, adlt, chld, limit, id);
             }
         });
 
@@ -113,9 +113,8 @@ public class PriceDistributionActivity extends Activity {
             String dept_date = (String) params[3];
             int adult = Integer.parseInt(params[4]);
             int child = Integer.parseInt(params[5]);
-            String airline_info = (String) params[6];
-            float price_limit = Float.parseFloat(params[7]);
-            String id=(String) params[8];
+            float price_limit = Float.parseFloat(params[6]);
+            String id=(String) params[7];
 
 //            System.out.println("in" + token);
 
@@ -125,7 +124,7 @@ public class PriceDistributionActivity extends Activity {
 
             // ex : String postParameters = "name=" + name + "&country=" + country;
             String postParameters = "dept_city=" + dept_city + "&arr_city=" + arr_city + "&dept_date=" + dept_date
-                    + "&adult=" + adult + "&child=" + child + "&airline_info=" + airline_info + "&price_limit=" + price_limit+"&id="+id;
+                    + "&adult=" + adult + "&child=" + child + "&price_limit=" + price_limit+"&id="+id;
 
             Log.d(TAG, "POST response code aa " + id);
 

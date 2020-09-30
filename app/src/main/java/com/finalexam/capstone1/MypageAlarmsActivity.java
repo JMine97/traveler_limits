@@ -125,9 +125,9 @@ public class MypageAlarmsActivity extends AppCompatActivity {
 
         for(int i = 0; i < alarmList.size(); i++){
 
-            list.add(new Alarm(alarmList.get(i).get("dept_city"), alarmList.get(i).get("arr_city"), alarmList.get(i).get("airline_info"),
+            list.add(new Alarm(alarmList.get(i).get("dept_city"), alarmList.get(i).get("arr_city"),
                     Integer.parseInt(alarmList.get(i).get("adult")), Integer.parseInt(alarmList.get(i).get("child")), alarmList.get(i).get("dept_date"), alarmList.get(i).get("price_limit")));
-            System.out.println(alarmList.get(i).get("airline_info"));
+//            System.out.println(alarmList.get(i).get("airline_info"));
         }
 
 //        list.add(new Alarm("ICN", "CJU", "Any airline", 1, 0, "20.06.30", "10,000"));
@@ -182,7 +182,8 @@ public class MypageAlarmsActivity extends AppCompatActivity {
             tv_airport.setText(lv_item.dept + "  to  " + lv_item.arrv);
             tv_date.setText(lv_item.date);
             tv_price.setText(lv_item.price);
-            tv_detail.setText(lv_item.adlt + " Adult, " + lv_item.airl);
+//            tv_detail.setText(lv_item.adlt + " Adult, " + lv_item.airl);
+            tv_detail.setText(lv_item.adlt + " Adult, " + lv_item.chld + " Child");
 
             // list view click evnet
             view.setOnClickListener(new View.OnClickListener() {
@@ -259,7 +260,7 @@ public class MypageAlarmsActivity extends AppCompatActivity {
                     String adult = alarm_info.getString("adult");
                     String child = alarm_info.getString("child");
                     String clss = alarm_info.getString("class");
-                    String airline_info = alarm_info.getString("airline_info");
+//                    String airline_info = alarm_info.getString("airline_info");
                     String price_limit = alarm_info.getString("price_limit");
 
                     HashMap<String, String> alarmMap = new HashMap<String, String>();
@@ -271,7 +272,7 @@ public class MypageAlarmsActivity extends AppCompatActivity {
                     alarmMap.put("adult", adult);
                     alarmMap.put("child", child);
                     alarmMap.put("class", clss);
-                    alarmMap.put("airline_info", airline_info);
+//                    alarmMap.put("airline_info", airline_info);
                     alarmMap.put("price_limit", price_limit);
 
                     alarmList.add(alarmMap);

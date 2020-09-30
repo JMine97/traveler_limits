@@ -10,10 +10,10 @@ public class Alarm {
     String date, price;
     Boolean stop;   // 경유여부 (경유True, 직항False)
 
-    public Alarm(String dept, String arrv, String airl, int adlt, int chld, String date, String price) {
+    public Alarm(String dept, String arrv, int adlt, int chld, String date, String price) {
         this.dept = dept;
         this.arrv = arrv;
-        this.airl = airl;
+//        this.airl = airl;
         this.adlt = adlt;
         this.chld = chld;
         this.date = date;
