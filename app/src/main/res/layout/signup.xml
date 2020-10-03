@@ -32,12 +32,16 @@
             android:id="@+id/et_signup_id"/>
 
     </LinearLayout>
+
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ID 중복 확인"
         android:id="@+id/validateButton"
-        android:layout_marginHorizontal="10dp" />
+        android:layout_marginHorizontal="10dp"
+        android:layout_gravity="end"
+        android:gravity="center"
+        android:background="#00ffffff"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
