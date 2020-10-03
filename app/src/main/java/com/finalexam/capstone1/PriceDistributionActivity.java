@@ -39,14 +39,13 @@ public class PriceDistributionActivity extends Activity {
 
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
 
-        Intent intent = getIntent();
-        final String arr = intent.getStringExtra("ARRIVAL");
-        final String dep = intent.getStringExtra("DEPARTURE");
-        final String date = intent.getStringExtra("DATE");
-        final int int_adlt = intent.getIntExtra("ADULT", 0);
-        final int int_chld = intent.getIntExtra("CHILD", 0);
-        final float float_limit = intent.getFloatExtra("PRICELIMIT", 0);
-        final String airline = intent.getStringExtra("AIRLINE");
+        PreferenceManager pref = new PreferenceManager(this);
+        final String arr = pref.getValue("ARRIVAL", null);
+        final String dep = pref.getValue("DEPARTURE", null);
+        final String date = pref.getValue("DATE", null);
+        final int int_adlt = pref.getValue("ADULT", 0);
+        final int int_chld = pref.getValue("CHILD", 0);
+        final float float_limit = pref.getValue("PRICELIMIT", 0);
 
         btn_save = (Button) findViewById(R.id.btn_fsavealarm3);
         btn_save.setOnClickListener(new View.OnClickListener() {

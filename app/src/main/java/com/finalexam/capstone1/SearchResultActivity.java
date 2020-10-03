@@ -55,12 +55,15 @@ public class SearchResultActivity extends BaseActivity {
 
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
 
-        Intent intent = getIntent();
-        arr = intent.getStringExtra("ARRIVAL");
-        dep = intent.getStringExtra("DEPARTURE");
-        date = intent.getStringExtra("DATE");
-        adlt = intent.getIntExtra("ADULT", 0);
-        chld = intent.getIntExtra("CHILD", 0);
+//        Intent intent = getIntent();
+        PreferenceManager pref = new PreferenceManager(this);
+        arr = pref.getValue("ARRIVAL", null);
+        dep = pref.getValue("DEPARTURE", null);
+        date = pref.getValue("DATE", null);
+        adlt = pref.getValue("ADULT", 0);
+        chld = pref.getValue("CHILD", 0);
+
+//        Log.d("resultof", arr + dep + date + adlt + chld);
 
         tv_date = (TextView)findViewById(R.id.tv_fsearch_date);
         tv_date.setText(date);
@@ -99,11 +102,11 @@ public class SearchResultActivity extends BaseActivity {
 
                 if(id!=null) {
                     Intent intent = new Intent(view.getContext(), SetAlarmDetailActivity.class);
-                    intent.putExtra("DEPARTURE", dep);
-                    intent.putExtra("ARRIVAL", arr);
-                    intent.putExtra("DATE", date);
-                    intent.putExtra("ADULT", adlt);
-                    intent.putExtra("CHILD", chld);
+//                    intent.putExtra("DEPARTURE", dep);
+//                    intent.putExtra("ARRIVAL", arr);
+//                    intent.putExtra("DATE", date);
+//                    intent.putExtra("ADULT", adlt);
+//                    intent.putExtra("CHILD", chld);
 
                     startActivity(intent);
                 }
@@ -166,6 +169,7 @@ public class SearchResultActivity extends BaseActivity {
                         .builder("kFN2xdf3AsPrita2tUv5HWUeXcvM6fdL", "q92QKuEUEuIFbzDd")
                         .build();
 
+//                Log.d("resultof", arr + dep + date + adlt + chld);
                 // Flight Choice Prediction
 // Note that the example calls 2 APIs: Flight Offers Search & Flight Choice Prediction
                 FlightOfferSearch[] flightOffers = amadeus.shopping.flightOffersSearch.get(

@@ -33,16 +33,7 @@ public class SetAlarmDetailActivity extends Activity {
         ed_price_limit=findViewById(R.id.price_limit);
         ed_airline=findViewById(R.id.airline);
 
-        Intent intent = getIntent();
-        final String arr = intent.getStringExtra("ARRIVAL");
-        final String dep = intent.getStringExtra("DEPARTURE");
-        final String date = intent.getStringExtra("DATE");
-        final int adlt = intent.getIntExtra("ADULT", 0);
-        final int chld = intent.getIntExtra("CHILD", 0);
-        id = intent.getStringExtra("id");
-        st_email = intent.getStringExtra("e_mail");
-        st_birth = intent.getStringExtra("date_of_birth");
-        password = intent.getStringExtra("password");
+//        Intent intent = getIntent();
 
 
 
@@ -62,18 +53,18 @@ public class SetAlarmDetailActivity extends Activity {
                 }
                 else {
 
-                    intent.putExtra("DEPARTURE", dep);
-                    intent.putExtra("ARRIVAL", arr);
-                    intent.putExtra("DATE", date);
-                    intent.putExtra("ADULT", adlt);
-                    intent.putExtra("CHILD", chld);
-                    intent.putExtra("PRICELIMIT", price_limit);
-                    intent.putExtra("AIRLINE", airline);
-
-                    intent.putExtra("id", id);
-                    intent.putExtra("password", password);
-                    intent.putExtra("e_mail", st_email);
-                    intent.putExtra("date_of_birth", st_birth);
+//                    intent.putExtra("DEPARTURE", dep);
+//                    intent.putExtra("ARRIVAL", arr);
+//                    intent.putExtra("DATE", date);
+//                    intent.putExtra("ADULT", adlt);
+//                    intent.putExtra("CHILD", chld);
+//                    intent.putExtra("PRICELIMIT", price_limit);
+//                    intent.putExtra("AIRLINE", airline);
+//
+//                    intent.putExtra("id", id);
+//                    intent.putExtra("password", password);
+//                    intent.putExtra("e_mail", st_email);
+//                    intent.putExtra("date_of_birth", st_birth);
                     startActivity(intent);
                 }
             }
@@ -87,10 +78,10 @@ public class SetAlarmDetailActivity extends Activity {
                 Intent intent = new Intent(view.getContext(), MainActivity.class);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                intent.putExtra("id", id);
-                intent.putExtra("password", password);
-                intent.putExtra("e_mail", st_email);
-                intent.putExtra("date_of_birth", st_birth);
+//                intent.putExtra("id", id);
+//                intent.putExtra("password", password);
+//                intent.putExtra("e_mail", st_email);
+//                intent.putExtra("date_of_birth", st_birth);
                 startActivity(intent);
             }
         });
@@ -101,10 +92,10 @@ public class SetAlarmDetailActivity extends Activity {
                 Intent intent = new Intent(view.getContext(), MypageActivity.class);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                intent.putExtra("id", id);
-                intent.putExtra("password", password);
-                intent.putExtra("e_mail", st_email);
-                intent.putExtra("date_of_birth", st_birth);
+//                intent.putExtra("id", id);
+//                intent.putExtra("password", password);
+//                intent.putExtra("e_mail", st_email);
+//                intent.putExtra("date_of_birth", st_birth);
                 startActivity(intent);
             }
         });

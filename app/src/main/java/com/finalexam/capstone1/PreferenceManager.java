@@ -37,6 +37,13 @@ public class PreferenceManager {
         editor.commit();
     }
 
+    public void put(String key, float value){
+        SharedPreferences pref = mContext.getSharedPreferences(PREFERENCES_NAME, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putFloat(key, value);
+        editor.commit();
+    }
+
     public String getValue(String key, String dftValue){
         SharedPreferences pref = mContext.getSharedPreferences(PREFERENCES_NAME,Activity.MODE_PRIVATE);
         try{
@@ -59,6 +66,15 @@ public class PreferenceManager {
         SharedPreferences pref = mContext.getSharedPreferences(PREFERENCES_NAME,Activity.MODE_PRIVATE);
         try{
             return pref.getBoolean(key, dftValue);
+        } catch(Exception e){
+            return dftValue;
+        }
+    }
+
+    public float getValue(String key, float dftValue){
+        SharedPreferences pref = mContext.getSharedPreferences(PREFERENCES_NAME,Activity.MODE_PRIVATE);
+        try{
+            return pref.getFloat(key, dftValue);
         } catch(Exception e){
             return dftValue;
         }
