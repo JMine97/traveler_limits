@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -18,7 +19,7 @@ public class SetAlarmDetailActivity extends Activity {
     private Button btn_save;
     ImageButton btn_home, btn_profile;
     private EditText ed_price_limit, ed_airline;
-    private float price_limit;
+    private Float price_limit;
     private String airline;
     private String id, password, st_email, st_birth;
 
@@ -53,22 +54,28 @@ public class SetAlarmDetailActivity extends Activity {
                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-                price_limit = Float.parseFloat(String.valueOf(ed_price_limit.getText()));
+                price_limit = Float.valueOf(String.valueOf(ed_price_limit.getText()));
                 airline = String.valueOf(ed_airline.getText());
 
-                intent.putExtra("DEPARTURE", dep);
-                intent.putExtra("ARRIVAL", arr);
-                intent.putExtra("DATE", date);
-                intent.putExtra("ADULT", adlt);
-                intent.putExtra("CHILD", chld);
-                intent.putExtra("PRICELIMIT", price_limit);
-                intent.putExtra("AIRLINE", airline);
+                if(price_limit==null) {
+                    Toast.makeText(SetAlarmDetailActivity.this, "가격이 빈칸 일 수 없습니다", Toast.LENGTH_SHORT).show();
+                }
+                else {
 
-                intent.putExtra("id", id);
-                intent.putExtra("password", password);
-                intent.putExtra("e_mail", st_email);
-                intent.putExtra("date_of_birth", st_birth);
-                startActivity(intent);
+                    intent.putExtra("DEPARTURE", dep);
+                    intent.putExtra("ARRIVAL", arr);
+                    intent.putExtra("DATE", date);
+                    intent.putExtra("ADULT", adlt);
+                    intent.putExtra("CHILD", chld);
+                    intent.putExtra("PRICELIMIT", price_limit);
+                    intent.putExtra("AIRLINE", airline);
+
+                    intent.putExtra("id", id);
+                    intent.putExtra("password", password);
+                    intent.putExtra("e_mail", st_email);
+                    intent.putExtra("date_of_birth", st_birth);
+                    startActivity(intent);
+                }
             }
         });
 
