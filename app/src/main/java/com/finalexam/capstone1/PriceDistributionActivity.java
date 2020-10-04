@@ -23,11 +23,13 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import static com.finalexam.capstone1.SearchActivity.TAG;
+
 public class PriceDistributionActivity extends Activity {
 
     private Button btn_save;
     ImageButton btn_home, btn_profile;
-    String adlt, chld, limit;
+    String adlt, chld, limit, id;
     private String CurState = "SetAlarm"; //알람 조회 페이지에서 뒤로가기로 이동할 구간을 구분하기 위함
 
     @Override
@@ -37,14 +39,15 @@ public class PriceDistributionActivity extends Activity {
 
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
 
-        Intent intent = getIntent();
-        final String arr = intent.getStringExtra("ARRIVAL");
-        final String dep = intent.getStringExtra("DEPARTURE");
-        final String date = intent.getStringExtra("DATE");
-        final int int_adlt = intent.getIntExtra("ADULT", 0);
-        final int int_chld = intent.getIntExtra("CHILD", 0);
-        final float float_limit = intent.getFloatExtra("PRICELIMIT", 0);
-        final String airline = intent.getStringExtra("AIRLINE");
+        PreferenceManager pref = new PreferenceManager(this);
+        final String arr = pref.getValue("ARRIVAL", null);
+        final String dep = pref.getValue("DEPARTURE", null);
+        final String date = pref.getValue("DATE", null);
+        final int int_adlt = pref.getValue("ADULT", 0);
+        final int int_chld = pref.getValue("CHILD", 0);
+        final float float_limit = pref.getValue("PRICELIMIT", 0.f);
+
+        Log.d(TAG, "POST response code pricelimit at pricedistribution" + float_limit);
 
         btn_save = (Button) findViewById(R.id.btn_fsavealarm3);
         btn_save.setOnClickListener(new View.OnClickListener() {
@@ -60,8 +63,12 @@ public class PriceDistributionActivity extends Activity {
                 chld= String.valueOf(int_chld);
                 limit=String.valueOf(float_limit);
 
+                PreferenceManager pref = new PreferenceManager(PriceDistributionActivity.this);
+                id = pref.getValue("id", null);
+                Log.d(TAG, "POST response code aa " + id);
+
                 SaveAlarmActivity task = new SaveAlarmActivity();
-                task.execute("http://" + "synergyflight.dothome.co.kr" + "/insert_alarm_data.php", dep, arr, date, adlt, chld, airline, limit);
+                task.execute("http://" + "52.78.216.182" + "/insert_alarm_data.php", dep, arr, date, adlt, chld, limit, id);
             }
         });
 
@@ -107,8 +114,8 @@ public class PriceDistributionActivity extends Activity {
             String dept_date = (String) params[3];
             int adult = Integer.parseInt(params[4]);
             int child = Integer.parseInt(params[5]);
-            String airline_info = (String) params[6];
-            float price_limit = Float.parseFloat(params[7]);
+            float price_limit = Float.parseFloat(params[6]);
+            String id=(String) params[7];
 
 //            System.out.println("in" + token);
 
@@ -118,7 +125,9 @@ public class PriceDistributionActivity extends Activity {
 
             // ex : String postParameters = "name=" + name + "&country=" + country;
             String postParameters = "dept_city=" + dept_city + "&arr_city=" + arr_city + "&dept_date=" + dept_date
-                    + "&adult=" + adult + "&child=" + child + "&airline_info=" + airline_info + "&price_limit=" + price_limit;
+                    + "&adult=" + adult + "&child=" + child + "&price_limit=" + price_limit+"&id="+id;
+
+            Log.d(TAG, "POST response code aa " + id);
 
 //            System.out.println("in" + price_limit+ adult);
             try {
