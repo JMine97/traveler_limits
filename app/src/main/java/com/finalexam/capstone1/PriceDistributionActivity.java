@@ -45,7 +45,9 @@ public class PriceDistributionActivity extends Activity {
         final String date = pref.getValue("DATE", null);
         final int int_adlt = pref.getValue("ADULT", 0);
         final int int_chld = pref.getValue("CHILD", 0);
-        final float float_limit = pref.getValue("PRICELIMIT", 0);
+        final float float_limit = pref.getValue("PRICELIMIT", 0.f);
+
+        Log.d(TAG, "POST response code pricelimit at pricedistribution" + float_limit);
 
         btn_save = (Button) findViewById(R.id.btn_fsavealarm3);
         btn_save.setOnClickListener(new View.OnClickListener() {

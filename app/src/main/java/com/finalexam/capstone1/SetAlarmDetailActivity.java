@@ -47,6 +47,10 @@ public class SetAlarmDetailActivity extends Activity {
 
                 price_limit = Float.valueOf(String.valueOf(ed_price_limit.getText()));
                 airline = String.valueOf(ed_airline.getText());
+                PreferenceManager pref = new PreferenceManager(SetAlarmDetailActivity.this);
+                pref.put("PRICELIMIT", price_limit);
+
+                Log.d(TAG, "POST response code pricelimit at setalarmdetailactivity" + price_limit);
 
                 if(price_limit==null) {
                     Toast.makeText(SetAlarmDetailActivity.this, "가격이 빈칸 일 수 없습니다", Toast.LENGTH_SHORT).show();
