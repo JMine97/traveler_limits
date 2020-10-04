@@ -9,12 +9,18 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
@@ -42,6 +48,8 @@ public class LoginActivity extends AppCompatActivity {
     Button btn_toSignup, btn_login;
     private EditText et_login_id, et_login_password;
     CheckBox chAuto;
+    String token="";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,10 +84,10 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                String id = et_login_id.getText().toString();
-                String password = et_login_password.getText().toString();
+                final String id = et_login_id.getText().toString();
+                final String password = et_login_password.getText().toString();
 
-                Response.Listener<String> resposeListener = new Response.Listener<String>() {
+                final Response.Listener<String> resposeListener = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.d(TAG, response);
@@ -88,6 +96,8 @@ public class LoginActivity extends AppCompatActivity {
                             boolean success = jsonObject.getBoolean("success");
 
                             if(success){
+
+
                                 String id = jsonObject.getString("id");
                                 String password = jsonObject.getString("password");
                                 String e_mail = jsonObject.getString("e_mail");
@@ -123,9 +133,29 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 };
-                LoginRequest loginRequest = new LoginRequest(id, password, resposeListener);
-                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-                queue.add(loginRequest);
+
+                //토큰 값 얻기
+                FirebaseInstanceId.getInstance().getInstanceId()
+                        .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                if (!task.isSuccessful()) {
+                                    Log.w("FIREBASE", "getInstanceId failed", task.getException());
+                                    return;
+                                }
+// Get new Instance ID token
+                                token = task.getResult().getToken();
+                                LoginRequest loginRequest = new LoginRequest(id, password, token, resposeListener);
+                                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+                                queue.add(loginRequest);
+
+// Log and toast
+//String msg = getString(R.string.msg_token_fmt, token);
+                                Log.d("FIREBASE", token);
+//                                Toast.makeText(LoginActivity.this, token, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
             }
         });
     }
