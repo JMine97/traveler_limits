@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -31,13 +33,13 @@ import java.util.concurrent.ExecutionException;
 
 public class MyAlarmsActivity extends AppCompatActivity {
 
-    String url = "http://synergyflight.dothome.co.kr/get_alarm_data.php";
+    String url = "http://52.78.216.182/get_alarm_data.php";
     ImageButton btn_home, btn_profile;
     ListView lv_alarm;
     ArrayList<Alarm> list;
     public GetAlarm alrm;
     private List<HashMap<String, String>> alarmList = null;
-    private String CurState;
+    private String CurState, id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,7 +50,8 @@ public class MyAlarmsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         CurState = intent.getStringExtra("CurState");
-
+        PreferenceManager pref = new PreferenceManager(this);
+        id = pref.getValue("id", null);
         lv_alarm = (ListView) findViewById(R.id.lv_alarm);
 
         btn_home = (ImageButton) findViewById(R.id.btn_ma_home);
@@ -79,7 +82,7 @@ public class MyAlarmsActivity extends AppCompatActivity {
 
         //알람 목록 받아옴
         try {
-            alarmList=alrm.execute(url).get();
+            alarmList=alrm.execute(url, id).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -122,9 +125,9 @@ public class MyAlarmsActivity extends AppCompatActivity {
 
         for(int i = 0; i < alarmList.size(); i++){
 
-            list.add(new Alarm(alarmList.get(i).get("dept_city"), alarmList.get(i).get("arr_city"), alarmList.get(i).get("airline_info"),
+            list.add(new Alarm(alarmList.get(i).get("dept_city"), alarmList.get(i).get("arr_city"),
                     Integer.parseInt(alarmList.get(i).get("adult")), Integer.parseInt(alarmList.get(i).get("child")), alarmList.get(i).get("dept_date"), alarmList.get(i).get("price_limit")));
-            System.out.println(alarmList.get(i).get("airline_info"));
+//            System.out.println(alarmList.get(i).get("airline_info"));
         }
 
 //        list.add(new Alarm("ICN", "CJU", "Any airline", 1, 0, "20.06.30", "10,000"));
@@ -179,7 +182,8 @@ public class MyAlarmsActivity extends AppCompatActivity {
             tv_airport.setText(lv_item.dept + "  to  " + lv_item.arrv);
             tv_date.setText(lv_item.date);
             tv_price.setText(lv_item.price);
-            tv_detail.setText(lv_item.adlt + " Adult, " + lv_item.airl);
+//            tv_detail.setText(lv_item.adlt + " Adult, " + lv_item.airl);
+            tv_detail.setText(lv_item.adlt + " Adult, " + lv_item.chld + " Child");
 
             // list view click evnet
             view.setOnClickListener(new View.OnClickListener() {
@@ -201,13 +205,27 @@ public class MyAlarmsActivity extends AppCompatActivity {
             StringBuilder jsonHtml = new StringBuilder();
             try {
                 URL phpUrl = new URL(params[0]);
+                String id = new String(params[1]);
+                String postParameters = "id=" + id;
+
+                Log.d("aa", "POST response code - " + id);
                 HttpURLConnection conn = (HttpURLConnection) phpUrl.openConnection();
 
                 if (conn != null) {
                     conn.setConnectTimeout(10000);
                     conn.setUseCaches(false);
 
+                    conn.setRequestMethod("POST"); //요청 방식을 POST로 합니다.
+                    conn.connect();
+
+                    OutputStream outputStream = conn.getOutputStream();
+                    outputStream.write(postParameters.getBytes("UTF-8")); //전송할 데이터가 저장된 변수를 이곳에 입력합니다.
+
+                    outputStream.flush();
+                    outputStream.close();
+
                     if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+
                         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
                         while (true) {
                             String line = br.readLine();
@@ -242,7 +260,7 @@ public class MyAlarmsActivity extends AppCompatActivity {
                     String adult = alarm_info.getString("adult");
                     String child = alarm_info.getString("child");
                     String clss = alarm_info.getString("class");
-                    String airline_info = alarm_info.getString("airline_info");
+//                    String airline_info = alarm_info.getString("airline_info");
                     String price_limit = alarm_info.getString("price_limit");
 
                     HashMap<String, String> alarmMap = new HashMap<String, String>();
@@ -254,7 +272,7 @@ public class MyAlarmsActivity extends AppCompatActivity {
                     alarmMap.put("adult", adult);
                     alarmMap.put("child", child);
                     alarmMap.put("class", clss);
-                    alarmMap.put("airline_info", airline_info);
+//                    alarmMap.put("airline_info", airline_info);
                     alarmMap.put("price_limit", price_limit);
 
                     alarmList.add(alarmMap);
