@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class MypageAlarmsActivity extends AppCompatActivity {
+public class MyAlarmsActivity extends AppCompatActivity {
 
     String url = "http://synergyflight.dothome.co.kr/get_alarm_data.php";
     ImageButton btn_home, btn_profile;
@@ -111,7 +111,7 @@ public class MypageAlarmsActivity extends AppCompatActivity {
 //        }
 
         // 항상 홈 화면으로
-        Intent intent = new Intent(MypageAlarmsActivity.this, MainActivity.class);
+        Intent intent = new Intent(MyAlarmsActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
     }

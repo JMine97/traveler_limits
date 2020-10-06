@@ -14,10 +14,6 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/arrow" />
         <TextView
             android:text="Your New Alarm is almost created!"
             android:textSize="30dp"
@@ -85,33 +81,6 @@
                         android:gravity="bottom"/>
                 </LinearLayout>
 
-                <TextView
-                    android:text="Airline"
-                    android:textSize="30sp"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"/>
-                <EditText
-                    android:id="@+id/airline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:textColor="@color/blue"
-                    android:text="Anything"/>
-<!--                <TextView-->
-<!--                    android:text="Airline"-->
-<!--                    android:textSize="30sp"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="15dp"/>-->
-<!--                <EditText-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:textSize="20sp"-->
-<!--                    android:textColor="@color/blue"-->
-<!--                    android:text="Anything"/>-->
             </LinearLayout>
         </ScrollView>
 
@@ -128,23 +97,4 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_gravity="end"
-        android:layout_weight="10">
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/home"
-            android:background="#00ffffff"
-            android:id="@+id/btn_falarm_home"/>
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/profile"
-            android:background="#00ffffff"
-            android:id="@+id/btn_falarm_profile"/>
-    </LinearLayout>
 </LinearLayout>

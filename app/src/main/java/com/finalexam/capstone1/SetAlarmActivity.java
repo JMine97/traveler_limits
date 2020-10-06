@@ -14,20 +14,20 @@ public class SetAlarmDetailActivity extends Activity {
 
     private Button btn_save;
     ImageButton btn_home, btn_profile;
-    private EditText ed_price_limit, ed_airline;
+    private EditText ed_price_limit; // ed_airline
     private float price_limit;
-    private String airline;
+//    private String airline;
     private String id, password, st_email, st_birth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.f_alarm1);
+        setContentView(R.layout.alarm_create);
 
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
 
         ed_price_limit=findViewById(R.id.price_limit);
-        ed_airline=findViewById(R.id.airline);
+//        ed_airline=findViewById(R.id.airline);
 
         Intent intent = getIntent();
         final String arr = intent.getStringExtra("ARRIVAL");
@@ -49,7 +49,7 @@ public class SetAlarmDetailActivity extends Activity {
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
                 price_limit = Float.parseFloat(String.valueOf(ed_price_limit.getText()));
-                airline = String.valueOf(ed_airline.getText());
+//                airline = String.valueOf(ed_airline.getText());
 
                 intent.putExtra("DEPARTURE", dep);
                 intent.putExtra("ARRIVAL", arr);
@@ -57,7 +57,7 @@ public class SetAlarmDetailActivity extends Activity {
                 intent.putExtra("ADULT", adlt);
                 intent.putExtra("CHILD", chld);
                 intent.putExtra("PRICELIMIT", price_limit);
-                intent.putExtra("AIRLINE", airline);
+//                intent.putExtra("AIRLINE", airline);
 
                 intent.putExtra("id", id);
                 intent.putExtra("password", password);
@@ -67,34 +67,7 @@ public class SetAlarmDetailActivity extends Activity {
             }
         });
 
-        btn_home = (ImageButton) findViewById(R.id.btn_falarm_home);
-        btn_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MainActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                intent.putExtra("id", id);
-                intent.putExtra("password", password);
-                intent.putExtra("e_mail", st_email);
-                intent.putExtra("date_of_birth", st_birth);
-                startActivity(intent);
-            }
-        });
-        btn_profile = (ImageButton) findViewById(R.id.btn_falarm_profile);
-        btn_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MypageActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                intent.putExtra("id", id);
-                intent.putExtra("password", password);
-                intent.putExtra("e_mail", st_email);
-                intent.putExtra("date_of_birth", st_birth);
-                startActivity(intent);
-            }
-        });
+
 
     }
 }
