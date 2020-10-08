@@ -14,11 +14,12 @@ import androidx.annotation.Nullable;
 
 import static com.finalexam.capstone1.SearchActivity.TAG;
 
-public class SetAlarmDetailActivity extends Activity {
+public class SetAlarmActivity extends Activity {
 
     private Button btn_save;
     private EditText ed_price_limit;
     private float price_limit;
+    ImageButton btn_home, btn_profile;
     private String id, password, st_email, st_birth;
 
     @Override
@@ -44,16 +45,15 @@ public class SetAlarmDetailActivity extends Activity {
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
 
-
                 Log.d(TAG, "POST response code pricelimit at setalarmdetailactivity" + price_limit);
 
                 if(ed_price_limit.getText().toString().replace(" ", "").equals("")){
 
-                    Toast.makeText(SetAlarmDetailActivity.this, "가격이 빈칸 일 수 없습니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SetAlarmActivity.this, "가격이 빈칸 일 수 없습니다", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     price_limit = Float.parseFloat(String.valueOf(ed_price_limit.getText()));
-                    PreferenceManager pref = new PreferenceManager(SetAlarmDetailActivity.this);
+                    PreferenceManager pref = new PreferenceManager(SetAlarmActivity.this);
                     pref.put("PRICELIMIT", price_limit);
 
 //                    intent.putExtra("DEPARTURE", dep);
@@ -70,10 +70,8 @@ public class SetAlarmDetailActivity extends Activity {
 //                    intent.putExtra("date_of_birth", st_birth);
                     startActivity(intent);
                 }
-            }
-        });
 
-
+//        btn_home = (ImageButton) findViewById(R.id.btn_falarm_home);
 //        btn_home.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -101,6 +99,8 @@ public class SetAlarmDetailActivity extends Activity {
 //                startActivity(intent);
 //            }
 //        });
+            }
+        });
 
     }
 }

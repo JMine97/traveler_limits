@@ -43,7 +43,7 @@
         <!-- flight -->
         <activity android:name=".SearchActivity"/>
         <activity android:name=".SearchResultActivity"/>
-        <activity android:name=".SetAlarmDetailActivity"/>
+        <activity android:name=".SetAlarmActivity"/>
         <activity android:name=".PriceDistributionActivity"/>
 
         <!-- signup-->

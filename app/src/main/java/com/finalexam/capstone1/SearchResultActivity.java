@@ -101,7 +101,7 @@ public class SearchResultActivity extends BaseActivity {
                 id = pref.getValue("id", null);
 
                 if(id!=null) {
-                    Intent intent = new Intent(view.getContext(), SetAlarmDetailActivity.class);
+                    Intent intent = new Intent(view.getContext(), SetAlarmActivity.class);
 //                    intent.putExtra("DEPARTURE", dep);
 //                    intent.putExtra("ARRIVAL", arr);
 //                    intent.putExtra("DATE", date);
