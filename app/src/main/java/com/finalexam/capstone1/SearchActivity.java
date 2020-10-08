@@ -191,7 +191,7 @@ public class SearchActivity extends AppCompatActivity {
                 pref.put("ADULT", num_adlt);
                 pref.put("CHILD", num_chld);
 
-//                intent.putExtra("TRAVEL", dep + "/" + arr + "/" + "");
+                intent.putExtra("TRAVEL", dep + "/" + arr + "/" + "");
                 startActivity(intent);
             }
         });

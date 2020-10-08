@@ -96,7 +96,7 @@ public class MypageActivity extends Activity {
 
                 }
                 else if (i == 2) {  // 알람목록
-                    Intent intent = new Intent(view.getContext(), MypageAlarmsActivity.class);
+                    Intent intent = new Intent(view.getContext(), MyAlarmsActivity.class);
                     //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     /*intent.putExtra("id", id);
