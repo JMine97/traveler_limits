@@ -45,7 +45,7 @@ public class SetAlarmActivity extends Activity {
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
 
-                Log.d(TAG, "POST response code pricelimit at setalarmdetailactivity" + price_limit);
+                Log.d(TAG, "POST response code pricelimit at setalarmactivity" + price_limit);
 
                 if(ed_price_limit.getText().toString().replace(" ", "").equals("")){
 

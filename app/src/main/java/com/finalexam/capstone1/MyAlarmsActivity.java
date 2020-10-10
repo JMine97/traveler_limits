@@ -1,6 +1,7 @@
 package com.finalexam.capstone1;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
@@ -82,17 +85,61 @@ public class MyAlarmsActivity extends AppCompatActivity {
 
         //알람 목록 받아옴
         try {
-            alarmList=alrm.execute(url, id).get();
+            alarmList=alrm.execute(url, id, String.valueOf(-1)).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        test_listview();
-        AlarmListAdapter adapter = new AlarmListAdapter(list);
+        Insert_Listview();
+        final AlarmListAdapter adapter = new AlarmListAdapter(list);
         lv_alarm.setAdapter(adapter);
 
+        lv_alarm.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id2) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+                alert.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();     //닫기
+                    }
+                });
+
+                //delete alarm
+                alert.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //search code_alarm in listview with position then delete
+
+//                        Toast.makeText(MyAlarmsActivity.this, "인덱스는 " + alarmList.get(position).get("code_alarm") + "입니다", Toast.LENGTH_SHORT).show();
+                        //알람 목록 받아옴
+                        try {
+                            alrm = new GetAlarm();
+                            String index=alarmList.get(position).get("code_alarm");
+                            alarmList = new ArrayList<HashMap<String, String>>();
+                            alarmList=alrm.execute(url, id, index).get();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        //insert alarm data to list view
+                        Insert_Listview();
+
+
+                        AlarmListAdapter adapter = new AlarmListAdapter(list);
+                        lv_alarm.setAdapter(adapter);
+                    }
+                });
+                alert.setMessage("해당 알람을 지우겠습니까?");
+                alert.show();
+
+                return false;
+            }
+        });
 
     }
 
@@ -119,7 +166,7 @@ public class MyAlarmsActivity extends AppCompatActivity {
         finish();
     }
 
-    void test_listview() {
+    void Insert_Listview() {
         list = new ArrayList<>();
 
 
@@ -186,12 +233,12 @@ public class MyAlarmsActivity extends AppCompatActivity {
             tv_detail.setText(lv_item.adlt + " Adult, " + lv_item.chld + " Child");
 
             // list view click evnet
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
-                }
-            });
+//            view.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
+//                }
+//            });
 
             return view;
         }
@@ -206,7 +253,8 @@ public class MyAlarmsActivity extends AppCompatActivity {
             try {
                 URL phpUrl = new URL(params[0]);
                 String id = new String(params[1]);
-                String postParameters = "id=" + id;
+                String code = new String(params[2]);
+                String postParameters = "id=" + id + "&code_alarm=" + code;
 
                 Log.d("aa", "POST response code - " + id);
                 HttpURLConnection conn = (HttpURLConnection) phpUrl.openConnection();
