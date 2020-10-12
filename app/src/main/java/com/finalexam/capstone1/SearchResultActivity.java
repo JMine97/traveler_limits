@@ -3,8 +3,10 @@ package com.finalexam.capstone1;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,6 +49,7 @@ public class SearchResultActivity extends BaseActivity {
     private String arr, dep, date;
     private int adlt, chld;
     private FlightResult[] flightResults;
+    private ArrayList<Integer> price = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -107,7 +110,6 @@ public class SearchResultActivity extends BaseActivity {
 //                    intent.putExtra("DATE", date);
 //                    intent.putExtra("ADULT", adlt);
 //                    intent.putExtra("CHILD", chld);
-
                     startActivity(intent);
                 }
                 else{
@@ -154,12 +156,22 @@ public class SearchResultActivity extends BaseActivity {
                     String formattedStringPrice = myFormatter.format(flightResults[i].getPrice());
 
                     list.add(new Flight(flightResults[i].getCarrierCode(0), flightResults[i].getDep_time(0),flightResults[i].getArr_time(size-1), formattedStringPrice));
+                    price.add(flightResults[i].getPrice());
                 }
+                JsonArray jsonArray = new JsonArray();
+                for (int i =0; i<price.size(); i++){
+                    jsonArray.add(price.get(i));
+                }
+                //Log.d("json", jsonArray.toString());
                 SearchListViewAdapter adapter = new SearchListViewAdapter(list);
                 lv_search.setAdapter(adapter);
                 lv_search.setVisibility(View.VISIBLE);
-                progressOFF();
+
+                PreferenceManager pref = new PreferenceManager(SearchResultActivity.this);
+                pref.put("PRICEJSON", jsonArray.toString());
+
             }
+            progressOFF();
         }
 
         @Override
@@ -251,6 +263,5 @@ public class SearchResultActivity extends BaseActivity {
         list.add(new Flight("Korean Air", "20:30", "21:40", "30,000"));
         list.add(new Flight("Asiana", "21:20", "22:30", "30,500"));
     }*/
-
 
 }

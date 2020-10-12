@@ -24,6 +24,10 @@ android {
 
 }
 
+repositories{
+    maven {url 'https://jitpack.io'}
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -46,4 +50,8 @@ dependencies {
 
     //아마데우스
     implementation "com.amadeus:amadeus-java:5.2.0"
+
+    //graph
+    implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
+
 }
