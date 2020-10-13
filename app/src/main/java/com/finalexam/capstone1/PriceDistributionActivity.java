@@ -115,6 +115,11 @@ public class PriceDistributionActivity extends Activity {
 
         priceChart = (LineChart) findViewById(R.id.price_chart);
         ArrayList<Integer> prices = new ArrayList<Integer>();
+        List<Entry> entries = new ArrayList<>();
+        ArrayList<Integer> itemList = new ArrayList<Integer>();
+        ArrayList<Integer> cntList = new ArrayList<Integer>();
+
+        int max=1;
         if(priceJson!=null){
             try {
                 JSONArray jsonArray = new JSONArray(priceJson);
@@ -127,8 +132,6 @@ public class PriceDistributionActivity extends Activity {
             }
         }
 
-        ArrayList<Integer> itemList = new ArrayList<Integer>();
-        ArrayList<Integer> cntList = new ArrayList<Integer>();
 
         itemList.add(prices.get(0)); int p = prices.get(0);
         for(int i=0; i<prices.size(); i++){
@@ -149,10 +152,13 @@ public class PriceDistributionActivity extends Activity {
             cntList.add(cnt);
         }
 
-        List<Entry> entries = new ArrayList<>();
+        max=cntList.get(0);
         if(cntList.size()>15){
             for(int i =0; i<15; i++){
                 entries.add(new Entry(cntList.get(i), itemList.get(i)));
+                if(cntList.get(i)>max){
+                    max = cntList.get(i);
+                }
             }
         } else{
             for(int i =0; i<cntList.size(); i++){
@@ -161,11 +167,12 @@ public class PriceDistributionActivity extends Activity {
         }
 
 
-        Log.d("itemList", itemList.toString());
+
+        //Log.d("itemList", itemList.toString());
 
         LineDataSet lineDataSet = new LineDataSet(entries, "가격분포");
-        /*lineDataSet.setLineWidth(2);
-        lineDataSet.setCircleRadius(6);
+        lineDataSet.setLineWidth(2);
+        /*lineDataSet.setCircleRadius(6);
         lineDataSet.setCircleHoleColor(Color.parseColor("#FFA1B4DC"));
         lineDataSet.setCircleColor(Color.BLUE);
         lineDataSet.setDrawCircleHole(true);
@@ -180,7 +187,7 @@ public class PriceDistributionActivity extends Activity {
         XAxis xAxis = priceChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setAxisMinimum(0);
-        xAxis.setAxisMaximum(15);
+        xAxis.setAxisMaximum(max+1);
 
         YAxis yLAxis = priceChart.getAxisLeft();
         //yLAxis.setLabelCount(10);

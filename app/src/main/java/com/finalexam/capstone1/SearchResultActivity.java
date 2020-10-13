@@ -12,7 +12,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Layout;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -34,6 +36,7 @@ import com.google.gson.JsonPrimitive;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SearchResultActivity extends BaseActivity {
 
@@ -41,7 +44,7 @@ public class SearchResultActivity extends BaseActivity {
     private Button btn_save;
     private ImageButton btn_home, btn_profile;
     private ListView lv_search;
-    private ArrayList<Flight> list;
+    private ArrayList<FlightResult> list;
     private String id;
     private ProgressBar progressBar; //로딩
     private LinearLayout progress_layout;
@@ -86,6 +89,35 @@ public class SearchResultActivity extends BaseActivity {
         progressBar = findViewById(R.id.progress_bar);
 
         lv_search = (ListView) findViewById(R.id.lv_search);
+        lv_search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ArrayList<Flight> list_detail = new ArrayList<>();
+                FlightResult lv_item = list.get(position);
+                Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
+                /*AlertDialog.Builder builder = new AlertDialog.Builder(SearchResultActivity.this);
+
+                builder.setNegativeButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();     //닫기
+                    }
+                });
+                LayoutInflater inflater = getLayoutInflater();
+                View d_view = inflater.inflate(R.layout.dialog_result_detail,null);
+                builder.setView(d_view);
+                final ListView lv_detail = (ListView)view.findViewById(R.id.lv_detail);
+                final AlertDialog dialog = builder.create();
+                for(int i =0; i<lv_item.getDepCodeSize(); i++){
+                    list_detail.add(new Flight(lv_item.getCarrierCode(i), lv_item.getDep_code(i), lv_item.getDep_time(i), lv_item.getArr_code(i), lv_item.getArr_time(i)));
+                }
+                ResultDetailListViewAdapter rd_adapter = new ResultDetailListViewAdapter(list_detail);
+                lv_detail.setAdapter(rd_adapter);
+                dialog.show();*/
+
+            }
+        });
+
 
         tv_noResult = (TextView)findViewById(R.id.tv_noResult);
         //test_list();
@@ -148,14 +180,15 @@ public class SearchResultActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(FlightResult[] flightResults) {
-            list = new ArrayList<Flight>();
+            list = new ArrayList<FlightResult>();
             if(flightResults!=null){
                 for(int i=0; i<flightResults.length; i++){
                     int size = flightResults[i].getDepCodeSize();
                     DecimalFormat myFormatter = new DecimalFormat("###,###");
                     String formattedStringPrice = myFormatter.format(flightResults[i].getPrice());
 
-                    list.add(new Flight(flightResults[i].getCarrierCode(0), flightResults[i].getDep_time(0),flightResults[i].getArr_time(size-1), formattedStringPrice));
+                    list.add(new FlightResult(flightResults[i].getDep_code(), flightResults[i].getDep_time(),flightResults[i].getArr_code(),
+                            flightResults[i].getArr_time(),flightResults[i].getCarrierCode(), flightResults[i].getTotalTime(), flightResults[i].getPrice()));
                     price.add(flightResults[i].getPrice());
                 }
                 JsonArray jsonArray = new JsonArray();
@@ -169,8 +202,8 @@ public class SearchResultActivity extends BaseActivity {
 
                 PreferenceManager pref = new PreferenceManager(SearchResultActivity.this);
                 pref.put("PRICEJSON", jsonArray.toString());
-
             }
+
             progressOFF();
         }
 
