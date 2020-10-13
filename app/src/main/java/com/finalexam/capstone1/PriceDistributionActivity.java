@@ -12,11 +12,10 @@ import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 
-<<<<<<< HEAD
 import com.finalexam.capstone1.MainActivity;
 import com.finalexam.capstone1.MypageActivity;
 import com.finalexam.capstone1.R;
-import com.finalexam.capstone1.MypageAlarmsActivity;
+import com.finalexam.capstone1.MyAlarmsActivity;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
@@ -31,8 +30,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-=======
->>>>>>> origin/Min
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
