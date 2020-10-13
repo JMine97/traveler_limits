@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         b_alarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, MypageAlarmsActivity.class);
+                Intent intent = new Intent(MainActivity.this, MyAlarmsActivity.class);
                 intent.putExtra("CurState", CurState);
                 intent.putExtra("id", id);
                 startActivity(intent);

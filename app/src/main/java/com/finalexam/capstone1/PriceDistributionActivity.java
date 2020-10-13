@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 
+<<<<<<< HEAD
 import com.finalexam.capstone1.MainActivity;
 import com.finalexam.capstone1.MypageActivity;
 import com.finalexam.capstone1.R;
@@ -30,6 +31,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+=======
+>>>>>>> origin/Min
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -73,7 +76,7 @@ public class PriceDistributionActivity extends Activity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MypageAlarmsActivity.class);
+                Intent intent = new Intent(view.getContext(), MyAlarmsActivity.class);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 intent.putExtra("CurState", CurState);

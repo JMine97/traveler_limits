@@ -42,7 +42,7 @@ public class MemberInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mypage_memberinfo);
+        setContentView(R.layout.memberinfo);
         info_id = (TextView)findViewById(R.id.info_id);
         info_pw = (EditText)findViewById(R.id.info_pw);
         info_email = (TextView)findViewById(R.id.info_email);
