@@ -32,54 +32,31 @@ import java.util.concurrent.ExecutionException;
 public class MyAlarmsActivity extends AppCompatActivity {
 
     String url = "http://synergyflight.dothome.co.kr/get_alarm_data.php";
-    ImageButton btn_home, btn_profile;
     ListView lv_alarm;
     ArrayList<Alarm> list;
     public GetAlarm alrm;
     private List<HashMap<String, String>> alarmList = null;
-    private String CurState;
+//    private String CurState;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mypage_alarm);
+        setContentView(R.layout.myalarms);
 
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
 
         Intent intent = getIntent();
-        CurState = intent.getStringExtra("CurState");
+//        CurState = intent.getStringExtra("CurState");
+            // "FromHome" or "SetAlarm"
 
         lv_alarm = (ListView) findViewById(R.id.lv_alarm);
-
-        btn_home = (ImageButton) findViewById(R.id.btn_ma_home);
-        btn_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MainActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-                finish();
-            }
-        });
-        btn_profile = (ImageButton) findViewById(R.id.btn_ma_profile);
-        btn_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MypageActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-                finish();
-            }
-        });
 
         alrm = new GetAlarm();
         alarmList = new ArrayList<HashMap<String, String>>();
 
         //알람 목록 받아옴
         try {
-            alarmList=alrm.execute(url).get();
+            alarmList = alrm.execute(url).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -96,13 +73,13 @@ public class MyAlarmsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 //        switch (CurState){
-//            case "SetAlarm":
-//                Intent intent = new Intent(MypageAlarmsActivity.this, MainActivity.class);
+//            case "FromHome":
+//                Intent intent = new Intent(MyAlarmsActivity.this, MainActivity.class);
 //                startActivity(intent);
 //                finish();
 //                break;
-//            case "CheckAlarm":
-//                intent = new Intent(MypageAlarmsActivity.this, MypageActivity.class);
+//            case "SetAlarm":
+//                intent = new Intent(MyAlarmsActivity.this, MypageActivity.class);
 //                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 //                startActivity(intent);
@@ -110,8 +87,10 @@ public class MyAlarmsActivity extends AppCompatActivity {
 //                break;
 //        }
 
-        // 항상 홈 화면으로
+        // 항상 홈 화면으로, 그 사이 겹치는 액티비티 전체 삭제 (Flags)
         Intent intent = new Intent(MyAlarmsActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
         finish();
     }
@@ -122,6 +101,7 @@ public class MyAlarmsActivity extends AppCompatActivity {
 
         for(int i = 0; i < alarmList.size(); i++){
 
+            // TODO : airline 삭제, 왕복여부, 출발날짜 추가
             list.add(new Alarm(alarmList.get(i).get("dept_city"), alarmList.get(i).get("arr_city"), alarmList.get(i).get("airline_info"),
                     Integer.parseInt(alarmList.get(i).get("adult")), Integer.parseInt(alarmList.get(i).get("child")), alarmList.get(i).get("dept_date"), alarmList.get(i).get("price_limit")));
             System.out.println(alarmList.get(i).get("airline_info"));
@@ -170,22 +150,30 @@ public class MyAlarmsActivity extends AppCompatActivity {
                 view = inflater.inflate(R.layout.mypage_alarm_listitem , viewGroup, false);
             }
 
-            TextView tv_airport = (TextView) view.findViewById(R.id.tv_alarm_airport);
-            TextView tv_date = (TextView) view.findViewById(R.id.tv_alarm_date);
+            // TODO  : 왕복 출발날짜 추가 (R.id.arm_arrdate)
+            TextView tv_dep = (TextView) view.findViewById(R.id.arm_dep);
+            TextView tv_arr = (TextView) view.findViewById(R.id.arm_arr);
+            TextView tv_depdate = (TextView) view.findViewById(R.id.arm_depdate);
+            TextView tv_arrdate = (TextView) view.findViewById(R.id.arm_arrdate);
             TextView tv_price = (TextView) view.findViewById(R.id.tv_alarm_price);
             TextView tv_detail = (TextView) view.findViewById(R.id.tv_alarm_detail);
 
             Alarm lv_item = list.get(i);
-            tv_airport.setText(lv_item.dept + "  to  " + lv_item.arrv);
-            tv_date.setText(lv_item.date);
+            // TODO : 수정
+            tv_dep.setText(lv_item.dept);
+            tv_arr.setText(lv_item.arrv);
+            tv_depdate.setText(lv_item.date);   // 출발날짜
             tv_price.setText(lv_item.price);
             tv_detail.setText(lv_item.adlt + " Adult, " + lv_item.airl);
+
+            // TODO : if(편도) { tv_arrdeate.setVisibility(GONE); } else { tv_arrdate.setText( ~ ); }
 
             // list view click evnet
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
+                    // TODO : 상세정보 POP UP
                 }
             });
 

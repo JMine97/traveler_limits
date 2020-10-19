@@ -2,9 +2,7 @@ package com.finalexam.capstone1;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,12 +22,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +34,7 @@ public class MemberInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mypage_memberinfo);
+        setContentView(R.layout.memberinfo);
         info_id = (TextView)findViewById(R.id.info_id);
         info_pw = (EditText)findViewById(R.id.info_pw);
         info_email = (TextView)findViewById(R.id.info_email);
@@ -58,7 +50,7 @@ public class MemberInfoActivity extends AppCompatActivity {
         if(email!=null) info_email.setText(email);
         if(birth!=null) info_birthday.setText(birth);
 
-        withdraw.setOnClickListener(new View.OnClickListener() {
+        withdraw.setOnClickListener(new View.OnClickListener() {    // 회원탈퇴 버튼
             @Override
             public void onClick(View view) {
 
@@ -87,8 +79,8 @@ public class MemberInfoActivity extends AppCompatActivity {
                                                 boolean success = jsonResponse.getBoolean("success");
                                                 if(success){
                                                     PreferenceManager pref = new PreferenceManager(MemberInfoActivity.this);
-                                                    pref.clear();
-                                                    Intent intent = new Intent(MemberInfoActivity.this, MypageActivity.class);
+                                                    pref.clear();   // 로그인 정보 클리어
+                                                    Intent intent = new Intent(MemberInfoActivity.this, MainActivity.class);    // 탈퇴 후 홈으로
                                                     startActivity(intent);
                                                     finish();
                                                 }

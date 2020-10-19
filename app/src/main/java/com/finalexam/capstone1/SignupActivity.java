@@ -1,6 +1,7 @@
 package com.finalexam.capstone1;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,19 +36,27 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SignupActivity extends Activity {
 
     static final String TAG = "SingupActivity";
 
-    private Button button, btn_toLogin, validateButton;
-    private EditText id, password, e_mail, date_of_birth, password2;
+    private Button button, btn_toLogin, validateButton, date_of_birth;
+    private EditText id, password, e_mail, password2;
     private String st_id, st_password, st_e_mail, st_date_of_birth, c_id;
     private String token="";
     private TextView pwCheck;
     private boolean validate = false;
+    final Calendar cal_today = Calendar.getInstance();  // 오늘 날짜
+    int     y = cal_today.get(cal_today.YEAR),
+            m = cal_today.get(cal_today.MONTH),
+            d = cal_today.get(cal_today.DATE);
+
 
 
     @Override
@@ -63,7 +73,44 @@ public class SignupActivity extends Activity {
         password=findViewById(R.id.et_signup_pwd);
         password2=findViewById(R.id.et_signup_pwd2);
         e_mail=findViewById(R.id.et_signup_email);
-        date_of_birth=findViewById(R.id.et_signup_dob);
+        date_of_birth=findViewById(R.id.btn_signup_dob);
+
+        date_of_birth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                // 달력 -> 과거만 선택 가능
+                DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                        Calendar c = Calendar.getInstance();
+                        c.set(i, i1, i2);
+                        if (c.compareTo(cal_today) == 1) { // 미래 날짜 선택 시
+                            Toast.makeText(view.getContext(), "불가능한 날짜입니다.", Toast.LENGTH_SHORT).show();
+                        } else {    // 오늘 이후 날짜 선택 시
+                            y = i;
+                            m = i1;
+                            d = i2;
+                            if(m<9){
+                                if(d<10){
+                                    date_of_birth.setText(String.valueOf(y + "-0" + (m + 1) + "-0" + d));
+                                } else{
+                                    date_of_birth.setText(String.valueOf(y + "-0" + (m + 1) + "-" + d));
+                                }
+                            }else{
+                                if(d<10){
+                                    date_of_birth.setText(String.valueOf(y + "-" + (m + 1) + "-0" + d));
+                                }else{
+                                    date_of_birth.setText(String.valueOf(y + "-" + (m + 1) + "-" + d));
+                                }
+                            }
+
+                        }
+                    }
+                }, y, m, d);    // 오늘 날짜로 초기화, 이후 설정된 날짜로 초기화
+//                datePickerDialog.setMessage("메시지 작성");
+                datePickerDialog.show();
+            }
+        });
 
 
         password2.addTextChangedListener(new TextWatcher() {
@@ -136,37 +183,45 @@ public class SignupActivity extends Activity {
             public void onClick(final View v) {
                 if(validate==true){
                     if(password.getText().toString().equals(password2.getText().toString())){ //비밀번호와 비밀번호 확인이 일치하는지 여부
-                        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
-                            @Override
-                            public void onSuccess(InstanceIdResult instanceIdResult) {
+                        if(isValidEmail(e_mail.getText().toString())) {
+                            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                                @Override
+                                public void onSuccess(InstanceIdResult instanceIdResult) {
 
-                                st_id=id.getText().toString();
-                                st_password=password.getText().toString();
-                                st_e_mail=e_mail.getText().toString();
-                                st_date_of_birth=date_of_birth.getText().toString(); //날짜형태
+                                    st_id = id.getText().toString();
+                                    st_password = password.getText().toString();
+                                    st_e_mail = e_mail.getText().toString();
+                                    st_date_of_birth = date_of_birth.getText().toString(); //날짜형태
 
-                                token = instanceIdResult.getToken();
-                                // Do whatever you want with your token now
-                                // i.e. store it on SharedPreferences or DB
-                                // or directly send it to server
+                                    token = instanceIdResult.getToken();
+                                    // Do whatever you want with your token now
+                                    // i.e. store it on SharedPreferences or DB
+                                    // or directly send it to server
 
-                                Log.d("FCM Log", "FCM 토큰: " + token);
+                                    Log.d("FCM Log", "FCM 토큰: " + token);
 //                        Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
 //                System.out.println("outt" + token);
 
-                                // member_info db로 전송
-                                RegisterActivity task = new RegisterActivity();
+                                    // member_info db로 전송
+                                    RegisterActivity task = new RegisterActivity();
 //                task.execute("http://" + IP_ADDRESS + "/insert.php", name,country);
-                                task.execute("http://" + "52.78.216.182" + "/insert_member_info.php", st_id, st_e_mail, st_date_of_birth, st_password, token);
+                                    task.execute("http://" + "52.78.216.182" + "/insert_member_info.php", st_id, st_e_mail, st_date_of_birth, st_password, token);
 
-                                Intent intent = new Intent(v.getContext(), LoginActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                                startActivity(intent);
-                                // TODO : 회원가입 성공 시에만 종료되어야함
-                                // TODO : 이후 마이페이지 정보 변화 및 로그아웃 기능 필요
-                            }
-                        });
+                                    Intent intent = new Intent(v.getContext(), LoginActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                    startActivity(intent);
+                                    // TODO : 회원가입 성공 시에만 종료되어야함
+                                    // TODO : 이후 마이페이지 정보 변화 및 로그아웃 기능 필요
+                                }
+
+                            });
+                        }else{
+                            AlertDialog.Builder dlg = new AlertDialog.Builder(SignupActivity.this);
+                            dlg.setMessage("이메일을 올바르게 작성하세요")
+                                    .setNegativeButton("확인", null).create();
+                            dlg.show();
+                        }
                     }else{
                         AlertDialog.Builder dlg = new AlertDialog.Builder(SignupActivity.this);
                         dlg.setMessage("비밀번호가 일치하지 않습니다")
@@ -198,6 +253,19 @@ public class SignupActivity extends Activity {
 
 
     } //onCreate
+
+    /** * Comment : 정상적인 이메일 인지 검증. */
+    public static boolean isValidEmail(String email) {
+        boolean err = false;
+        String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(email);
+        if (m.matches()) {
+            err = true;
+        }
+        return err;
+    }
+
 
 
     // member_info db로 토큰 등 전송

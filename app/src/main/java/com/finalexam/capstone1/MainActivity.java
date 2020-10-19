@@ -9,14 +9,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private Button b_login, b_search, b_alarm, b_info, b_logout;
     private TextView t_hello;
     private String id, st_email, st_birth;
-    private String CurState = "CheckAlarm"; //알람 조회 페이지에서 뒤로가기로 이동할 구간을 구분하기 위함
+    private String CurState = "FromHome"; //로그인 페이지에서 이동할 구간을 구분하기 위함
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
 
-        Intent intent = getIntent();
+
 
         t_hello = (TextView) findViewById(R.id.t_hello);
         b_login = (Button) findViewById(R.id.b_login);
@@ -58,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), LoginActivity.class);
+                // 로그인 완료 후 홈 화면으로 복귀
+                intent.putExtra("CurState", CurState);
                 startActivity(intent);
                 finish();
             }
@@ -75,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
         b_alarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, MypageAlarmsActivity.class);
-                intent.putExtra("CurState", CurState);
+                Intent intent = new Intent(MainActivity.this, MyAlarmsActivity.class);
+//                intent.putExtra("CurState", CurState);
                 startActivity(intent);
                 finish();
             }

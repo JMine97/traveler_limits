@@ -42,11 +42,16 @@ public class LoginActivity extends AppCompatActivity {
     Button btn_toSignup, btn_login;
     private EditText et_login_id, et_login_password;
     CheckBox chAuto;
+    String CurState;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         Log.d(TAG, "로그인 액티비티 실행됨");
+
+        Intent intent = getIntent();
+        CurState = intent.getStringExtra("CurState");   // FromHome or FromAlarm
 
         sessionCallback = new SessionCallback();
         Session.getCurrentSession().addCallback(sessionCallback);
@@ -67,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d(TAG, "회원가입 to 로그인");
                 Intent intent = new Intent(view.getContext(), SignupActivity.class);
+                intent.putExtra("CurState", CurState);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
@@ -106,14 +112,32 @@ public class LoginActivity extends AppCompatActivity {
                                 else{
                                     pref.put("auto", false);
                                 }
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                /*intent.putExtra("id", id);
-                                intent.putExtra("password", password);
-                                intent.putExtra("e_mail", e_mail);
-                                intent.putExtra("date_of_birth", date_of_birth);
-                                 */
-                                startActivity(intent);
-                                finish();
+
+
+                                // CurState 에 따라서 홈화면 or 검색결과화면 연결
+                                switch (CurState){
+                                    case "FromHome":
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        intent.putExtra("password", password);
+                                        startActivity(intent);
+                                        finish();
+                                        break;
+                                    case "FromAlarm":
+                                        intent = new Intent(LoginActivity.this, SearchResultActivity.class);
+                                        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                        startActivity(intent);
+                                        finish();
+                                        break;
+                                }
+//                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                                intent.putExtra("password", password);
+//                                /*intent.putExtra("id", id);
+//                                intent.putExtra("e_mail", e_mail);
+//                                intent.putExtra("date_of_birth", date_of_birth);
+//                                 */
+//                                startActivity(intent);
+//                                finish();
                             } else{
                                 Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
                                 return;

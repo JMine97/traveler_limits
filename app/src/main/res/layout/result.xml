@@ -50,7 +50,18 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/ar"
+            android:id="@+id/res_round"
             android:layout_marginHorizontal="15dp"/>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/arrow"
+            android:id="@+id/res_oneway"
+            android:layout_marginHorizontal="15dp"/>
+
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -98,5 +109,6 @@
         android:text="Save This Alarm"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:id="@+id/b_result"/>
+        android:id="@+id/b_result"
+        android:paddingHorizontal="20dp"/>
 </LinearLayout>

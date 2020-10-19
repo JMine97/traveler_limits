@@ -22,7 +22,7 @@ public class CreateActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.f_alarm1);
+        setContentView(R.layout.alarm_create);
 
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
 

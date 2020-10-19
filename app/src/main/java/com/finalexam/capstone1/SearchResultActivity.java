@@ -1,23 +1,18 @@
 package com.finalexam.capstone1;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -28,7 +23,6 @@ import com.amadeus.exceptions.ResponseException;
 import com.amadeus.resources.FlightOfferSearch;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -37,7 +31,7 @@ public class SearchResultActivity extends BaseActivity {
 
     private TextView tv_date, tv_dep, tv_dep_kr, tv_arr, tv_arr_kr, tv_noResult;
     private Button btn_save;
-    private ImageButton btn_home, btn_profile;
+    private ImageView i_round, i_oneway;
     private ListView lv_search;
     private ArrayList<Flight> list;
     private String id;
@@ -46,7 +40,9 @@ public class SearchResultActivity extends BaseActivity {
     //항공권
     private String arr, dep, date;
     private int adlt, chld;
+    private boolean round;
     private FlightResult[] flightResults;
+    private String CurState = "FromAlarm"; //알람 조회 페이지에서 뒤로가기로 이동할 구간을 구분하기 위함
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +57,14 @@ public class SearchResultActivity extends BaseActivity {
         date = intent.getStringExtra("DATE");
         adlt = intent.getIntExtra("ADULT", 0);
         chld = intent.getIntExtra("CHILD", 0);
+        round = intent.getBooleanExtra("ROUND", true);
+
+        i_round = (ImageView) findViewById(R.id.res_round);
+        i_oneway = (ImageView) findViewById(R.id.res_oneway);
+        if(round)
+            i_oneway.setVisibility(View.GONE);
+        else
+            i_round.setVisibility(View.GONE);
 
         tv_date = (TextView)findViewById(R.id.tv_fsearch_date);
         tv_date.setText(date);
@@ -68,7 +72,8 @@ public class SearchResultActivity extends BaseActivity {
         tv_dep.setText(dep);
         tv_dep_kr = (TextView)findViewById(R.id.tv_fsearch_dep_kr);
         for (Airport a : SearchActivity.getList()) {
-            if (a.getName_en().equals(dep)) tv_dep_kr.setText(a.getCity());
+            if (a.getName_en().equals(dep))
+                tv_dep_kr.setText(a.getCity());
         }
         tv_arr = (TextView)findViewById(R.id.tv_fsearch_arr);
         tv_arr.setText(arr);
@@ -98,12 +103,13 @@ public class SearchResultActivity extends BaseActivity {
                 id = pref.getValue("id", null);
 
                 if(id!=null) {
-                    Intent intent = new Intent(view.getContext(), SetAlarmDetailActivity.class);
+                    Intent intent = new Intent(view.getContext(), SetAlarmActivity.class);
                     intent.putExtra("DEPARTURE", dep);
                     intent.putExtra("ARRIVAL", arr);
                     intent.putExtra("DATE", date);
                     intent.putExtra("ADULT", adlt);
                     intent.putExtra("CHILD", chld);
+                    intent.putExtra("ROUND", round);
 
                     startActivity(intent);
                 }
@@ -120,10 +126,10 @@ public class SearchResultActivity extends BaseActivity {
                     alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(view.getContext(), MainActivity.class);
+                            Intent intent = new Intent(view.getContext(), LoginActivity.class);
+                            // 로그인 완료 후 검색화면으로 복귀
+                            intent.putExtra("CurState", CurState);
                             startActivity(intent);
-
-
                         }
                     });
                     alert.setMessage("먼저 로그인해주세요");
@@ -168,12 +174,14 @@ public class SearchResultActivity extends BaseActivity {
 
                 // Flight Choice Prediction
 // Note that the example calls 2 APIs: Flight Offers Search & Flight Choice Prediction
+                // TODO : boolean round -> 왕복 검색결과 포함시키기
                 FlightOfferSearch[] flightOffers = amadeus.shopping.flightOffersSearch.get(
                         Params.with("originLocationCode", dep)
                                 .and("destinationLocationCode", arr)
                                 .and("departureDate", date)
                                 //.and("returnDate", "2020-11-09")
                                 .and("adults", adlt).and("children", chld).and("currencyCode", "KRW"));
+
 
                 // Using a JSonObject
                 JsonObject result = flightOffers[1].getResponse().getResult();
