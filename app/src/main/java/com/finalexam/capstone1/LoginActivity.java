@@ -48,11 +48,8 @@ public class LoginActivity extends AppCompatActivity {
     Button btn_toSignup, btn_login;
     private EditText et_login_id, et_login_password;
     CheckBox chAuto;
-<<<<<<< HEAD
     String CurState;
-=======
     String token="";
->>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

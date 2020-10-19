@@ -27,7 +27,6 @@ public class CreateActivity extends Activity {
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
 
         ed_price_limit=findViewById(R.id.price_limit);
-        ed_airline=findViewById(R.id.airline);
 
         Intent intent = getIntent();
         final String arr = intent.getStringExtra("ARRIVAL");
@@ -67,34 +66,6 @@ public class CreateActivity extends Activity {
             }
         });
 
-        btn_home = (ImageButton) findViewById(R.id.btn_falarm_home);
-        btn_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MainActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                intent.putExtra("id", id);
-                intent.putExtra("password", password);
-                intent.putExtra("e_mail", st_email);
-                intent.putExtra("date_of_birth", st_birth);
-                startActivity(intent);
-            }
-        });
-        btn_profile = (ImageButton) findViewById(R.id.btn_falarm_profile);
-        btn_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MypageActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                intent.putExtra("id", id);
-                intent.putExtra("password", password);
-                intent.putExtra("e_mail", st_email);
-                intent.putExtra("date_of_birth", st_birth);
-                startActivity(intent);
-            }
-        });
 
     }
 }

@@ -1,12 +1,9 @@
 package com.finalexam.capstone1;
 
-<<<<<<< HEAD
-=======
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
->>>>>>> master
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -53,11 +51,8 @@ public class SearchResultActivity extends BaseActivity {
     private int adlt, chld;
     private boolean round;
     private FlightResult[] flightResults;
-<<<<<<< HEAD
     private String CurState = "FromAlarm"; //알람 조회 페이지에서 뒤로가기로 이동할 구간을 구분하기 위함
-=======
     private ArrayList<Integer> price = new ArrayList<>();
->>>>>>> master
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,23 +61,21 @@ public class SearchResultActivity extends BaseActivity {
 
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
 
-<<<<<<< HEAD
-        Intent intent = getIntent();
-        arr = intent.getStringExtra("ARRIVAL");
-        dep = intent.getStringExtra("DEPARTURE");
-        date = intent.getStringExtra("DATE");
-        adlt = intent.getIntExtra("ADULT", 0);
-        chld = intent.getIntExtra("CHILD", 0);
-        round = intent.getBooleanExtra("ROUND", true);
-
-        i_round = (ImageView) findViewById(R.id.res_round);
-        i_oneway = (ImageView) findViewById(R.id.res_oneway);
-        if(round)
-            i_oneway.setVisibility(View.GONE);
-        else
-            i_round.setVisibility(View.GONE);
-=======
 //        Intent intent = getIntent();
+//        arr = intent.getStringExtra("ARRIVAL");
+//        dep = intent.getStringExtra("DEPARTURE");
+//        date = intent.getStringExtra("DATE");
+//        adlt = intent.getIntExtra("ADULT", 0);
+//        chld = intent.getIntExtra("CHILD", 0);
+//        round = intent.getBooleanExtra("ROUND", true);
+//
+//        i_round = (ImageView) findViewById(R.id.res_round);
+//        i_oneway = (ImageView) findViewById(R.id.res_oneway);
+//        if(round)
+//            i_oneway.setVisibility(View.GONE);
+//        else
+//            i_round.setVisibility(View.GONE);
+
         PreferenceManager pref = new PreferenceManager(this);
         arr = pref.getValue("ARRIVAL", null);
         dep = pref.getValue("DEPARTURE", null);
@@ -91,7 +84,6 @@ public class SearchResultActivity extends BaseActivity {
         chld = pref.getValue("CHILD", 0);
 
 //        Log.d("resultof", arr + dep + date + adlt + chld);
->>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
 
         tv_date = (TextView)findViewById(R.id.tv_fsearch_date);
         tv_date.setText(date);
@@ -159,30 +151,16 @@ public class SearchResultActivity extends BaseActivity {
                 id = pref.getValue("id", null);
 
                 if(id!=null) {
-<<<<<<< HEAD
-<<<<<<< HEAD
                     Intent intent = new Intent(view.getContext(), SetAlarmActivity.class);
-                    intent.putExtra("DEPARTURE", dep);
-                    intent.putExtra("ARRIVAL", arr);
-                    intent.putExtra("DATE", date);
-                    intent.putExtra("ADULT", adlt);
-                    intent.putExtra("CHILD", chld);
-                    intent.putExtra("ROUND", round);
-=======
-                    Intent intent = new Intent(view.getContext(), SetAlarmDetailActivity.class);
-=======
-                    Intent intent = new Intent(view.getContext(), SetAlarmActivity.class);
->>>>>>> master
+                    // TODO : round 보내기
+//                    intent.putExtra("ROUND", round);
+
 //                    intent.putExtra("DEPARTURE", dep);
 //                    intent.putExtra("ARRIVAL", arr);
 //                    intent.putExtra("DATE", date);
 //                    intent.putExtra("ADULT", adlt);
 //                    intent.putExtra("CHILD", chld);
-<<<<<<< HEAD
->>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
 
-=======
->>>>>>> master
                     startActivity(intent);
                 }
                 else{

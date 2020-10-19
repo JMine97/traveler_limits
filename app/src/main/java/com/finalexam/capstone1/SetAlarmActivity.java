@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-<<<<<<< HEAD
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -20,17 +19,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-public class SetAlarmActivity extends Activity {
-
-    private Button btn_save;
-    private EditText ed_price_limit;
-    private float float_limit;
-    private ImageView graph;
-    private String id, password, st_email, st_birth, adlt, chld, limit;
-    private boolean round;
-//    private String CurState = "SetAlarm"; //알람 조회 페이지에서 뒤로가기로 이동할 구간을 구분하기 위함
-=======
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -42,9 +30,10 @@ public class SetAlarmActivity extends Activity {
     private Button btn_save;
     private EditText ed_price_limit;
     private float price_limit;
-    ImageButton btn_home, btn_profile;
-    private String id, password, st_email, st_birth;
->>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
+    private ImageView graph;
+    private String id, password, st_email, st_birth, adlt, chld, limit;
+    private boolean round;
+//    private String CurState = "SetAlarm"; //알람 조회 페이지에서 뒤로가기로 이동할 구간을 구분하기 위함
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,23 +45,21 @@ public class SetAlarmActivity extends Activity {
         ed_price_limit = findViewById(R.id.price_limit);
         graph = findViewById(R.id.graph);
 
-<<<<<<< HEAD
-        Intent intent = getIntent();
-        final String arr = intent.getStringExtra("ARRIVAL");
-        final String dep = intent.getStringExtra("DEPARTURE");
-        final String date = intent.getStringExtra("DATE");
-//        final int int_adlt = intent.getIntExtra("ADULT", 0);
-        adlt = String.valueOf(intent.getIntExtra("ADULT", 0));
-//        final int int_chld = intent.getIntExtra("CHILD", 0);
-        chld = String.valueOf(intent.getIntExtra("CHILD", 0));
-        id = intent.getStringExtra("id");
-        st_email = intent.getStringExtra("e_mail");
-        st_birth = intent.getStringExtra("date_of_birth");
-        password = intent.getStringExtra("password");
-        round = intent.getBooleanExtra("ROUND", true);
-=======
+
+
 //        Intent intent = getIntent();
->>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
+//        final String arr = intent.getStringExtra("ARRIVAL");
+//        final String dep = intent.getStringExtra("DEPARTURE");
+//        final String date = intent.getStringExtra("DATE");
+////        final int int_adlt = intent.getIntExtra("ADULT", 0);
+//        adlt = String.valueOf(intent.getIntExtra("ADULT", 0));
+////        final int int_chld = intent.getIntExtra("CHILD", 0);
+//        chld = String.valueOf(intent.getIntExtra("CHILD", 0));
+//        id = intent.getStringExtra("id");
+//        st_email = intent.getStringExtra("e_mail");
+//        st_birth = intent.getStringExtra("date_of_birth");
+//        password = intent.getStringExtra("password");
+//        round = intent.getBooleanExtra("ROUND", true);
 
 
 
@@ -84,13 +71,9 @@ public class SetAlarmActivity extends Activity {
 //                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-                float_limit = Float.parseFloat(String.valueOf(ed_price_limit.getText()));
-=======
-<<<<<<< HEAD:app/src/main/java/com/finalexam/capstone1/SetAlarmActivity.java
+
+
                 price_limit = Float.parseFloat(String.valueOf(ed_price_limit.getText()));
->>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
 //                airline = String.valueOf(ed_airline.getText());
 
 //                intent.putExtra("DEPARTURE", dep);
@@ -112,37 +95,34 @@ public class SetAlarmActivity extends Activity {
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 //                intent.putExtra("CurState", CurState);
                 startActivity(intent);
-<<<<<<< HEAD
+
 
 //                adlt= String.valueOf(int_adlt);
 //                chld= String.valueOf(int_chld);
                 limit = String.valueOf(ed_price_limit.getText());
 
-                SetAlarmActivity.SaveAlarmActivity task = new SetAlarmActivity.SaveAlarmActivity();
-                task.execute("http://" + "synergyflight.dothome.co.kr" + "/insert_alarm_data.php", dep, arr, date, adlt, chld, limit);
-=======
-=======
-                price_limit = Float.valueOf(String.valueOf(ed_price_limit.getText()));
-                airline = String.valueOf(ed_airline.getText());
-                PreferenceManager pref = new PreferenceManager(SetAlarmDetailActivity.this);
+//                SetAlarmActivity.SaveAlarmActivity task = new SetAlarmActivity.SaveAlarmActivity();
+//                task.execute("http://" + "synergyflight.dothome.co.kr" + "/insert_alarm_data.php", dep, arr, date, adlt, chld, limit);
+
+
+//                price_limit = Float.valueOf(String.valueOf(ed_price_limit.getText()));
+//                airline = String.valueOf(ed_airline.getText());
+                PreferenceManager pref = new PreferenceManager(SetAlarmActivity.this);
                 pref.put("PRICELIMIT", price_limit);
 
-                Log.d(TAG, "POST response code pricelimit at setalarmdetailactivity" + price_limit);
+//                if(price_limit==null) {
+//                    Toast.makeText(SetAlarmDetailActivity.this, "가격이 빈칸 일 수 없습니다", Toast.LENGTH_SHORT).show();
 
-                if(price_limit==null) {
-                    Toast.makeText(SetAlarmDetailActivity.this, "가격이 빈칸 일 수 없습니다", Toast.LENGTH_SHORT).show();
-=======
 
                 Log.d(TAG, "POST response code pricelimit at setalarmactivity" + price_limit);
 
                 if(ed_price_limit.getText().toString().replace(" ", "").equals("")){
 
                     Toast.makeText(SetAlarmActivity.this, "가격이 빈칸 일 수 없습니다", Toast.LENGTH_SHORT).show();
->>>>>>> master
                 }
                 else {
                     price_limit = Float.parseFloat(String.valueOf(ed_price_limit.getText()));
-                    PreferenceManager pref = new PreferenceManager(SetAlarmActivity.this);
+//                    PreferenceManager pref = new PreferenceManager(SetAlarmActivity.this);
                     pref.put("PRICELIMIT", price_limit);
 
 //                    intent.putExtra("DEPARTURE", dep);
@@ -159,14 +139,9 @@ public class SetAlarmActivity extends Activity {
 //                    intent.putExtra("date_of_birth", st_birth);
                     startActivity(intent);
                 }
-<<<<<<< HEAD
->>>>>>> Min:app/src/main/java/com/finalexam/capstone1/SetAlarmDetailActivity.java
->>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
             }
         });
 
-=======
->>>>>>> master
 
 //        btn_home = (ImageButton) findViewById(R.id.btn_falarm_home);
 //        btn_home.setOnClickListener(new View.OnClickListener() {
@@ -196,8 +171,8 @@ public class SetAlarmActivity extends Activity {
 //                startActivity(intent);
 //            }
 //        });
-            }
-        });
+//            }
+//        });
 
     }
 

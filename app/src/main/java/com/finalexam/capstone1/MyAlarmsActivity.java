@@ -36,21 +36,15 @@ import java.util.concurrent.ExecutionException;
 
 public class MyAlarmsActivity extends AppCompatActivity {
 
-<<<<<<< HEAD
-    String url = "http://synergyflight.dothome.co.kr/get_alarm_data.php";
-=======
+//    String url = "http://synergyflight.dothome.co.kr/get_alarm_data.php";
     String url = "http://52.78.216.182/get_alarm_data.php";
     ImageButton btn_home, btn_profile;
->>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
     ListView lv_alarm;
     ArrayList<Alarm> list;
     public GetAlarm alrm;
     private List<HashMap<String, String>> alarmList = null;
-<<<<<<< HEAD
 //    private String CurState;
-=======
-    private String CurState, id;
->>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
+    private String id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,15 +54,12 @@ public class MyAlarmsActivity extends AppCompatActivity {
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
 
         Intent intent = getIntent();
-<<<<<<< HEAD
 //        CurState = intent.getStringExtra("CurState");
             // "FromHome" or "SetAlarm"
 
-=======
-        CurState = intent.getStringExtra("CurState");
+//        CurState = intent.getStringExtra("CurState");
         PreferenceManager pref = new PreferenceManager(this);
         id = pref.getValue("id", null);
->>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
         lv_alarm = (ListView) findViewById(R.id.lv_alarm);
 
         alrm = new GetAlarm();
@@ -76,15 +67,9 @@ public class MyAlarmsActivity extends AppCompatActivity {
 
         //알람 목록 받아옴
         try {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            alarmList = alrm.execute(url).get();
-=======
-            alarmList=alrm.execute(url, id).get();
->>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
-=======
+//            alarmList = alrm.execute(url).get();
+//            alarmList=alrm.execute(url, id).get();
             alarmList=alrm.execute(url, id, String.valueOf(-1)).get();
->>>>>>> master
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -173,12 +158,9 @@ public class MyAlarmsActivity extends AppCompatActivity {
 
         for(int i = 0; i < alarmList.size(); i++){
 
-<<<<<<< HEAD
             // TODO : airline 삭제, 왕복여부, 출발날짜 추가
-            list.add(new Alarm(alarmList.get(i).get("dept_city"), alarmList.get(i).get("arr_city"), alarmList.get(i).get("airline_info"),
-=======
+//            list.add(new Alarm(alarmList.get(i).get("dept_city"), alarmList.get(i).get("arr_city"), alarmList.get(i).get("airline_info"),
             list.add(new Alarm(alarmList.get(i).get("dept_city"), alarmList.get(i).get("arr_city"),
->>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
                     Integer.parseInt(alarmList.get(i).get("adult")), Integer.parseInt(alarmList.get(i).get("child")), alarmList.get(i).get("dept_date"), alarmList.get(i).get("price_limit")));
 //            System.out.println(alarmList.get(i).get("airline_info"));
         }
@@ -246,7 +228,6 @@ public class MyAlarmsActivity extends AppCompatActivity {
             // TODO : if(편도) { tv_arrdeate.setVisibility(GONE); } else { tv_arrdate.setText( ~ ); }
 
             // list view click evnet
-<<<<<<< HEAD
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -254,14 +235,6 @@ public class MyAlarmsActivity extends AppCompatActivity {
                     // TODO : 상세정보 POP UP
                 }
             });
-=======
-//            view.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
-//                }
-//            });
->>>>>>> master
 
             return view;
         }

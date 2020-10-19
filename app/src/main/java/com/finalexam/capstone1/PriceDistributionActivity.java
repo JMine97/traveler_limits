@@ -12,8 +12,6 @@ import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 
-<<<<<<< HEAD
-=======
 import com.finalexam.capstone1.MainActivity;
 import com.finalexam.capstone1.MypageActivity;
 import com.finalexam.capstone1.R;
@@ -32,7 +30,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
->>>>>>> master
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;

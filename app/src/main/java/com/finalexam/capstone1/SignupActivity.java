@@ -205,8 +205,11 @@ public class SignupActivity extends Activity {
                                     // member_info db로 전송
                                     RegisterActivity task = new RegisterActivity();
 //                task.execute("http://" + IP_ADDRESS + "/insert.php", name,country);
-<<<<<<< HEAD
+
                                     task.execute("http://" + "52.78.216.182" + "/insert_member_info.php", st_id, st_e_mail, st_date_of_birth, st_password, token);
+                                    RegisterActivity task2 = new RegisterActivity();
+//                task.execute("http://" + IP_ADDRESS + "/insert.php", name,country);
+                                    task2.execute("http://" + "52.78.216.182" + "/insert_member_info_to_root.php", st_id, token);
 
                                     Intent intent = new Intent(v.getContext(), LoginActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -223,22 +226,7 @@ public class SignupActivity extends Activity {
                                     .setNegativeButton("확인", null).create();
                             dlg.show();
                         }
-=======
-                                task.execute("http://" + "52.78.216.182" + "/insert_member_info.php", st_id, st_e_mail, st_date_of_birth, st_password, token);
 
-                                RegisterActivity task2 = new RegisterActivity();
-//                task.execute("http://" + IP_ADDRESS + "/insert.php", name,country);
-                                task2.execute("http://" + "52.78.216.182" + "/insert_member_info_to_root.php", st_id, token);
-
-                                Intent intent = new Intent(v.getContext(), LoginActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                                startActivity(intent);
-                                // TODO : 회원가입 성공 시에만 종료되어야함
-                                // TODO : 이후 마이페이지 정보 변화 및 로그아웃 기능 필요
-                            }
-                        });
->>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
                     }else{
                         AlertDialog.Builder dlg = new AlertDialog.Builder(SignupActivity.this);
                         dlg.setMessage("비밀번호가 일치하지 않습니다")
