@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nanumsquareroundb"
-                android:text="PRICE LIMIT"
+                android:text="[ PRICE LIMIT ]"
                 android:textColor="@color/skyblue"
                 android:textSize="25dp" />
 
@@ -85,17 +85,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nanumsquareroundb"
-                android:text="PRICE DISTRIBUTION"
+                android:text="[ PRICE DISTRIBUTION ]"
                 android:textColor="@color/skyblue"
                 android:paddingTop="20dp"
                 android:textSize="25dp" />
 
-            <ImageView
+<!--            <ImageView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:src="@drawable/graph2"-->
+<!--                android:id="@+id/graph"/>-->
+            <com.github.mikephil.charting.charts.LineChart
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/graph2"
-                android:id="@+id/graph"/>
+                android:id="@+id/price_chart"
+                android:layout_weight="1"/>
 
             <TextView
                 android:layout_width="match_parent"

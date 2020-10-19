@@ -45,10 +45,9 @@ import static com.finalexam.capstone1.SearchActivity.TAG;
 public class PriceDistributionActivity extends Activity {
 
     private Button btn_save;
-    ImageButton btn_home, btn_profile;
+//    ImageButton btn_home, btn_profile;
     String adlt, chld, limit, id;
-    private String CurState = "SetAlarm"; //알람 조회 페이지에서 뒤로가기로 이동할 구간을 구분하기 위함
-
+//    private String CurState = "SetAlarm";
     private LineChart priceChart;
 
     @Override
@@ -76,7 +75,7 @@ public class PriceDistributionActivity extends Activity {
                 Intent intent = new Intent(view.getContext(), MyAlarmsActivity.class);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                intent.putExtra("CurState", CurState);
+//                intent.putExtra("CurState", CurState);
                 startActivity(intent);
 
                 adlt= String.valueOf(int_adlt);
@@ -92,26 +91,7 @@ public class PriceDistributionActivity extends Activity {
             }
         });
 
-        btn_home = (ImageButton) findViewById(R.id.btn_falarm2_home);
-        btn_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MainActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-            }
-        });
-        btn_profile = (ImageButton) findViewById(R.id.btn_falarm2_profile);
-        btn_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MypageActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-            }
-        });
+
 
         priceChart = (LineChart) findViewById(R.id.price_chart);
         ArrayList<Integer> prices = new ArrayList<Integer>();

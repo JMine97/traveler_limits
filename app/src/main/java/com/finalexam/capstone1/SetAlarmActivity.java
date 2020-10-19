@@ -23,17 +23,19 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.github.mikephil.charting.charts.LineChart;
+
 import static com.finalexam.capstone1.SearchActivity.TAG;
 
 public class SetAlarmActivity extends Activity {
 
     private Button btn_save;
     private EditText ed_price_limit;
-    private float price_limit;
-    private ImageView graph;
-    private String id, password, st_email, st_birth, adlt, chld, limit;
-    private boolean round;
-//    private String CurState = "SetAlarm"; //알람 조회 페이지에서 뒤로가기로 이동할 구간을 구분하기 위함
+//    private float price_limit;
+//    private ImageView graph;
+//    private String id, password, st_email, st_birth, adlt, chld, limit;
+//    private boolean round;
+    private LineChart priceChart;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,12 +43,11 @@ public class SetAlarmActivity extends Activity {
         setContentView(R.layout.alarm_create);
 
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
-
         ed_price_limit = findViewById(R.id.price_limit);
-        graph = findViewById(R.id.graph);
+        btn_save = (Button)findViewById(R.id.btn_fsavealarm2);
+        priceChart = (LineChart) findViewById(R.id.price_chart);
 
-
-
+        // intent -> preferencdManager
 //        Intent intent = getIntent();
 //        final String arr = intent.getStringExtra("ARRIVAL");
 //        final String dep = intent.getStringExtra("DEPARTURE");
@@ -61,52 +62,25 @@ public class SetAlarmActivity extends Activity {
 //        password = intent.getStringExtra("password");
 //        round = intent.getBooleanExtra("ROUND", true);
 
+        PreferenceManager pref = new PreferenceManager(this);
+        final String arr = pref.getValue("ARRIVAL", null);
+        final String dep = pref.getValue("DEPARTURE", null);
+        final String date = pref.getValue("DATE", null);
+        final int int_adlt = pref.getValue("ADULT", 0);
+        final int int_chld = pref.getValue("CHILD", 0);
+//        final float float_limit = pref.getValue("PRICELIMIT", 0.f);
+        final boolean round = pref.getValue("ROUND", true);
+        String priceJson = pref.getValue("PRICEJSON", null);
 
+        Log.d(TAG, "POST response code pricelimit at pricedistribution");
 
-        btn_save = (Button)findViewById(R.id.btn_fsavealarm2);
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(view.getContext(), PriceDistributionActivity.class);
-//                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-
-
-                price_limit = Float.parseFloat(String.valueOf(ed_price_limit.getText()));
-//                airline = String.valueOf(ed_airline.getText());
-
-//                intent.putExtra("DEPARTURE", dep);
-//                intent.putExtra("ARRIVAL", arr);
-//                intent.putExtra("DATE", date);
-//                intent.putExtra("ADULT", adlt);
-//                intent.putExtra("CHILD", chld);
-//                intent.putExtra("PRICELIMIT", price_limit);
-////                intent.putExtra("AIRLINE", airline);
-//
-//                intent.putExtra("id", id);
-//                intent.putExtra("password", password);
-//                intent.putExtra("e_mail", st_email);
-//                intent.putExtra("date_of_birth", st_birth);
-//                startActivity(intent);
-
-                Intent intent = new Intent(view.getContext(), MyAlarmsActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                intent.putExtra("CurState", CurState);
-                startActivity(intent);
-
-
-//                adlt= String.valueOf(int_adlt);
-//                chld= String.valueOf(int_chld);
-                limit = String.valueOf(ed_price_limit.getText());
-
 //                SetAlarmActivity.SaveAlarmActivity task = new SetAlarmActivity.SaveAlarmActivity();
 //                task.execute("http://" + "synergyflight.dothome.co.kr" + "/insert_alarm_data.php", dep, arr, date, adlt, chld, limit);
 
-
-//                price_limit = Float.valueOf(String.valueOf(ed_price_limit.getText()));
-//                airline = String.valueOf(ed_airline.getText());
+                final float price_limit = Float.parseFloat(ed_price_limit.getText().toString());
                 PreferenceManager pref = new PreferenceManager(SetAlarmActivity.this);
                 pref.put("PRICELIMIT", price_limit);
 
@@ -121,23 +95,9 @@ public class SetAlarmActivity extends Activity {
                     Toast.makeText(SetAlarmActivity.this, "가격이 빈칸 일 수 없습니다", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    price_limit = Float.parseFloat(String.valueOf(ed_price_limit.getText()));
-//                    PreferenceManager pref = new PreferenceManager(SetAlarmActivity.this);
-                    pref.put("PRICELIMIT", price_limit);
+//                    Intent intent = new Intent(view.getContext(), MyAlarmsActivity.class);
+//                    startActivity(intent);
 
-//                    intent.putExtra("DEPARTURE", dep);
-//                    intent.putExtra("ARRIVAL", arr);
-//                    intent.putExtra("DATE", date);
-//                    intent.putExtra("ADULT", adlt);
-//                    intent.putExtra("CHILD", chld);
-//                    intent.putExtra("PRICELIMIT", price_limit);
-//                    intent.putExtra("AIRLINE", airline);
-//
-//                    intent.putExtra("id", id);
-//                    intent.putExtra("password", password);
-//                    intent.putExtra("e_mail", st_email);
-//                    intent.putExtra("date_of_birth", st_birth);
-                    startActivity(intent);
                 }
             }
         });
