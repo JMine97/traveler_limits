@@ -2,6 +2,7 @@ package com.finalexam.capstone1;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,12 +12,36 @@ import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 
+<<<<<<< HEAD
+=======
+import com.finalexam.capstone1.MainActivity;
+import com.finalexam.capstone1.MypageActivity;
+import com.finalexam.capstone1.R;
+import com.finalexam.capstone1.MyAlarmsActivity;
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.google.gson.JsonArray;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+>>>>>>> master
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.finalexam.capstone1.SearchActivity.TAG;
 
@@ -26,6 +51,8 @@ public class PriceDistributionActivity extends Activity {
     ImageButton btn_home, btn_profile;
     String adlt, chld, limit, id;
     private String CurState = "SetAlarm"; //알람 조회 페이지에서 뒤로가기로 이동할 구간을 구분하기 위함
+
+    private LineChart priceChart;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +68,7 @@ public class PriceDistributionActivity extends Activity {
         final int int_adlt = pref.getValue("ADULT", 0);
         final int int_chld = pref.getValue("CHILD", 0);
         final float float_limit = pref.getValue("PRICELIMIT", 0.f);
+        String priceJson = pref.getValue("PRICEJSON", null);
 
         Log.d(TAG, "POST response code pricelimit at pricedistribution" + float_limit);
 
@@ -87,6 +115,102 @@ public class PriceDistributionActivity extends Activity {
                 startActivity(intent);
             }
         });
+
+        priceChart = (LineChart) findViewById(R.id.price_chart);
+        ArrayList<Integer> prices = new ArrayList<Integer>();
+        List<Entry> entries = new ArrayList<>();
+        ArrayList<Integer> itemList = new ArrayList<Integer>();
+        ArrayList<Integer> cntList = new ArrayList<Integer>();
+
+        int max=1;
+        if(priceJson!=null){
+            try {
+                JSONArray jsonArray = new JSONArray(priceJson);
+                for(int i=0; i<jsonArray.length(); i++){
+                    String price = jsonArray.optString(i);
+                    prices.add(Integer.parseInt(price));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        itemList.add(prices.get(0)); int p = prices.get(0);
+        for(int i=0; i<prices.size(); i++){
+            if(prices.get(i)!=p){
+                p = prices.get(i);
+                itemList.add(p);
+            }
+        }
+        int cnt;
+
+        for(int i=0; i<itemList.size(); i++){
+            cnt=0;
+            for(int j=0; j<prices.size(); j++){
+                if(prices.get(j).equals(itemList.get(i))){
+                    cnt++;
+                }
+            }
+            cntList.add(cnt);
+        }
+
+        max=cntList.get(0);
+        if(cntList.size()>15){
+            for(int i =0; i<15; i++){
+                entries.add(new Entry(cntList.get(i), itemList.get(i)));
+                if(cntList.get(i)>max){
+                    max = cntList.get(i);
+                }
+            }
+        } else{
+            for(int i =0; i<cntList.size(); i++){
+                entries.add(new Entry(cntList.get(i), itemList.get(i)));
+            }
+        }
+
+
+
+        //Log.d("itemList", itemList.toString());
+
+        LineDataSet lineDataSet = new LineDataSet(entries, "가격분포");
+        lineDataSet.setLineWidth(2);
+        /*lineDataSet.setCircleRadius(6);
+        lineDataSet.setCircleHoleColor(Color.parseColor("#FFA1B4DC"));
+        lineDataSet.setCircleColor(Color.BLUE);
+        lineDataSet.setDrawCircleHole(true);
+
+        lineDataSet.setDrawHorizontalHighlightIndicator(false);
+        lineDataSet.setDrawHighlightIndicators(false);*/
+        lineDataSet.setDrawValues(false);
+
+        LineData lineData = new LineData(lineDataSet);
+        priceChart.setData(lineData);
+
+        XAxis xAxis = priceChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setAxisMinimum(0);
+        xAxis.setAxisMaximum(max+1);
+
+        YAxis yLAxis = priceChart.getAxisLeft();
+        //yLAxis.setLabelCount(10);
+        int min=0; int n=0;
+        if(itemList.get(0)>100000){
+            n=(itemList.get(0)/100000);
+            min = n*100000;
+        }else if(itemList.get(0)>10000){
+            n=(itemList.get(0)/10000);
+            min = n*10000;
+        }
+        //yLAxis.setAxisMinimum(min);
+        yLAxis.setInverted(true);
+        Log.d("n", Integer.toString(min));
+        YAxis yRAxis = priceChart.getAxisRight();
+        yRAxis.setDrawLabels(false);
+        yRAxis.setDrawAxisLine(false);
+        yRAxis.setDrawGridLines(false);
+        priceChart.setDoubleTapToZoomEnabled(false);
+
     }
 
     // member_info db로 토큰 등 전송

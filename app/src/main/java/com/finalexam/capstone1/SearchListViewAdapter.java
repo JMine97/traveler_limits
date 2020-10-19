@@ -1,19 +1,31 @@
 package com.finalexam.capstone1;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SearchListViewAdapter extends BaseAdapter {
 
-    private ArrayList<Flight> list = new ArrayList<>();
-
+    private ArrayList<FlightResult> list = new ArrayList<>();
+    private ArrayList<Flight> list_detail = new ArrayList<>();
+    private int size;
+    private ListView lv_detail;
     public SearchListViewAdapter(ArrayList list) {
         this.list = list;
     }
@@ -45,34 +57,33 @@ public class SearchListViewAdapter extends BaseAdapter {
         TextView tv_dep = (TextView) view.findViewById(R.id.tv_lv_dep);
         TextView tv_arr = (TextView) view.findViewById(R.id.tv_lv_arr);
         TextView tv_pri = (TextView) view.findViewById(R.id.tv_lv_price);
+        lv_detail = (ListView) view.findViewById(R.id.lv_detail);
 
-        Flight lv_item = list.get(i);
-        tv_air.setText(lv_item.airline);
-        tv_dep.setText(lv_item.dep);
-        tv_arr.setText(lv_item.arr);
-        tv_pri.setText(lv_item.price + " 원");
+        final FlightResult lv_item = list.get(i);
+        tv_air.setText(lv_item.getCarrierCode(0));
+        tv_dep.setText(lv_item.getDep_time(0));
+        size = lv_item.getDepCodeSize();
+        tv_arr.setText(lv_item.getArr_time(size-1));
+
+        DecimalFormat myFormatter = new DecimalFormat("###,###");
+        String formattedStringPrice = myFormatter.format(lv_item.getPrice());
+        tv_pri.setText(formattedStringPrice + " 원");
 
         // list view click evnet
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
+                /*for(int i =0; i<lv_item.getDepCodeSize(); i++){
+                    list_detail.add(new Flight(lv_item.getCarrierCode(i), lv_item.getDep_code(i), lv_item.getDep_time(i), lv_item.getArr_code(i), lv_item.getArr_time(i)));
+                }
+                ResultDetailListViewAdapter adapter_detail = new ResultDetailListViewAdapter(list_detail);
+                lv_detail.setAdapter(adapter_detail);
+                lv_detail.setVisibility(View.VISIBLE);*/
+
             }
         });
 
         return view;
-    }
-}
-
-class Flight {
-    String airline;
-    String dep, arr;
-    String price;
-
-    Flight(String airline, String dep, String arr, String price) {
-        this.airline = airline;
-        this.dep = dep;
-        this.arr = arr;
-        this.price = price;
     }
 }

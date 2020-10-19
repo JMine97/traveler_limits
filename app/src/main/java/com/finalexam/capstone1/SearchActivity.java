@@ -289,10 +289,14 @@ public class SearchActivity extends AppCompatActivity {
                 pref.put("ADULT", num_adlt);
                 pref.put("CHILD", num_chld);
 
+<<<<<<< HEAD
                 // 왕복 여행
                 intent.putExtra("ROUND", roundtrip);
 
 //                intent.putExtra("TRAVEL", dep + "/" + arr + "/" + "");
+=======
+                intent.putExtra("TRAVEL", dep + "/" + arr + "/" + "");
+>>>>>>> master
                 startActivity(intent);
             }
         });
