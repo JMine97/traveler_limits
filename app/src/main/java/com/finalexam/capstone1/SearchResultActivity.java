@@ -51,6 +51,7 @@ public class SearchResultActivity extends BaseActivity {
 
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
 
+<<<<<<< HEAD
         Intent intent = getIntent();
         arr = intent.getStringExtra("ARRIVAL");
         dep = intent.getStringExtra("DEPARTURE");
@@ -65,6 +66,17 @@ public class SearchResultActivity extends BaseActivity {
             i_oneway.setVisibility(View.GONE);
         else
             i_round.setVisibility(View.GONE);
+=======
+//        Intent intent = getIntent();
+        PreferenceManager pref = new PreferenceManager(this);
+        arr = pref.getValue("ARRIVAL", null);
+        dep = pref.getValue("DEPARTURE", null);
+        date = pref.getValue("DATE", null);
+        adlt = pref.getValue("ADULT", 0);
+        chld = pref.getValue("CHILD", 0);
+
+//        Log.d("resultof", arr + dep + date + adlt + chld);
+>>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
 
         tv_date = (TextView)findViewById(R.id.tv_fsearch_date);
         tv_date.setText(date);
@@ -103,6 +115,7 @@ public class SearchResultActivity extends BaseActivity {
                 id = pref.getValue("id", null);
 
                 if(id!=null) {
+<<<<<<< HEAD
                     Intent intent = new Intent(view.getContext(), SetAlarmActivity.class);
                     intent.putExtra("DEPARTURE", dep);
                     intent.putExtra("ARRIVAL", arr);
@@ -110,6 +123,14 @@ public class SearchResultActivity extends BaseActivity {
                     intent.putExtra("ADULT", adlt);
                     intent.putExtra("CHILD", chld);
                     intent.putExtra("ROUND", round);
+=======
+                    Intent intent = new Intent(view.getContext(), SetAlarmDetailActivity.class);
+//                    intent.putExtra("DEPARTURE", dep);
+//                    intent.putExtra("ARRIVAL", arr);
+//                    intent.putExtra("DATE", date);
+//                    intent.putExtra("ADULT", adlt);
+//                    intent.putExtra("CHILD", chld);
+>>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
 
                     startActivity(intent);
                 }
@@ -172,6 +193,7 @@ public class SearchResultActivity extends BaseActivity {
                         .builder("kFN2xdf3AsPrita2tUv5HWUeXcvM6fdL", "q92QKuEUEuIFbzDd")
                         .build();
 
+//                Log.d("resultof", arr + dep + date + adlt + chld);
                 // Flight Choice Prediction
 // Note that the example calls 2 APIs: Flight Offers Search & Flight Choice Prediction
                 // TODO : boolean round -> 왕복 검색결과 포함시키기

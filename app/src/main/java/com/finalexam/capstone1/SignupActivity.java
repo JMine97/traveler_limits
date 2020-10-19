@@ -205,6 +205,7 @@ public class SignupActivity extends Activity {
                                     // member_info db로 전송
                                     RegisterActivity task = new RegisterActivity();
 //                task.execute("http://" + IP_ADDRESS + "/insert.php", name,country);
+<<<<<<< HEAD
                                     task.execute("http://" + "52.78.216.182" + "/insert_member_info.php", st_id, st_e_mail, st_date_of_birth, st_password, token);
 
                                     Intent intent = new Intent(v.getContext(), LoginActivity.class);
@@ -222,6 +223,22 @@ public class SignupActivity extends Activity {
                                     .setNegativeButton("확인", null).create();
                             dlg.show();
                         }
+=======
+                                task.execute("http://" + "52.78.216.182" + "/insert_member_info.php", st_id, st_e_mail, st_date_of_birth, st_password, token);
+
+                                RegisterActivity task2 = new RegisterActivity();
+//                task.execute("http://" + IP_ADDRESS + "/insert.php", name,country);
+                                task2.execute("http://" + "52.78.216.182" + "/insert_member_info_to_root.php", st_id, token);
+
+                                Intent intent = new Intent(v.getContext(), LoginActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                startActivity(intent);
+                                // TODO : 회원가입 성공 시에만 종료되어야함
+                                // TODO : 이후 마이페이지 정보 변화 및 로그아웃 기능 필요
+                            }
+                        });
+>>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
                     }else{
                         AlertDialog.Builder dlg = new AlertDialog.Builder(SignupActivity.this);
                         dlg.setMessage("비밀번호가 일치하지 않습니다")
@@ -277,25 +294,34 @@ public class SignupActivity extends Activity {
         @Override
         protected String doInBackground(String... params) {
 
+            int length=params.length;
             // POST 방식으로 데이터 전달시에는 데이터가 주소에 직접 입력되지 않습니다.
             String serverURL = (String) params[0];
+            String postParameters;
 
-            // 1. PHP 파일을 실행시킬 수 있는 주소와 전송할 데이터를 준비합니다.
-            String id = (String) params[1];
-            String e_mail = (String) params[2];
-            String date_of_birth = (String) params[3];
-            String password = (String) params[4];
-            String token = (String) params[5];
+            if(length <4){
+                String id = (String) params[1];
+                String token = (String) params[2];
+                postParameters = "id=" + id + "&token=" + token;
+            }
+            else {
+                // 1. PHP 파일을 실행시킬 수 있는 주소와 전송할 데이터를 준비합니다.
+                String id = (String) params[1];
+                String e_mail = (String) params[2];
+                String date_of_birth = (String) params[3];
+                String password = (String) params[4];
+                String token = (String) params[5];
 
 //            System.out.println("in" + token);
 
-            // HTTP 메시지 본문에 포함되어 전송되기 때문에 따로 데이터를 준비해야 합니다.
-            // 전송할 데이터는 “이름=값” 형식이며 여러 개를 보내야 할 경우에는 항목 사이에 &를 추가합니다.
-            // 여기에 적어준 이름을 나중에 PHP에서 사용하여 값을 얻게 됩니다.
+                // HTTP 메시지 본문에 포함되어 전송되기 때문에 따로 데이터를 준비해야 합니다.
+                // 전송할 데이터는 “이름=값” 형식이며 여러 개를 보내야 할 경우에는 항목 사이에 &를 추가합니다.
+                // 여기에 적어준 이름을 나중에 PHP에서 사용하여 값을 얻게 됩니다.
 
-            // ex : String postParameters = "name=" + name + "&country=" + country;
-            String postParameters = "id=" + id + "&e_mail=" + e_mail + "&date_of_birth=" + date_of_birth
-                    + "&password=" + password + "&token=" + token;
+                // ex : String postParameters = "name=" + name + "&country=" + country;
+                postParameters = "id=" + id + "&e_mail=" + e_mail + "&date_of_birth=" + date_of_birth
+                        + "&password=" + password + "&token=" + token;
+            }
 
             try {
                 // 2. HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송합니다.

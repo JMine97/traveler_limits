@@ -48,8 +48,8 @@ public class SearchActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         try {
-            String dep = intent.getStringExtra("AIRPORT_kr");
-            btn_dep.setText(dep);
+//            String dep = intent.getStringExtra("AIRPORT_kr");
+//            btn_dep.setText(dep);
         } catch (Exception e) {
             Log.d(TAG, "첫 실행, 인텐트 출발정보 전달 X");
         }
@@ -269,24 +269,25 @@ public class SearchActivity extends AppCompatActivity {
                 // 출발지, 도착지, 날짜, 인원 전달
                 String dep = String.valueOf(btn_dep.getText());
                 String arr = String.valueOf(btn_arr.getText());
-                intent.putExtra("DEPARTURE", dep);
-                intent.putExtra("ARRIVAL", arr);
+                PreferenceManager pref = new PreferenceManager(SearchActivity.this);
+                pref.put("DEPARTURE", dep);
+                pref.put("ARRIVAL", arr);
                 if(m<9){
                     if(d<10){
-                        intent.putExtra("DATE", y + "-0"+(m + 1) + "-0" + d);
+                        pref.put("DATE", y + "-0"+(m + 1) + "-0" + d);
                     }else{
-                        intent.putExtra("DATE", y + "-0"+(m + 1) + "-" + d);
+                        pref.put("DATE", y + "-0"+(m + 1) + "-" + d);
                     }
                 }else{
                     if(d<10){
-                        intent.putExtra("DATE", y + "-"+(m + 1) + "-0" + d);
+                        pref.put("DATE", y + "-"+(m + 1) + "-0" + d);
                     }else{
-                        intent.putExtra("DATE", y + "-"+(m + 1) + "-" + d);
+                        pref.put("DATE", y + "-"+(m + 1) + "-" + d);
                     }
                 }
 
-                intent.putExtra("ADULT", num_adlt);
-                intent.putExtra("CHILD", num_chld);
+                pref.put("ADULT", num_adlt);
+                pref.put("CHILD", num_chld);
 
                 // 왕복 여행
                 intent.putExtra("ROUND", roundtrip);

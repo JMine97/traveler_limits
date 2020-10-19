@@ -137,7 +137,7 @@ public class MemberInfoActivity extends AppCompatActivity {
 
     public class DeleteActivity extends StringRequest {
 
-        final static private String URL="http://synergyflight.dothome.co.kr/delete_member_info.php";
+        final static private String URL="http://52.78.216.182/delete_member_info.php";
         private Map<String, String> map;
 
         public DeleteActivity(String userID, String pw, Response.Listener<String>listener){
@@ -145,7 +145,7 @@ public class MemberInfoActivity extends AppCompatActivity {
 
             map = new HashMap<>();
             map.put("id", userID);
-            map.put("password", pw);
+//            map.put("password", pw);
         }
 
         @Override

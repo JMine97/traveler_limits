@@ -23,8 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
         t_hello = (TextView) findViewById(R.id.t_hello);
         b_login = (Button) findViewById(R.id.b_login);
         b_search = (Button) findViewById(R.id.b_search);
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             b_alarm.setVisibility(View.VISIBLE);
             b_info.setVisibility(View.VISIBLE);
             b_logout.setVisibility(View.VISIBLE);
+
         }
         else {  // 로그인 안됨
             t_hello.setText("Hey, Good to see you!");
@@ -76,8 +80,14 @@ public class MainActivity extends AppCompatActivity {
         b_alarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+<<<<<<< HEAD
                 Intent intent = new Intent(MainActivity.this, MyAlarmsActivity.class);
 //                intent.putExtra("CurState", CurState);
+=======
+                Intent intent = new Intent(MainActivity.this, MypageAlarmsActivity.class);
+                intent.putExtra("CurState", CurState);
+                intent.putExtra("id", id);
+>>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
                 startActivity(intent);
                 finish();
             }
