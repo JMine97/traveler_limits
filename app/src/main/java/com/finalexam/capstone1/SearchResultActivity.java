@@ -1,11 +1,21 @@
 package com.finalexam.capstone1;
 
+<<<<<<< HEAD
+=======
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+>>>>>>> master
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,6 +36,7 @@ import com.google.gson.JsonObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SearchResultActivity extends BaseActivity {
 
@@ -33,7 +44,7 @@ public class SearchResultActivity extends BaseActivity {
     private Button btn_save;
     private ImageView i_round, i_oneway;
     private ListView lv_search;
-    private ArrayList<Flight> list;
+    private ArrayList<FlightResult> list;
     private String id;
     private ProgressBar progressBar; //로딩
     private LinearLayout progress_layout;
@@ -42,7 +53,11 @@ public class SearchResultActivity extends BaseActivity {
     private int adlt, chld;
     private boolean round;
     private FlightResult[] flightResults;
+<<<<<<< HEAD
     private String CurState = "FromAlarm"; //알람 조회 페이지에서 뒤로가기로 이동할 구간을 구분하기 위함
+=======
+    private ArrayList<Integer> price = new ArrayList<>();
+>>>>>>> master
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,6 +112,35 @@ public class SearchResultActivity extends BaseActivity {
         progressBar = findViewById(R.id.progress_bar);
 
         lv_search = (ListView) findViewById(R.id.lv_search);
+        lv_search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ArrayList<Flight> list_detail = new ArrayList<>();
+                FlightResult lv_item = list.get(position);
+                Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
+                /*AlertDialog.Builder builder = new AlertDialog.Builder(SearchResultActivity.this);
+
+                builder.setNegativeButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();     //닫기
+                    }
+                });
+                LayoutInflater inflater = getLayoutInflater();
+                View d_view = inflater.inflate(R.layout.dialog_result_detail,null);
+                builder.setView(d_view);
+                final ListView lv_detail = (ListView)view.findViewById(R.id.lv_detail);
+                final AlertDialog dialog = builder.create();
+                for(int i =0; i<lv_item.getDepCodeSize(); i++){
+                    list_detail.add(new Flight(lv_item.getCarrierCode(i), lv_item.getDep_code(i), lv_item.getDep_time(i), lv_item.getArr_code(i), lv_item.getArr_time(i)));
+                }
+                ResultDetailListViewAdapter rd_adapter = new ResultDetailListViewAdapter(list_detail);
+                lv_detail.setAdapter(rd_adapter);
+                dialog.show();*/
+
+            }
+        });
+
 
         tv_noResult = (TextView)findViewById(R.id.tv_noResult);
         //test_list();
@@ -116,6 +160,7 @@ public class SearchResultActivity extends BaseActivity {
 
                 if(id!=null) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                     Intent intent = new Intent(view.getContext(), SetAlarmActivity.class);
                     intent.putExtra("DEPARTURE", dep);
                     intent.putExtra("ARRIVAL", arr);
@@ -125,13 +170,19 @@ public class SearchResultActivity extends BaseActivity {
                     intent.putExtra("ROUND", round);
 =======
                     Intent intent = new Intent(view.getContext(), SetAlarmDetailActivity.class);
+=======
+                    Intent intent = new Intent(view.getContext(), SetAlarmActivity.class);
+>>>>>>> master
 //                    intent.putExtra("DEPARTURE", dep);
 //                    intent.putExtra("ARRIVAL", arr);
 //                    intent.putExtra("DATE", date);
 //                    intent.putExtra("ADULT", adlt);
 //                    intent.putExtra("CHILD", chld);
+<<<<<<< HEAD
 >>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
 
+=======
+>>>>>>> master
                     startActivity(intent);
                 }
                 else{
@@ -170,20 +221,31 @@ public class SearchResultActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(FlightResult[] flightResults) {
-            list = new ArrayList<Flight>();
+            list = new ArrayList<FlightResult>();
             if(flightResults!=null){
                 for(int i=0; i<flightResults.length; i++){
                     int size = flightResults[i].getDepCodeSize();
                     DecimalFormat myFormatter = new DecimalFormat("###,###");
                     String formattedStringPrice = myFormatter.format(flightResults[i].getPrice());
 
-                    list.add(new Flight(flightResults[i].getCarrierCode(0), flightResults[i].getDep_time(0),flightResults[i].getArr_time(size-1), formattedStringPrice));
+                    list.add(new FlightResult(flightResults[i].getDep_code(), flightResults[i].getDep_time(),flightResults[i].getArr_code(),
+                            flightResults[i].getArr_time(),flightResults[i].getCarrierCode(), flightResults[i].getTotalTime(), flightResults[i].getPrice()));
+                    price.add(flightResults[i].getPrice());
                 }
+                JsonArray jsonArray = new JsonArray();
+                for (int i =0; i<price.size(); i++){
+                    jsonArray.add(price.get(i));
+                }
+                //Log.d("json", jsonArray.toString());
                 SearchListViewAdapter adapter = new SearchListViewAdapter(list);
                 lv_search.setAdapter(adapter);
                 lv_search.setVisibility(View.VISIBLE);
-                progressOFF();
+
+                PreferenceManager pref = new PreferenceManager(SearchResultActivity.this);
+                pref.put("PRICEJSON", jsonArray.toString());
             }
+
+            progressOFF();
         }
 
         @Override
@@ -277,6 +339,5 @@ public class SearchResultActivity extends BaseActivity {
         list.add(new Flight("Korean Air", "20:30", "21:40", "30,000"));
         list.add(new Flight("Asiana", "21:20", "22:30", "30,500"));
     }*/
-
 
 }

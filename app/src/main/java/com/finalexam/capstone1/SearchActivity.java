@@ -293,6 +293,7 @@ public class SearchActivity extends AppCompatActivity {
                 intent.putExtra("ROUND", roundtrip);
 
 //                intent.putExtra("TRAVEL", dep + "/" + arr + "/" + "");
+                intent.putExtra("TRAVEL", dep + "/" + arr + "/" + "");
                 startActivity(intent);
             }
         });

@@ -32,6 +32,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:gravity="center"/>
+<<<<<<< HEAD
 
             <ImageView
                 android:layout_width="match_parent"
@@ -39,6 +40,13 @@
                 android:layout_weight="1"
                 android:src="@drawable/graph2" />
 
+=======
+            <com.github.mikephil.charting.charts.LineChart
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/price_chart"
+                android:layout_weight="1"/>
+>>>>>>> master
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

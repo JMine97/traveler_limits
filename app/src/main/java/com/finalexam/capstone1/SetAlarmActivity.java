@@ -37,19 +37,12 @@ import androidx.annotation.Nullable;
 
 import static com.finalexam.capstone1.SearchActivity.TAG;
 
-public class SetAlarmDetailActivity extends Activity {
+public class SetAlarmActivity extends Activity {
 
     private Button btn_save;
-    ImageButton btn_home, btn_profile;
-<<<<<<< HEAD:app/src/main/java/com/finalexam/capstone1/SetAlarmActivity.java
-    private EditText ed_price_limit; // ed_airline
+    private EditText ed_price_limit;
     private float price_limit;
-//    private String airline;
-=======
-    private EditText ed_price_limit, ed_airline;
-    private Float price_limit;
-    private String airline;
->>>>>>> Min:app/src/main/java/com/finalexam/capstone1/SetAlarmDetailActivity.java
+    ImageButton btn_home, btn_profile;
     private String id, password, st_email, st_birth;
 >>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
 
@@ -91,6 +84,7 @@ public class SetAlarmDetailActivity extends Activity {
 //                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
+<<<<<<< HEAD
 <<<<<<< HEAD
                 float_limit = Float.parseFloat(String.valueOf(ed_price_limit.getText()));
 =======
@@ -137,8 +131,19 @@ public class SetAlarmDetailActivity extends Activity {
 
                 if(price_limit==null) {
                     Toast.makeText(SetAlarmDetailActivity.this, "가격이 빈칸 일 수 없습니다", Toast.LENGTH_SHORT).show();
+=======
+
+                Log.d(TAG, "POST response code pricelimit at setalarmactivity" + price_limit);
+
+                if(ed_price_limit.getText().toString().replace(" ", "").equals("")){
+
+                    Toast.makeText(SetAlarmActivity.this, "가격이 빈칸 일 수 없습니다", Toast.LENGTH_SHORT).show();
+>>>>>>> master
                 }
                 else {
+                    price_limit = Float.parseFloat(String.valueOf(ed_price_limit.getText()));
+                    PreferenceManager pref = new PreferenceManager(SetAlarmActivity.this);
+                    pref.put("PRICELIMIT", price_limit);
 
 //                    intent.putExtra("DEPARTURE", dep);
 //                    intent.putExtra("ARRIVAL", arr);
@@ -154,43 +159,45 @@ public class SetAlarmDetailActivity extends Activity {
 //                    intent.putExtra("date_of_birth", st_birth);
                     startActivity(intent);
                 }
+<<<<<<< HEAD
 >>>>>>> Min:app/src/main/java/com/finalexam/capstone1/SetAlarmDetailActivity.java
 >>>>>>> c9ab08c3990151cee0b7158f77baf882215c8c84
             }
         });
 
-
-<<<<<<< HEAD:app/src/main/java/com/finalexam/capstone1/SetAlarmActivity.java
 =======
-        btn_home = (ImageButton) findViewById(R.id.btn_falarm_home);
-        btn_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MainActivity.class);
+>>>>>>> master
+
+//        btn_home = (ImageButton) findViewById(R.id.btn_falarm_home);
+//        btn_home.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(view.getContext(), MainActivity.class);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 //                intent.putExtra("id", id);
 //                intent.putExtra("password", password);
 //                intent.putExtra("e_mail", st_email);
 //                intent.putExtra("date_of_birth", st_birth);
-                startActivity(intent);
-            }
-        });
-        btn_profile = (ImageButton) findViewById(R.id.btn_falarm_profile);
-        btn_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MypageActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//        btn_profile = (ImageButton) findViewById(R.id.btn_falarm_profile);
+//        btn_profile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(view.getContext(), MypageActivity.class);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 //                intent.putExtra("id", id);
 //                intent.putExtra("password", password);
 //                intent.putExtra("e_mail", st_email);
 //                intent.putExtra("date_of_birth", st_birth);
-                startActivity(intent);
+//                startActivity(intent);
+//            }
+//        });
             }
         });
->>>>>>> Min:app/src/main/java/com/finalexam/capstone1/SetAlarmDetailActivity.java
 
     }
 
@@ -294,3 +301,4 @@ public class SetAlarmDetailActivity extends Activity {
 
     }
 }
+
