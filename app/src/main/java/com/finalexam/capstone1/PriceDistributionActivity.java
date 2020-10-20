@@ -1,4 +1,4 @@
-package com.finalexam.capstone1.notInUse;
+package com.finalexam.capstone1;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,9 +10,6 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 
-import com.finalexam.capstone1.MyAlarmsActivity;
-import com.finalexam.capstone1.PreferenceManager;
-import com.finalexam.capstone1.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -31,8 +28,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.finalexam.capstone1.SearchActivity.TAG;
 
 public class PriceDistributionActivity extends Activity {
 

@@ -59,8 +59,8 @@ public class SearchResultActivity extends BaseActivity {
         tv_arr_kr = (TextView) findViewById(R.id.tv_fsearch_arr_kr);
         tv_arrdate = (TextView) findViewById(R.id.res_arrdate);
         lv_search = (ListView) findViewById(R.id.lv_search);
-        progressBar = findViewById(R.id.progress_bar);              // 어디있는 컴포넌트???
-        tv_noResult = (TextView) findViewById(R.id.tv_noResult);     // 어디있는 컴포넌트???
+//        progressBar = findViewById(R.id.progress_bar);              // 어디있는 컴포넌트???
+//        tv_noResult = (TextView) findViewById(R.id.tv_noResult);     // 어디있는 컴포넌트???
         btn_save = (Button) findViewById(R.id.b_result);
 
 //        Intent intent = getIntent();

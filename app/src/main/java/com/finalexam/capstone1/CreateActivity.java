@@ -1,4 +1,4 @@
-package com.finalexam.capstone1.notInUse;
+package com.finalexam.capstone1;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,9 +9,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
-
-import com.finalexam.capstone1.R;
-import com.finalexam.capstone1.notInUse.PriceDistributionActivity;
 
 public class CreateActivity extends Activity {
 

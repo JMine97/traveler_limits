@@ -1,4 +1,4 @@
-package com.finalexam.capstone1.notInUse;
+package com.finalexam.capstone1;
 
 import android.content.Context;
 import android.view.LayoutInflater;
