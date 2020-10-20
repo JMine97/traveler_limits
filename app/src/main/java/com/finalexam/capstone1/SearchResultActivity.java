@@ -1,26 +1,18 @@
 package com.finalexam.capstone1;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -29,15 +21,16 @@ import com.amadeus.Amadeus;
 import com.amadeus.Params;
 import com.amadeus.exceptions.ResponseException;
 import com.amadeus.resources.FlightOfferSearch;
+import com.finalexam.capstone1.Flight;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SearchResultActivity extends BaseActivity {
 
+    private static final String TAG = "SEARCH RESULT ACTIVITY";
     private TextView tv_date, tv_dep, tv_dep_kr, tv_arr, tv_arr_kr, tv_noResult, tv_arrdate;
     private Button btn_save;
     private ImageView i_round, i_oneway;
@@ -104,10 +97,12 @@ public class SearchResultActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ArrayList<Flight> list_detail = new ArrayList<>();
-                FlightResult lv_item = list.get(position);
-                Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
 
-                // TODO : 항공권 세부정보 확인 Dialog
+                // TODO : 세부정보 표시 or 예약페이지 연결
+                FlightResult lv_item = list.get(position);
+//                Toast.makeText(getApplicationContext(), list_detail + "clicked", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, list_detail + "clicked");
+
                 /*AlertDialog.Builder builder = new AlertDialog.Builder(SearchResultActivity.this);
 
                 builder.setNegativeButton("확인", new DialogInterface.OnClickListener() {
@@ -131,7 +126,7 @@ public class SearchResultActivity extends BaseActivity {
         });
 
         JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
-        jsoupAsyncTask.execute();
+        jsoupAsyncTask.execute();   // listView 데이터 구성
         progressON();
 
         // 출발, 도착, 날짜, 인원 수 데이터 넘겨줌
@@ -203,7 +198,7 @@ public class SearchResultActivity extends BaseActivity {
             }
 
             progressOFF();
-        }
+        }//onPostExcute()
 
         @Override
         protected FlightResult[] doInBackground(Void... voids) {
@@ -220,7 +215,7 @@ public class SearchResultActivity extends BaseActivity {
                         Params.with("originLocationCode", dep)
                                 .and("destinationLocationCode", arr)
                                 .and("departureDate", date)
-                                //.and("returnDate", "2020-11-09")
+                                //.and("returnDate", "2020-11-09")  // TODO : 왕복 기능 추가 수정
                                 .and("adults", adlt).and("children", chld).and("currencyCode", "KRW"));
 
 
@@ -274,5 +269,5 @@ public class SearchResultActivity extends BaseActivity {
             }
             return flightResults;
         }
-    }
+    }//class JSoupAsyncTask
 }

@@ -1,9 +1,11 @@
-package com.finalexam.capstone1;
+package com.finalexam.capstone1.notInUse;
 
 import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+
+import com.finalexam.capstone1.R;
 
 public class ItemClickActivity extends Activity {
 

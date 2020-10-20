@@ -1,40 +1,32 @@
-package com.finalexam.capstone1;
+package com.finalexam.capstone1.notInUse;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 
-import com.finalexam.capstone1.MainActivity;
-import com.finalexam.capstone1.MypageActivity;
-import com.finalexam.capstone1.R;
 import com.finalexam.capstone1.MyAlarmsActivity;
-import com.github.mikephil.charting.animation.Easing;
+import com.finalexam.capstone1.PreferenceManager;
+import com.finalexam.capstone1.R;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -44,6 +36,7 @@ import static com.finalexam.capstone1.SearchActivity.TAG;
 
 public class PriceDistributionActivity extends Activity {
 
+    String TAG = "PriceDiatributionActivity";
     private Button btn_save;
 //    ImageButton btn_home, btn_profile;
     String adlt, chld, limit, id;

@@ -1,15 +1,16 @@
-package com.finalexam.capstone1;
+package com.finalexam.capstone1.notInUse;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DecimalFormat;
+import com.finalexam.capstone1.Flight;
+import com.finalexam.capstone1.R;
+
 import java.util.ArrayList;
 
 public class ResultDetailListViewAdapter extends BaseAdapter {
@@ -70,38 +71,3 @@ public class ResultDetailListViewAdapter extends BaseAdapter {
     }
 }
 
-class Flight {
-    String carrierCode;
-    String dep_code;
-    String dep_time;
-    String arr_code;
-    String arr_time;
-
-    public String getCarrierCode() {
-        return carrierCode;
-    }
-
-    public String getDep_code() {
-        return dep_code;
-    }
-
-    public String getDep_time() {
-        return dep_time;
-    }
-
-    public String getArr_code() {
-        return arr_code;
-    }
-
-    public String getArr_time() {
-        return arr_time;
-    }
-
-    public Flight(String carrierCode, String dep_code, String dep_time, String arr_code, String arr_time){
-        this.carrierCode = carrierCode;
-        this.dep_code = dep_code;
-        this.dep_time = dep_time;
-        this.arr_code = arr_code;
-        this.arr_time = arr_time;
-    }
-}
