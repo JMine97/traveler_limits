@@ -38,12 +38,10 @@ public class MyAlarmsActivity extends AppCompatActivity {
 
 //    String url = "http://synergyflight.dothome.co.kr/get_alarm_data.php";
     String url = "http://52.78.216.182/get_alarm_data.php";
-    ImageButton btn_home, btn_profile;
     ListView lv_alarm;
     ArrayList<Alarm> list;
     public GetAlarm alrm;
     private List<HashMap<String, String>> alarmList = null;
-//    private String CurState;
     private String id;
 
     @Override
@@ -52,15 +50,11 @@ public class MyAlarmsActivity extends AppCompatActivity {
         setContentView(R.layout.myalarms);
 
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
+        lv_alarm = (ListView) findViewById(R.id.lv_alarm);
 
-        Intent intent = getIntent();
-//        CurState = intent.getStringExtra("CurState");
-            // "FromHome" or "SetAlarm"
-
-//        CurState = intent.getStringExtra("CurState");
+//        Intent intent = getIntent();
         PreferenceManager pref = new PreferenceManager(this);
         id = pref.getValue("id", null);
-        lv_alarm = (ListView) findViewById(R.id.lv_alarm);
 
         alrm = new GetAlarm();
         alarmList = new ArrayList<HashMap<String, String>>();
@@ -68,8 +62,8 @@ public class MyAlarmsActivity extends AppCompatActivity {
         //알람 목록 받아옴
         try {
 //            alarmList = alrm.execute(url).get();
-//            alarmList=alrm.execute(url, id).get();
-            alarmList=alrm.execute(url, id, String.valueOf(-1)).get();
+//            alarmList = alrm.execute(url, id).get();
+            alarmList = alrm.execute(url, id, String.valueOf(-1)).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -80,6 +74,7 @@ public class MyAlarmsActivity extends AppCompatActivity {
         final AlarmListAdapter adapter = new AlarmListAdapter(list);
         lv_alarm.setAdapter(adapter);
 
+        // 한 번 클릭 -> 상세정보(adapter) // 길게 클릭 -> 삭제
         lv_alarm.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id2) {
@@ -96,8 +91,8 @@ public class MyAlarmsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //search code_alarm in listview with position then delete
-
 //                        Toast.makeText(MyAlarmsActivity.this, "인덱스는 " + alarmList.get(position).get("code_alarm") + "입니다", Toast.LENGTH_SHORT).show();
+
                         //알람 목록 받아옴
                         try {
                             alrm = new GetAlarm();
@@ -113,7 +108,6 @@ public class MyAlarmsActivity extends AppCompatActivity {
                         //insert alarm data to list view
                         Insert_Listview();
 
-
                         AlarmListAdapter adapter = new AlarmListAdapter(list);
                         lv_alarm.setAdapter(adapter);
                     }
@@ -124,8 +118,7 @@ public class MyAlarmsActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-    }
+    }//OnCreate()
 
     @Override
     public void onBackPressed() {
@@ -144,7 +137,7 @@ public class MyAlarmsActivity extends AppCompatActivity {
 //                break;
 //        }
 
-        // 항상 홈 화면으로, 그 사이 겹치는 액티비티 전체 삭제 (Flags)
+        // 항상 홈 화면으로, 그 사이 액티비티 전체 삭제 (Flags)
         Intent intent = new Intent(MyAlarmsActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -155,23 +148,12 @@ public class MyAlarmsActivity extends AppCompatActivity {
     void Insert_Listview() {
         list = new ArrayList<>();
 
-
         for(int i = 0; i < alarmList.size(); i++){
-
             // TODO : airline 삭제, 왕복여부, 출발날짜 추가
-//            list.add(new Alarm(alarmList.get(i).get("dept_city"), alarmList.get(i).get("arr_city"), alarmList.get(i).get("airline_info"),
             list.add(new Alarm(alarmList.get(i).get("dept_city"), alarmList.get(i).get("arr_city"),
                     Integer.parseInt(alarmList.get(i).get("adult")), Integer.parseInt(alarmList.get(i).get("child")), alarmList.get(i).get("dept_date"), alarmList.get(i).get("price_limit")));
-//            System.out.println(alarmList.get(i).get("airline_info"));
+            //            alarmList.get(i).get("airline_info")
         }
-
-//        list.add(new Alarm("ICN", "CJU", "Any airline", 1, 0, "20.06.30", "10,000"));
-//        list.add(new Alarm("ICN", "NRT", "Any airline", 1, 0, "20.06.30", "50,000"));
-//        list.add(new Alarm("ICN", "TPE", "Any airline", 1, 0, "20.06.30", "30,000"));
-//
-//        list.add(new Alarm("GMP", "CJU", "Any airline", 1, 0, "20.06.30", "8,000"));
-//        list.add(new Alarm("ICN", "HND", "Any airline", 1, 0, "20.06.30", "50,000"));
-
     }
 
 
@@ -182,7 +164,6 @@ public class MyAlarmsActivity extends AppCompatActivity {
         AlarmListAdapter(ArrayList<Alarm> list) {
             this.list = list;
         }
-
 
         @Override
         public int getCount() {
@@ -217,22 +198,21 @@ public class MyAlarmsActivity extends AppCompatActivity {
             TextView tv_detail = (TextView) view.findViewById(R.id.tv_alarm_detail);
 
             Alarm lv_item = list.get(i);
-            // TODO : 수정
             tv_dep.setText(lv_item.dept);
             tv_arr.setText(lv_item.arrv);
-            tv_depdate.setText(lv_item.date);   // 출발날짜
+            tv_depdate.setText(lv_item.date);
             tv_price.setText(lv_item.price);
 //            tv_detail.setText(lv_item.adlt + " Adult, " + lv_item.airl);
             tv_detail.setText(lv_item.adlt + " Adult, " + lv_item.chld + " Child");
 
-            // TODO : if(편도) { tv_arrdeate.setVisibility(GONE); } else { tv_arrdate.setText( ~ ); }
+            // TODO : if(편도) { tv_arrdate.setVisibility(GONE); } else(왕복) { tv_arrdate.setText( lv_item.arrdate ); }
 
             // list view click evnet
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
-                    // TODO : 상세정보 POP UP
+                    // TODO : 상세정보 POP UP 기능 추가
                 }
             });
 
@@ -241,7 +221,6 @@ public class MyAlarmsActivity extends AppCompatActivity {
     }
 
     class GetAlarm extends AsyncTask<String, Integer, List<HashMap<String, String>>> {
-
 
         @Override
         protected List<HashMap<String, String>> doInBackground(String... params) {
@@ -324,13 +303,10 @@ public class MyAlarmsActivity extends AppCompatActivity {
 
                 }
 //                System.out.println(alarmList);
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             return alarmList;
-        }
-
-    }
-
-}
+        }//DoInBackGround()
+    }//class GetAlarm
+}//MyAlarmActivity
