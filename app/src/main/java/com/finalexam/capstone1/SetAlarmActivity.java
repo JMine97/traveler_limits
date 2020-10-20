@@ -19,11 +19,22 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import static com.finalexam.capstone1.SearchActivity.TAG;
 
@@ -62,12 +73,16 @@ public class SetAlarmActivity extends Activity {
 //        password = intent.getStringExtra("password");
 //        round = intent.getBooleanExtra("ROUND", true);
 
-        PreferenceManager pref = new PreferenceManager(this);
+        // 주소로 전달하기 때문에 전체 String으로 저장해도 문제 없을 듯 함
+        final PreferenceManager pref = new PreferenceManager(this);
         final String arr = pref.getValue("ARRIVAL", null);
         final String dep = pref.getValue("DEPARTURE", null);
         final String date = pref.getValue("DATE", null);
-        final int int_adlt = pref.getValue("ADULT", 0);
-        final int int_chld = pref.getValue("CHILD", 0);
+        final String arrdate = pref.getValue("ARRDATE", null);
+//        final int int_adlt = pref.getValue("ADULT", 0);
+//        final int int_chld = pref.getValue("CHILD", 0);
+        final String adlt = String.valueOf(pref.getValue("ADULT", 0));
+        final String chld = String.valueOf(pref.getValue("CHILD", 0));
 //        final float float_limit = pref.getValue("PRICELIMIT", 0.f);
         final boolean round = pref.getValue("ROUND", true);
         String priceJson = pref.getValue("PRICEJSON", null);
@@ -77,63 +92,129 @@ public class SetAlarmActivity extends Activity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                SetAlarmActivity.SaveAlarmActivity task = new SetAlarmActivity.SaveAlarmActivity();
-//                task.execute("http://" + "synergyflight.dothome.co.kr" + "/insert_alarm_data.php", dep, arr, date, adlt, chld, limit);
-
-                final float price_limit = Float.parseFloat(ed_price_limit.getText().toString());
-                PreferenceManager pref = new PreferenceManager(SetAlarmActivity.this);
-                pref.put("PRICELIMIT", price_limit);
-
-//                if(price_limit==null) {
-//                    Toast.makeText(SetAlarmDetailActivity.this, "가격이 빈칸 일 수 없습니다", Toast.LENGTH_SHORT).show();
-
-
+//                final float price_limit = Float.parseFloat(ed_price_limit.getText().toString());
+                final String price_limit = ed_price_limit.getText().toString();
                 Log.d(TAG, "POST response code pricelimit at setalarmactivity" + price_limit);
 
-                if(ed_price_limit.getText().toString().replace(" ", "").equals("")){
-
+                // 지정가 공백 불가능
+//                if(ed_price_limit.getText().toString().replace(" ", "").equals("")){
+                if(price_limit.replace(" ", "").equals("")){
                     Toast.makeText(SetAlarmActivity.this, "가격이 빈칸 일 수 없습니다", Toast.LENGTH_SHORT).show();
                 }
                 else {
-//                    Intent intent = new Intent(view.getContext(), MyAlarmsActivity.class);
-//                    startActivity(intent);
+                    Intent intent = new Intent(view.getContext(), MyAlarmsActivity.class);
+                    startActivity(intent);
 
+                    final String id = pref.getValue("id", null);
+                    Log.d(TAG, "POST response code aa " + id);
+
+//                    PriceDistributionActivity.SaveAlarmActivity task = new PriceDistributionActivity.SaveAlarmActivity();
+//                    task.execute("http://" + "synergyflight.dothome.co.kr" + "/insert_alarm_data.php", dep, arr, date, adlt, chld, limit);
+                    SetAlarmActivity.SaveAlarmActivity task = new SetAlarmActivity.SaveAlarmActivity();
+                    task.execute("http://" + "52.78.216.182" + "/insert_alarm_data.php", dep, arr, date, adlt, chld, price_limit, id);
                 }
             }
-        });
+        });// button.setOnClickListener
+
+        drawChart(priceChart, priceJson);
+
+    }//OnCreate
+
+    // 가격 분포도 그리기
+    void drawChart(LineChart chart, String json) {
+        ArrayList<Integer> prices = new ArrayList<Integer>();
+        List<Entry> entries = new ArrayList<>();
+        ArrayList<Integer> itemList = new ArrayList<Integer>();
+        ArrayList<Integer> cntList = new ArrayList<Integer>();
+
+        int max=1;
+        if(json!=null){
+            try {
+                JSONArray jsonArray = new JSONArray(json);
+                for(int i=0; i<jsonArray.length(); i++){
+                    String price = jsonArray.optString(i);
+                    prices.add(Integer.parseInt(price));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
 
-//        btn_home = (ImageButton) findViewById(R.id.btn_falarm_home);
-//        btn_home.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(view.getContext(), MainActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                intent.putExtra("id", id);
-//                intent.putExtra("password", password);
-//                intent.putExtra("e_mail", st_email);
-//                intent.putExtra("date_of_birth", st_birth);
-//                startActivity(intent);
-//            }
-//        });
-//        btn_profile = (ImageButton) findViewById(R.id.btn_falarm_profile);
-//        btn_profile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(view.getContext(), MypageActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                intent.putExtra("id", id);
-//                intent.putExtra("password", password);
-//                intent.putExtra("e_mail", st_email);
-//                intent.putExtra("date_of_birth", st_birth);
-//                startActivity(intent);
-//            }
-//        });
-//            }
-//        });
+        itemList.add(prices.get(0)); int p = prices.get(0);
+        for(int i=0; i<prices.size(); i++){
+            if(prices.get(i)!=p){
+                p = prices.get(i);
+                itemList.add(p);
+            }
+        }
+        int cnt;
 
+        for(int i=0; i<itemList.size(); i++){
+            cnt=0;
+            for(int j=0; j<prices.size(); j++){
+                if(prices.get(j).equals(itemList.get(i))){
+                    cnt++;
+                }
+            }
+            cntList.add(cnt);
+        }
+
+        max=cntList.get(0);
+        if(cntList.size()>15){
+            for(int i =0; i<15; i++){
+                entries.add(new Entry(cntList.get(i), itemList.get(i)));
+                if(cntList.get(i)>max){
+                    max = cntList.get(i);
+                }
+            }
+        } else{
+            for(int i =0; i<cntList.size(); i++){
+                entries.add(new Entry(cntList.get(i), itemList.get(i)));
+            }
+        }
+
+
+
+        //Log.d("itemList", itemList.toString());
+
+        LineDataSet lineDataSet = new LineDataSet(entries, "가격분포");
+        lineDataSet.setLineWidth(2);
+        /*lineDataSet.setCircleRadius(6);
+        lineDataSet.setCircleHoleColor(Color.parseColor("#FFA1B4DC"));
+        lineDataSet.setCircleColor(Color.BLUE);
+        lineDataSet.setDrawCircleHole(true);
+
+        lineDataSet.setDrawHorizontalHighlightIndicator(false);
+        lineDataSet.setDrawHighlightIndicators(false);*/
+        lineDataSet.setDrawValues(false);
+
+        LineData lineData = new LineData(lineDataSet);
+        chart.setData(lineData);
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setAxisMinimum(0);
+        xAxis.setAxisMaximum(max+1);
+
+        YAxis yLAxis = chart.getAxisLeft();
+        //yLAxis.setLabelCount(10);
+        int min=0; int n=0;
+        if(itemList.get(0)>100000){
+            n=(itemList.get(0)/100000);
+            min = n*100000;
+        }else if(itemList.get(0)>10000){
+            n=(itemList.get(0)/10000);
+            min = n*10000;
+        }
+        //yLAxis.setAxisMinimum(min);
+        yLAxis.setInverted(true);
+        Log.d("n", Integer.toString(min));
+        YAxis yRAxis = chart.getAxisRight();
+        yRAxis.setDrawLabels(false);
+        yRAxis.setDrawAxisLine(false);
+        yRAxis.setDrawGridLines(false);
+        chart.setDoubleTapToZoomEnabled(false);
     }
 
     // member_info db로 토큰 등 전송
@@ -148,17 +229,19 @@ public class SetAlarmActivity extends Activity {
 
             // POST 방식으로 데이터 전달시에는 데이터가 주소에 직접 입력되지 않습니다.
             String serverURL = (String) params[0];
-//            dep, arr, date, adlt, chld, limit)
+//            dep, arr, date, adlt, chld, limit
 
             // 1. PHP 파일을 실행시킬 수 있는 주소와 전송할 데이터를 준비합니다.
-            // TODO : 저장 시 왕복여부 포함하기
+            // TODO : 저장 시 왕복, 도착지에서 출발 날짜 포함하기
             String dept_city= (String) params[1];
             String arr_city = (String) params[2];
             String dept_date = (String) params[3];
+//            String arr_date = // TODO
             int adult = Integer.parseInt(params[4]);
             int child = Integer.parseInt(params[5]);
 //            String airline_info = (String) params[6];
             float price_limit = Float.parseFloat(params[6]);
+            String id=(String) params[7];
 
 //            System.out.println("in" + token);
 
@@ -168,9 +251,11 @@ public class SetAlarmActivity extends Activity {
 
             // ex : String postParameters = "name=" + name + "&country=" + country;
             String postParameters = "dept_city=" + dept_city + "&arr_city=" + arr_city + "&dept_date=" + dept_date
-                    + "&adult=" + adult + "&child=" + child + "&price_limit=" + price_limit;
+                    + "&adult=" + adult + "&child=" + child + "&price_limit=" + price_limit + "&id=" + id;
 
 //            System.out.println("in" + price_limit+ adult);
+            Log.d(TAG, "POST response code aa " + id);
+
             try {
                 // 2. HttpURLConnection 클래스를 사용하여 POST 방식으로 데이터를 전송합니다.
                 URL url = new URL(serverURL); // 주소가 저장된 변수를 이곳에 입력합니다.
@@ -236,4 +321,3 @@ public class SetAlarmActivity extends Activity {
 
     }
 }
-

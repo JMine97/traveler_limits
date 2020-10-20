@@ -68,6 +68,8 @@ public class PriceDistributionActivity extends Activity {
 
         Log.d(TAG, "POST response code pricelimit at pricedistribution" + float_limit);
 
+
+
         btn_save = (Button) findViewById(R.id.btn_fsavealarm3);
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,6 +207,7 @@ public class PriceDistributionActivity extends Activity {
 //            dep, arr, date, adlt, chld, airline, limit)
 
             // 1. PHP 파일을 실행시킬 수 있는 주소와 전송할 데이터를 준비합니다.
+            // TODO : 저장 시 왕복, 도착지에서 출발 날짜 포함하기
             String dept_city= (String) params[1];
             String arr_city = (String) params[2];
             String dept_date = (String) params[3];
