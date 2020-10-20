@@ -24,7 +24,7 @@ public class SearchActivity extends AppCompatActivity {
     private Button btn_dep, btn_arr, btn_date, btn_arrdate, btn_search, btn_minus1, btn_plus1, btn_minus2, btn_plus2, btn_trip;
     private TextView tv_adlt, tv_chld;
     private boolean roundtrip = true; // true 왕복여행, false 편도여행
-    private Airport dep, arr;
+//    private Airport dep, arr;
     // TODO : Calender / SimpleDateFormate / java.time library 비교 차선 선택
     final Calendar cal_today = Calendar.getInstance(), arrdate = Calendar.getInstance(), depdate = Calendar.getInstance();  // 오늘 날짜
     int y, y2, m, m2, d, d2, num_adlt = 1, num_chld = 0;
