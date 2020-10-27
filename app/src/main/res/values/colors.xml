@@ -9,4 +9,11 @@
     <color name="lightgray">#a6a6a6</color>
     <color name="skyblue">#7eb7ea</color>
     <color name="lightblue">#c2e8fa</color>
+
+    <color name="alarm1">#c2e8fa</color>
+    <color name="alarm2">#c2e8fa</color>
+    <color name="alarm3">#c2e8fa</color>
+    <color name="alarm4">#c2e8fa</color>
+    <color name="alarm5">#c2e8fa</color>
+    <color name="alarm6">#c2e8fa</color>
 </resources>

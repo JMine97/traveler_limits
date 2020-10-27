@@ -2,6 +2,7 @@ package com.finalexam.capstone1;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,31 +20,37 @@ import java.util.Calendar;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
-
     static final String TAG = "SearchActivity"; // DEBUG
-
-    private Button btn_dep, btn_arr, btn_date, btn_search, btn_minus1, btn_plus1, btn_minus2, btn_plus2;
+    private Button btn_dep, btn_arr, btn_date, btn_arrdate, btn_search, btn_minus1, btn_plus1, btn_minus2, btn_plus2, btn_trip;
     private TextView tv_adlt, tv_chld;
-    private ImageButton btn_home, btn_profile;
-
-    private Airport dep, arr;
-    final Calendar cal_today = Calendar.getInstance();  // 오늘 날짜
-    int     y = cal_today.get(cal_today.YEAR),
-            m = cal_today.get(cal_today.MONTH),
-            d = cal_today.get(cal_today.DATE);
-    int num_adlt = 1, num_chld = 0;             // 인원
-
+    private boolean roundtrip = true; // true 왕복여행, false 편도여행
+//    private Airport dep, arr;
+    // TODO : Calender / SimpleDateFormate / java.time library 비교 차선 선택
+    final Calendar cal_today = Calendar.getInstance(), arrdate = Calendar.getInstance(), depdate = Calendar.getInstance();  // 오늘 날짜
+    int y, y2, m, m2, d, d2, num_adlt = 1, num_chld = 0;
     private static List<Airport> list; // 원본 리스트
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.search);
+        setContentView(R.layout.search_new);
 
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
+        btn_dep = (Button) findViewById(R.id.btn_fsearch_dep);
+        btn_arr = (Button) findViewById(R.id.btn_fsearch_arr);
+        btn_date = (Button)findViewById(R.id.btn_fsearch_date);
+        btn_arrdate = (Button) findViewById(R.id.arrdate);
+        btn_trip = (Button) findViewById(R.id.btn_roundtrip);
+        tv_adlt = (TextView)findViewById(R.id.tv_fsearch_adlt);
+        btn_minus1 = (Button)findViewById(R.id.btn_fsearch_minus1);
+        btn_plus1 = (Button)findViewById(R.id.btn_fsearch_plus1);
+        tv_chld = (TextView) findViewById(R.id.tv_fsearch_chld);
+        btn_minus2 = (Button)findViewById(R.id.btn_fsearch_minus2);
+        btn_plus2 = (Button)findViewById(R.id.btn_fsearch_plus2);
+        btn_search = (Button)findViewById(R.id.b_search);
 
         Intent intent = getIntent();
-
+        // TODO : ????
         try {
 //            String dep = intent.getStringExtra("AIRPORT_kr");
 //            btn_dep.setText(dep);
@@ -54,7 +61,6 @@ public class SearchActivity extends AppCompatActivity {
         list = new ArrayList<Airport>();
         settingList();
 
-        btn_dep = (Button) findViewById(R.id.btn_fsearch_dep);
         btn_dep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,7 +70,6 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        btn_arr = (Button) findViewById(R.id.btn_fsearch_arr);
         btn_arr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,22 +79,28 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        btn_date = (Button)findViewById(R.id.btn_fsearch_date);
-        if(m<9){
-            if(d<10){
-                btn_date.setText(String.valueOf(y + "-0" + (m + 1) + "-0" + d));
+        btn_trip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (roundtrip)  {   // 왕복 -> 편도
+                    roundtrip = false;
+                    btn_trip.setText("One Way Trip");
+                    btn_arrdate.setText("(OneWay)");
+                    btn_arrdate.setActivated(false);
+                } else {    // 편도 -> 왕복
+                    roundtrip = true;
+                    btn_trip.setText("Round Trip");
+                    btn_arrdate.setText(btn_date.getText());
+                    btn_arrdate.setActivated(true);
+                }
             }
-            else{
-                btn_date.setText(String.valueOf(y + "-0" + (m + 1) + "-" + d));
-            }
-        }else{
-            if(d<10){
-                btn_date.setText(String.valueOf(y + "-" + (m + 1) + "-0" + d));
-            }
-            else{
-                btn_date.setText(String.valueOf(y + "-" + (m + 1) + "-" + d));
-            }
-        }
+        });
+
+        depdate.add(Calendar.DATE, 5);
+        arrdate.add(Calendar.DATE, 10);
+        y = depdate.get(Calendar.YEAR); m = depdate.get(Calendar.MONTH); d = depdate.get(Calendar.DATE);
+        y2 = arrdate.get(Calendar.YEAR); m2 = arrdate.get(Calendar.MONTH); d2 = arrdate.get(Calendar.DATE);
+
         btn_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -99,9 +110,11 @@ public class SearchActivity extends AppCompatActivity {
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                         Calendar c = Calendar.getInstance();
                         c.set(i, i1, i2);
-                        if (c.compareTo(cal_today) == -1) { // 과거 날짜 선택 시
+                        // 오늘(cal_today) 기준, 과거 날짜 선택 불가능
+                        if (c.compareTo(cal_today) == -1) {
                             Toast.makeText(view.getContext(), "불가능한 날짜입니다.", Toast.LENGTH_SHORT).show();
-                        } else {    // 오늘 이후 날짜 선택 시
+                        }
+                        else {
                             y = i;
                             m = i1;
                             d = i2;
@@ -118,17 +131,75 @@ public class SearchActivity extends AppCompatActivity {
                                     btn_date.setText(String.valueOf(y + "-" + (m + 1) + "-" + d));
                                 }
                             }
-
                         }
                     }
                 }, y, m, d);    // 오늘 날짜로 초기화, 이후 설정된 날짜로 초기화
 //                datePickerDialog.setMessage("메시지 작성");
+
+                depdate.set(Calendar.YEAR, y);
+                depdate.set(Calendar.MONTH, m);
+                depdate.set(Calendar.DATE, d);
+
+                // 왕복여행에서, 도착지 날짜보다 미래 선택 시 도착지 출발 날짜 변경
+                if(roundtrip && depdate.compareTo(arrdate) == 1) {
+                    arrdate.set(y, m, d);
+                    btn_arrdate.setText(btn_date.getText());
+                }
+
                 datePickerDialog.show();
             }
         });
 
-        tv_adlt = (TextView)findViewById(R.id.tv_fsearch_adlt);
-        btn_minus1 = (Button)findViewById(R.id.btn_fsearch_minus1);
+        btn_arrdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                // 달력 -> 미래만 선택 가능
+                DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                        Calendar c = Calendar.getInstance();
+                        c.set(i, i1, i2);
+                        // 출발일(depdate) 기준, 과거 날짜 선택 불가능
+                        if (c.compareTo(cal_today) == -1) {
+                            Toast.makeText(view.getContext(), "불가능한 날짜입니다.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            y2 = i;
+                            m2 = i1;
+                            d2 = i2;
+                            if(m2<9){
+                                if(d2<10){
+                                    btn_arrdate.setText(String.valueOf(y2 + "-0" + (m2 + 1) + "-0" + d2));
+                                } else{
+                                    btn_arrdate.setText(String.valueOf(y2 + "-0" + (m2 + 1) + "-" + d2));
+                                }
+                            }else{
+                                if(d2<10){
+                                    btn_arrdate.setText(String.valueOf(y2 + "-" + (m2 + 1) + "-0" + d2));
+                                }else{
+                                    btn_arrdate.setText(String.valueOf(y2 + "-" + (m2 + 1) + "-" + d2));
+                                }
+                            }
+                        }
+                    }
+                }, y2, m2, d2);    // 오늘 날짜로 초기화, 이후 설정된 날짜로 초기화
+//                datePickerDialog.setMessage("메시지 작성");
+
+                arrdate.set(Calendar.YEAR, y2);
+                arrdate.set(Calendar.MONTH, m2);
+                arrdate.set(Calendar.DATE, d2);
+
+                // 왕복여행에서, 출발 날짜보다 과거 선택 시 출발 날짜 변경
+                if(roundtrip && arrdate.compareTo(depdate) == -1) {
+                    depdate.set(y2, m2, d2);
+                    btn_date.setText(btn_arrdate.getText());
+                }
+
+                datePickerDialog.show();
+            }
+        });
+
+
+        // 인원 수
         btn_minus1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,7 +208,6 @@ public class SearchActivity extends AppCompatActivity {
                 }
             }
         });
-        btn_plus1 = (Button)findViewById(R.id.btn_fsearch_plus1);
         btn_plus1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -145,8 +215,6 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        tv_chld = (TextView) findViewById(R.id.tv_fsearch_chld);
-        btn_minus2 = (Button)findViewById(R.id.btn_fsearch_minus2);
         btn_minus2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -155,7 +223,6 @@ public class SearchActivity extends AppCompatActivity {
                 }
             }
         });
-        btn_plus2 = (Button)findViewById(R.id.btn_fsearch_plus2);
         btn_plus2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,7 +230,6 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        btn_search = (Button)findViewById(R.id.b_search);
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -174,23 +240,12 @@ public class SearchActivity extends AppCompatActivity {
                 PreferenceManager pref = new PreferenceManager(SearchActivity.this);
                 pref.put("DEPARTURE", dep);
                 pref.put("ARRIVAL", arr);
-                if(m<9){
-                    if(d<10){
-                        pref.put("DATE", y + "-0"+(m + 1) + "-0" + d);
-                    }else{
-                        pref.put("DATE", y + "-0"+(m + 1) + "-" + d);
-                    }
-                }else{
-                    if(d<10){
-                        pref.put("DATE", y + "-"+(m + 1) + "-0" + d);
-                    }else{
-                        pref.put("DATE", y + "-"+(m + 1) + "-" + d);
-                    }
-                }
-
                 pref.put("ADULT", num_adlt);
                 pref.put("CHILD", num_chld);
+                pref.put("ROUND", roundtrip);
 
+                // TODO : intent -> pref
+                // TODO : pref.put ( depdate, arrdate, roundtrip )
                 intent.putExtra("TRAVEL", dep + "/" + arr + "/" + "");
                 startActivity(intent);
             }
@@ -200,8 +255,8 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(SearchActivity.this, MainActivity.class);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
         finish();
     }

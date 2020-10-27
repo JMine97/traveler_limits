@@ -10,24 +10,16 @@
     android:paddingTop="15dp"
     android:background="@drawable/background">
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="21.04.30"
-        android:textColor="@color/white"
-        android:textSize="30dp"
-        android:id="@+id/tv_fsearch_date"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:paddingHorizontal="20dp">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
@@ -43,16 +35,22 @@
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 android:id="@+id/tv_fsearch_dep_kr"/>
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="21.04.30"
+                android:textColor="@color/white"
+                android:textSize="25dp"
+                android:id="@+id/tv_fsearch_date"/>
         </LinearLayout>
+
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center"
             android:src="@drawable/ar"
             android:id="@+id/res_round"
             android:layout_marginHorizontal="15dp"/>
-
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -61,10 +59,10 @@
             android:id="@+id/res_oneway"
             android:layout_marginHorizontal="15dp"/>
 
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
@@ -80,6 +78,13 @@
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 android:id="@+id/tv_fsearch_arr_kr"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="21.04.30"
+                android:textColor="@color/white"
+                android:textSize="25dp"
+                android:id="@+id/res_arrdate"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -89,16 +94,10 @@
         android:background="@drawable/back3"
         android:orientation="vertical"
         android:padding="15dp">
-
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/lv_search"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/scroll"
-            android:layout_gravity="center"/>
     </LinearLayout>
     <Button
         android:layout_marginVertical="15dp"
@@ -110,5 +109,5 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         android:id="@+id/b_result"
-        android:paddingHorizontal="20dp"/>
+        android:paddingHorizontal="25dp"/>
 </LinearLayout>

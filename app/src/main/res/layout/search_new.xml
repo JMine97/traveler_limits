@@ -37,7 +37,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/back2"
                 android:orientation="vertical"
-                android:padding="15dp">
+                android:padding="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -45,36 +45,50 @@
                     android:layout_marginBottom="5dp"
                     android:text="Depart"
                     android:textColor="@color/white"
-                    android:textSize="25sp" />
-
+                    android:textSize="20sp"
+                    android:fontFamily="@font/nanumbarungothic"/>
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:background="#00ffffff"
                     android:text="ICN"
                     android:textColor="@color/white"
-                    android:textSize="50sp"
-                    android:id="@+id/btn_fsearch_dep"/>
+                    android:textSize="40sp"
+                    android:id="@+id/btn_fsearch_dep"
+                    android:fontFamily="@font/nanumsquareroundb"/>
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/whiteline"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00ffffff"
+                    android:text="2020. 06. 30"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
+                    android:id="@+id/btn_fsearch_date"
+                    android:fontFamily="@font/nanumsquareroundb"
+                    android:layout_marginLeft="5dp"/>
             </LinearLayout>
 
-            <ImageButton
-                android:layout_width="40dp"
-                android:layout_height="37dp"
-                android:layout_gravity="center"
-                android:background="#00ffffff"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ar"
-                android:id="@+id/btn_round"/>
-            <ImageButton
-                android:layout_width="40dp"
-                android:layout_height="37dp"
-                android:layout_gravity="center"
-                android:background="#00ffffff"
-                android:scaleType="fitCenter"
-                android:src="@drawable/arrow"
-                android:id="@+id/btn_oneway"
-                android:visibility="gone"/>
+<!--            <ImageButton-->
+<!--                android:layout_width="40dp"-->
+<!--                android:layout_height="37dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:background="#00ffffff"-->
+<!--                android:scaleType="fitCenter"-->
+<!--                android:src="@drawable/ar"-->
+<!--                android:id="@+id/btn_round"/>-->
+<!--            <ImageButton-->
+<!--                android:layout_width="40dp"-->
+<!--                android:layout_height="37dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:background="#00ffffff"-->
+<!--                android:scaleType="fitCenter"-->
+<!--                android:src="@drawable/arrow"-->
+<!--                android:id="@+id/btn_oneway"-->
+<!--                android:visibility="gone"/>-->
 
 
             <LinearLayout
@@ -82,39 +96,82 @@
                 android:layout_height="150dp"
                 android:orientation="vertical"
                 android:background="@drawable/back2"
-                android:padding="15dp"
+                android:padding="5dp"
                 android:layout_weight="1">
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Arrive"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="25sp"-->
+<!--                    android:layout_marginBottom="5dp"/>-->
+<!--                <Button-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="#00ffffff"-->
+<!--                    android:text="NYC"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="50sp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:id="@+id/btn_fsearch_arr"/>-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:text="Arrive"
                     android:textColor="@color/white"
-                    android:textSize="25sp"
-                    android:layout_marginBottom="5dp"/>
+                    android:textSize="20sp"
+                    android:fontFamily="@font/nanumbarungothic"/>
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#00ffffff"
                     android:text="NYC"
                     android:textColor="@color/white"
-                    android:textSize="50sp"
-                    android:layout_gravity="center"
+                    android:textSize="40sp"
+                    android:fontFamily="@font/nanumsquareroundb"
                     android:id="@+id/btn_fsearch_arr"/>
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/whiteline"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00ffffff"
+                    android:text="2020. 06. 30"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
+                    android:id="@+id/arrdate"
+                    android:fontFamily="@font/nanumsquareroundb"
+                    android:layout_marginLeft="5dp"/>
             </LinearLayout>
         </LinearLayout>
 
+<!--        <Button-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:background="@drawable/btn1"-->
+<!--            android:text="2020. 06. 30"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="30dp"-->
+<!--            android:gravity="center"-->
+<!--            android:layout_marginVertical="20dp"-->
+<!--            android:id="@+id/btn_fsearch_date"/>-->
         <Button
             android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/btn1"
-            android:text="2020. 06. 30"
+            android:text="Round Trip"
             android:textColor="@color/white"
-            android:textSize="30dp"
+            android:textSize="25dp"
             android:gravity="center"
             android:layout_marginVertical="20dp"
-            android:id="@+id/btn_fsearch_date"/>
+            android:id="@+id/btn_roundtrip"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -124,19 +181,18 @@
             android:layout_marginVertical="3dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="50dp"
                 android:text="Adult"
                 android:textColor="@color/lightgray"
                 android:textSize="20dp" />
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="마이너스"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:textColor="@color/lightgray"
                 android:textSize="20dp"
-                android:background="#00ffffff"
+                android:background="@drawable/minus"
                 android:id="@+id/btn_fsearch_minus1"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -147,12 +203,11 @@
                 android:layout_marginHorizontal="20dp"
                 android:id="@+id/tv_fsearch_adlt"/>
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="플러스"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:textColor="@color/lightgray"
                 android:textSize="20dp"
-                android:background="#00ffffff"
+                android:background="@drawable/plus"
                 android:id="@+id/btn_fsearch_plus1"/>
         </LinearLayout>
         <LinearLayout
@@ -162,19 +217,18 @@
             android:gravity="center"
             android:layout_marginVertical="3dp">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/lightgray"
                 android:text="Child"
                 android:textSize="20dp"
                 android:layout_marginRight="50dp"/>
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="마이너스"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:textColor="@color/lightgray"
                 android:textSize="20dp"
-                android:background="#00ffffff"
+                android:background="@drawable/minus"
                 android:id="@+id/btn_fsearch_minus2"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -185,12 +239,11 @@
                 android:layout_marginHorizontal="20dp"
                 android:id="@+id/tv_fsearch_chld"/>
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="플러스"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:textColor="@color/lightgray"
                 android:textSize="20dp"
-                android:background="#00ffffff"
+                android:background="@drawable/plus"
                 android:id="@+id/btn_fsearch_plus2"/>
         </LinearLayout>
 

@@ -1,7 +1,7 @@
 package com.finalexam.capstone1;
 
-import android.app.AlertDialog;
 import android.content.Context;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -16,11 +16,6 @@ import android.view.animation.AnimationSet;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.google.gson.JsonObject;
 
@@ -34,7 +29,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SearchListViewAdapter extends BaseAdapter {
 

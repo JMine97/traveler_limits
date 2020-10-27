@@ -17,7 +17,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
@@ -25,7 +24,6 @@ import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
-import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.usermgmt.response.model.Profile;
@@ -36,18 +34,13 @@ import com.kakao.util.exception.KakaoException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Member;
-
-import static com.kakao.usermgmt.StringSet.id;
-import static com.kakao.usermgmt.StringSet.profile;
-
 public class LoginActivity extends AppCompatActivity {
-
     private SessionCallback sessionCallback;
-    static final String TAG = "LoginActivity";
+    static final String TAG = "LoginActivity";  // LogCat 확인용
     Button btn_toSignup, btn_login;
     private EditText et_login_id, et_login_password;
     CheckBox chAuto;
+    String CurState;
     String token="";
 
     @Override
@@ -56,27 +49,27 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login);
         Log.d(TAG, "로그인 액티비티 실행됨");
 
+        Intent intent = getIntent();
+        CurState = intent.getStringExtra("CurState");
+            // FromHome or FromAlarm
+
         sessionCallback = new SessionCallback();
         Session.getCurrentSession().addCallback(sessionCallback);
 
-
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
-
         chAuto = findViewById(R.id.chAutoLog);
-
         et_login_id = findViewById(R.id.et_login_id);
         et_login_password = findViewById(R.id.et_login_password);
-
         btn_login = findViewById(R.id.btn_login);
-
         btn_toSignup = (Button) findViewById(R.id.btn_toSignup);
+
         btn_toSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "회원가입 to 로그인");
+                Log.d(TAG, "로그인 to 회원가입");
                 Intent intent = new Intent(view.getContext(), SignupActivity.class);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.putExtra("CurState", CurState);
+                    // FromHome or FromAlarm
                 startActivity(intent);
             }
         });
@@ -95,9 +88,8 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             boolean success = jsonObject.getBoolean("success");
 
+                            // 로그인 성공
                             if(success){
-
-
                                 String id = jsonObject.getString("id");
                                 String password = jsonObject.getString("password");
                                 String e_mail = jsonObject.getString("e_mail");
@@ -110,21 +102,32 @@ public class LoginActivity extends AppCompatActivity {
                                 pref.put("password", password);
                                 pref.put("e_mail", e_mail);
                                 pref.put("date_of_birth", date_of_birth);
-                                if(chAuto.isChecked()){
+                                if(chAuto.isChecked()) {
                                     pref.put("auto", true);
-                                }
-                                else{
+                                } else {
                                     pref.put("auto", false);
                                 }
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                /*intent.putExtra("id", id);
-                                intent.putExtra("password", password);
-                                intent.putExtra("e_mail", e_mail);
-                                intent.putExtra("date_of_birth", date_of_birth);
-                                 */
-                                startActivity(intent);
-                                finish();
-                            } else{
+
+
+                                // CurState 에 따라서 홈화면 or 검색결과화면 연결
+                                switch (CurState){
+                                    case "FromHome":
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                                        intent.putExtra("password", password);    // intent 전달사항 preferenceManager 로 변경함
+                                        startActivity(intent);
+                                        finish();
+                                        break;
+                                    case "FromAlarm":
+                                        intent = new Intent(LoginActivity.this, SearchResultActivity.class);
+                                        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                        startActivity(intent);
+                                        finish();
+                                        break;
+                                }
+                            }
+                            // 로그인 실패
+                            else {
                                 Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
                                 return;
                             }
@@ -158,16 +161,27 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-    }
+    }// void onCreate()
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent);
-        finish();
+        switch (CurState){
+            case "FromHome":
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
+                // TODO : 검색결과화면으로 돌아가도 이상 없는지 확인하기
+            case "FromAlarm":
+                intent = new Intent(LoginActivity.this, SearchResultActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+        }
     }
+
+
 
     @Override
     protected void onDestroy() {
@@ -251,7 +265,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
             });
-        }
+        }// void RequestMe()
 
-    }
-}
+    }// class SessionCallback
+}// class LoginActivity

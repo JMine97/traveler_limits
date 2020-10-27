@@ -105,15 +105,16 @@
 
 
     </LinearLayout>
+
     <Button
+        android:id="@+id/withdraw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_skyblue"
-        android:id="@+id/withdraw"
-        android:text="회원탈퇴"
         android:layout_gravity="end"
-        android:paddingHorizontal="30dp"
         android:layout_marginRight="30dp"
-        android:textSize="15dp"
-        android:fontFamily="@font/nanumbarungothic"/>
+        android:background="@drawable/round_skyblue"
+        android:fontFamily="@font/nanumbarungothic"
+        android:paddingHorizontal="30dp"
+        android:text="회원탈퇴"
+        android:textSize="15dp" />
 </LinearLayout>

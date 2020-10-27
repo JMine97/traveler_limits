@@ -36,15 +36,12 @@
         </activity>
 
         <!-- mypage -->
-        <activity android:name=".MypageActivity"/>
         <activity android:name=".MyAlarmsActivity"/>
-
 
         <!-- flight -->
         <activity android:name=".SearchActivity"/>
         <activity android:name=".SearchResultActivity"/>
         <activity android:name=".SetAlarmActivity"/>
-        <activity android:name=".PriceDistributionActivity"/>
 
         <!-- signup-->
         <activity android:name=".SignupActivity">

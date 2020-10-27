@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
+import com.finalexam.capstone1.R;
+
 public class ItemClickActivity extends Activity {
 
 
