@@ -100,7 +100,10 @@ public class SearchActivity extends AppCompatActivity {
         arrdate.add(Calendar.DATE, 10);
         y = depdate.get(Calendar.YEAR); m = depdate.get(Calendar.MONTH); d = depdate.get(Calendar.DATE);
         y2 = arrdate.get(Calendar.YEAR); m2 = arrdate.get(Calendar.MONTH); d2 = arrdate.get(Calendar.DATE);
+        btn_date.setText(getDateString(y, m, d));
+        btn_arrdate.setText(getDateString(y2, m2, d2));
 
+//        btn_date.setText();
         btn_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -115,36 +118,23 @@ public class SearchActivity extends AppCompatActivity {
                             Toast.makeText(view.getContext(), "불가능한 날짜입니다.", Toast.LENGTH_SHORT).show();
                         }
                         else {
-                            y = i;
-                            m = i1;
-                            d = i2;
-                            if(m<9){
-                                if(d<10){
-                                    btn_date.setText(String.valueOf(y + "-0" + (m + 1) + "-0" + d));
-                                } else{
-                                    btn_date.setText(String.valueOf(y + "-0" + (m + 1) + "-" + d));
-                                }
-                            }else{
-                                if(d<10){
-                                    btn_date.setText(String.valueOf(y + "-" + (m + 1) + "-0" + d));
-                                }else{
-                                    btn_date.setText(String.valueOf(y + "-" + (m + 1) + "-" + d));
-                                }
+                            y = i; m = i1; d = i2;
+                            btn_date.setText(getDateString(y, m, d));
+
+                            depdate.set(Calendar.YEAR, y);
+                            depdate.set(Calendar.MONTH, m);
+                            depdate.set(Calendar.DATE, d);
+
+                            // 왕복여행에서, 도착지 날짜보다 미래 선택 시 도착지 출발 날짜 변경
+                            if(roundtrip && depdate.compareTo(arrdate) == 1) {
+                                arrdate.set(y, m, d);
+                                setCalendarDate(arrdate, y2, m2, d2);
+                                btn_arrdate.setText(btn_date.getText());
                             }
                         }
                     }
                 }, y, m, d);    // 오늘 날짜로 초기화, 이후 설정된 날짜로 초기화
 //                datePickerDialog.setMessage("메시지 작성");
-
-                depdate.set(Calendar.YEAR, y);
-                depdate.set(Calendar.MONTH, m);
-                depdate.set(Calendar.DATE, d);
-
-                // 왕복여행에서, 도착지 날짜보다 미래 선택 시 도착지 출발 날짜 변경
-                if(roundtrip && depdate.compareTo(arrdate) == 1) {
-                    arrdate.set(y, m, d);
-                    btn_arrdate.setText(btn_date.getText());
-                }
 
                 datePickerDialog.show();
             }
@@ -163,36 +153,23 @@ public class SearchActivity extends AppCompatActivity {
                         if (c.compareTo(cal_today) == -1) {
                             Toast.makeText(view.getContext(), "불가능한 날짜입니다.", Toast.LENGTH_SHORT).show();
                         } else {
-                            y2 = i;
-                            m2 = i1;
-                            d2 = i2;
-                            if(m2<9){
-                                if(d2<10){
-                                    btn_arrdate.setText(String.valueOf(y2 + "-0" + (m2 + 1) + "-0" + d2));
-                                } else{
-                                    btn_arrdate.setText(String.valueOf(y2 + "-0" + (m2 + 1) + "-" + d2));
-                                }
-                            }else{
-                                if(d2<10){
-                                    btn_arrdate.setText(String.valueOf(y2 + "-" + (m2 + 1) + "-0" + d2));
-                                }else{
-                                    btn_arrdate.setText(String.valueOf(y2 + "-" + (m2 + 1) + "-" + d2));
-                                }
+                            y2 = i; m2 = i1; d2 = i2;
+                            btn_arrdate.setText(getDateString(y2, m2, d2));
+
+                            arrdate.set(Calendar.YEAR, y2);
+                            arrdate.set(Calendar.MONTH, m2);
+                            arrdate.set(Calendar.DATE, d2);
+
+                            // 왕복여행에서, 출발 날짜보다 과거 선택 시 출발 날짜 변경
+                            if(roundtrip && arrdate.compareTo(depdate) == -1) {
+                                depdate.set(y2, m2, d2);
+                                setCalendarDate(depdate, y, m, d);
+                                btn_date.setText(btn_arrdate.getText());
                             }
                         }
                     }
                 }, y2, m2, d2);    // 오늘 날짜로 초기화, 이후 설정된 날짜로 초기화
 //                datePickerDialog.setMessage("메시지 작성");
-
-                arrdate.set(Calendar.YEAR, y2);
-                arrdate.set(Calendar.MONTH, m2);
-                arrdate.set(Calendar.DATE, d2);
-
-                // 왕복여행에서, 출발 날짜보다 과거 선택 시 출발 날짜 변경
-                if(roundtrip && arrdate.compareTo(depdate) == -1) {
-                    depdate.set(y2, m2, d2);
-                    btn_date.setText(btn_arrdate.getText());
-                }
 
                 datePickerDialog.show();
             }
@@ -246,10 +223,36 @@ public class SearchActivity extends AppCompatActivity {
 
                 // TODO : intent -> pref
                 // TODO : pref.put ( depdate, arrdate, roundtrip )
+                pref.put("DATE", getDateString(y, m, d));   // 출발날짜
+                pref.put("RETURN", getDateString(y2, m2, d2)); // 되돌아오는 날짜
+
                 intent.putExtra("TRAVEL", dep + "/" + arr + "/" + "");
                 startActivity(intent);
             }
         });
+    }//OnCreate
+
+    String getDateString(int y, int m, int d) {
+        String date = "0000-00-00";
+        if(m<9){
+            if(d<10){
+                date = String.valueOf(y + "-0" + (m + 1) + "-0" + d);
+            } else{
+                date = String.valueOf(y + "-0" + (m + 1) + "-" + d);
+            }
+        }else{
+            if(d<10){
+                date = String.valueOf(y + "-" + (m + 1) + "-0" + d);
+            }else{
+                date = String.valueOf(y + "-" + (m + 1) + "-" + d);
+            }
+        }
+
+        return date;
+    }
+
+    void setCalendarDate(Calendar c, int y, int m, int d) {
+        y = c.get(Calendar.YEAR); m = c.get(Calendar.MONTH); d = c.get(Calendar.DATE);
     }
 
     @Override
@@ -263,7 +266,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void settingList() {
         // 대한민국
-        list.add(new Airport("ICN", "서울 인천국제공항", "대한민국 서울/인천"));
+        list.add(new Airport("ICN", "서울 인천국제공항", "대한민국 인천"));
         list.add(new Airport("GMP", "서울 김포국제공항", "대한민국 서울"));
         list.add(new Airport("PUS", "부산 김해공항", "대한민국 부산"));
         list.add(new Airport("CJU", "제주공항", "대한민국 제주"));

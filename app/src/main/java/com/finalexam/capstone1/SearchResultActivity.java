@@ -49,7 +49,7 @@ public class SearchResultActivity extends BaseActivity {
     private ArrayList<FlightResult> list;
     private ProgressBar progressBar; // 로딩
     private LinearLayout progress_layout;
-    private String id, arr, dep, date, CurState = "FromAlarm";
+    private String id, arr, dep, date, redate, CurState = "FromAlarm";
     private int adlt, chld;
     private boolean round;
     private FlightResult[] flightResults;
@@ -85,13 +85,20 @@ public class SearchResultActivity extends BaseActivity {
         arr = pref.getValue("ARRIVAL", null);
         dep = pref.getValue("DEPARTURE", null);
         date = pref.getValue("DATE", null);
+        redate = pref.getValue("RETURN", null);
         adlt = pref.getValue("ADULT", 0);
         chld = pref.getValue("CHILD", 0);
         round = pref.getValue("ROUND", true);
 //        Log.d("resultof", arr + dep + date + adlt + chld);
 
-        if (round) i_oneway.setVisibility(View.GONE);
-        else i_round.setVisibility(View.GONE);
+        if (round) {
+            i_oneway.setVisibility(View.GONE);
+            tv_arrdate.setText(redate);
+        }
+        else {
+            i_round.setVisibility(View.GONE);
+            tv_arrdate.setText("");
+        }
 
         tv_date.setText(date);
         tv_dep.setText(dep);
