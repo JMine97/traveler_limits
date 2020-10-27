@@ -1,7 +1,9 @@
 package com.finalexam.capstone1;
 
-public class FlightResult {
-    private String[] dep_code, arr_code, dep_time, arr_time, carrierCode;
+import java.io.Serializable;
+
+public class FlightResult implements Serializable {
+    private String[] dep_code, arr_code, dep_time, arr_time, carrierCode, number, duration, carrier_eng, carrier_kor;
     private String totalTime;
     private int price;
 
@@ -73,6 +75,54 @@ public class FlightResult {
         this.carrierCode[i] = carrierCode;
     }
 
+    public void setNumber(String[] number) {
+        this.number = number;
+    }
+
+    public void setNumber(String number, int i){
+        this.number[i] = number;
+    }
+
+    public void setNumber(int i){ this.number = new String[i]; }
+
+    public void setDuration(String[] duration) {
+        this.duration = duration;
+    }
+
+    public void setDuration(String duration, int i){
+        this.duration[i] = duration;
+    }
+
+    public void setDuration(int i){ this.duration = new String[i]; }
+
+    public void setCarrier_eng(String[] carrier_eng) {
+        this.carrier_eng = carrier_eng;
+    }
+
+    public void setCarrier_eng(String carrier_eng, int i){this.carrier_eng[i]= carrier_eng; }
+
+    public void setCarrier_kor(String[] carrier_kor) {
+        this.carrier_kor = carrier_kor;
+    }
+
+    public void setCarrier_kor(String carrier_kor, int i){this.carrier_kor[i]= carrier_kor; }
+
+    public String[] getCarrier_eng() {
+        return carrier_eng;
+    }
+
+    public String[] getCarrier_kor() {
+        return carrier_kor;
+    }
+
+    public String getCarrier_eng(int i){
+        return carrier_eng[i];
+    }
+
+    public String getCarrier_kor(int i){
+        return carrier_kor[i];
+    }
+
     public int getPrice() {
         return price;
     }
@@ -125,22 +175,45 @@ public class FlightResult {
         return totalTime;
     }
 
+    public String[] getNumber() {
+        return number;
+    }
+    public String getNumber(int i){
+        return number[i];
+    }
+
+    public String[] getDuration() {
+        return duration;
+    }
+
+    public String getDuration(int i) {
+        return duration[i];
+    }
+
     public FlightResult(int i){
         this.dep_code = new String[i];
         this.dep_time = new String[i];
         this.arr_code = new String[i];
         this.arr_time = new String[i];
         this.carrierCode = new String[i];
+        this.number = new String[i];
+        this.duration = new String[i];
+        this.carrier_eng = new String[i];
+        this.carrier_kor = new String[i];
     }
 
-    public FlightResult(String[] dep_code, String[] dep_time, String[] arr_code, String[] arr_time, String[] carrierCode, String totalTime, int price){
+    public FlightResult(String[] dep_code, String[] dep_time, String[] arr_code, String[] arr_time, String[] carrierCode, String[] carrier_eng, String[] carrier_kor, String[] number, String totalTime, String[] duration, int price){
         this.dep_code = dep_code;
         this.dep_time = dep_time;
         this.arr_code = arr_code;
         this.arr_time = arr_time;
         this.carrierCode = carrierCode;
+        this.number = number;
         this.totalTime = totalTime;
         this.price = price;
+        this.duration = duration;
+        this.carrier_eng = carrier_eng;
+        this.carrier_kor = carrier_kor;
     }
 
 }

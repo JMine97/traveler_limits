@@ -56,6 +56,7 @@
         <activity android:name=".LoginActivity"/>
         <activity android:name=".MemberInfoActivity"/>
         <activity android:name=".BaseActivity"/>
+        <activity android:name=".ResultDetailActivity"/>
     </application>
 
 </manifest>
