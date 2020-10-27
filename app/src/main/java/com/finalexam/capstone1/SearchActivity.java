@@ -246,6 +246,21 @@ public class SearchActivity extends AppCompatActivity {
 
                 // TODO : intent -> pref
                 // TODO : pref.put ( depdate, arrdate, roundtrip )
+//                pref.put("DATE", btn_arrdate.getText().toString());
+                if(m<9){
+                    if(d<10){
+                        pref.put("DATE", y + "-0" + (m + 1) + "-0" + d);
+                    } else{
+                        pref.put("DATE", y + "-0" + (m + 1) + "-" + d);
+                    }
+                }else{
+                    if(d<10){
+                        pref.put("DATE",y + "-" + (m + 1) + "-0" + d);
+                    }else{
+                        pref.put("DATE", y + "-" + (m + 1) + "-" + d);
+                    }
+                }
+
                 intent.putExtra("TRAVEL", dep + "/" + arr + "/" + "");
                 startActivity(intent);
             }
