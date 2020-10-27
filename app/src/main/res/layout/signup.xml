@@ -84,7 +84,7 @@
             android:layout_weight="1"
             android:background="#00ffffff"
             android:hint="Date of Birth"
-            android:gravity="left||center_vertical"
+            android:gravity="center_vertical"
             android:layout_marginHorizontal="20dp"
             android:id="@+id/btn_signup_dob"/>
     </LinearLayout>
