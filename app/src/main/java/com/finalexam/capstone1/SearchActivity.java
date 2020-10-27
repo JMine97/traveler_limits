@@ -223,6 +223,7 @@ public class SearchActivity extends AppCompatActivity {
 
                 // TODO : intent -> pref
                 // TODO : pref.put ( depdate, arrdate, roundtrip )
+
                 pref.put("DATE", getDateString(y, m, d));   // 출발날짜
                 pref.put("RETURN", getDateString(y2, m2, d2)); // 되돌아오는 날짜
 
