@@ -89,7 +89,8 @@ public class SearchResultActivity extends BaseActivity {
         adlt = pref.getValue("ADULT", 0);
         chld = pref.getValue("CHILD", 0);
         round = pref.getValue("ROUND", true);
-//        Log.d("resultof", arr + dep + date + adlt + chld);
+//        Log.d("resultof", date + "," + redate);
+        Log.d("resultof", arr+"," +redate +"," );
 
         if (round) {
             i_oneway.setVisibility(View.GONE);
@@ -186,6 +187,7 @@ public class SearchResultActivity extends BaseActivity {
     }
 
     private class JsoupAsyncTask extends AsyncTask<Void, Void, FlightResult[]> {
+        FlightOfferSearch[] flightOffers;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -233,12 +235,23 @@ public class SearchResultActivity extends BaseActivity {
                 // Flight Choice Prediction
 // Note that the example calls 2 APIs: Flight Offers Search & Flight Choice Prediction
                 // TODO : boolean round -> 왕복 검색결과 포함시키기
-                FlightOfferSearch[] flightOffers = amadeus.shopping.flightOffersSearch.get(
-                        Params.with("originLocationCode", dep)
-                                .and("destinationLocationCode", arr)
-                                .and("departureDate", date)
-                                //.and("returnDate", "2020-11-09")  // TODO : 왕복 기능 추가 수정
-                                .and("adults", adlt).and("children", chld).and("currencyCode", "KRW"));
+                if(redate==null){
+                    flightOffers = amadeus.shopping.flightOffersSearch.get(
+                            Params.with("originLocationCode", dep)
+                                    .and("destinationLocationCode", arr)
+                                    .and("departureDate", date)
+//                                    .and("returnDate", redate)  // TODO : 왕복 기능 추가 수정
+                                    .and("adults", adlt).and("children", chld).and("currencyCode", "KRW"));
+
+                }else{
+                    flightOffers = amadeus.shopping.flightOffersSearch.get(
+                            Params.with("originLocationCode", dep)
+                                    .and("destinationLocationCode", arr)
+                                    .and("departureDate", date)
+                                    .and("returnDate", redate)  // TODO : 왕복 기능 추가 수정
+                                    .and("adults", adlt).and("children", chld).and("currencyCode", "KRW"));
+                }
+
 
 
                 // Using a JSonObject

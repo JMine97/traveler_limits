@@ -96,8 +96,10 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        //화면에 보여줄 날짜
         depdate.add(Calendar.DATE, 5);
         arrdate.add(Calendar.DATE, 10);
+
         y = depdate.get(Calendar.YEAR); m = depdate.get(Calendar.MONTH); d = depdate.get(Calendar.DATE);
         y2 = arrdate.get(Calendar.YEAR); m2 = arrdate.get(Calendar.MONTH); d2 = arrdate.get(Calendar.DATE);
         btn_date.setText(getDateString(y, m, d));
@@ -215,6 +217,7 @@ public class SearchActivity extends AppCompatActivity {
                 String dep = String.valueOf(btn_dep.getText());
                 String arr = String.valueOf(btn_arr.getText());
                 PreferenceManager pref = new PreferenceManager(SearchActivity.this);
+
                 pref.put("DEPARTURE", dep);
                 pref.put("ARRIVAL", arr);
                 pref.put("ADULT", num_adlt);
@@ -223,9 +226,12 @@ public class SearchActivity extends AppCompatActivity {
 
                 // TODO : intent -> pref
                 // TODO : pref.put ( depdate, arrdate, roundtrip )
-
                 pref.put("DATE", getDateString(y, m, d));   // 출발날짜
-                pref.put("RETURN", getDateString(y2, m2, d2)); // 되돌아오는 날짜
+                if(roundtrip){
+                    pref.put("RETURN", getDateString(y2, m2, d2)); // 되돌아오는 날짜
+                }else{
+                    pref.put("RETURN", null);
+                }
 
                 intent.putExtra("TRAVEL", dep + "/" + arr + "/" + "");
                 startActivity(intent);
