@@ -86,18 +86,19 @@ public class SearchActivity extends AppCompatActivity {
                     roundtrip = false;
                     btn_trip.setText("One Way Trip");
                     btn_arrdate.setText("(OneWay)");
-                    btn_arrdate.setActivated(false);
+                    btn_arrdate.setEnabled(false);
                 } else {    // 편도 -> 왕복
                     roundtrip = true;
                     btn_trip.setText("Round Trip");
-                    btn_arrdate.setText(btn_date.getText());
-                    btn_arrdate.setActivated(true);
+//                    btn_arrdate.setText(btn_date.getText());
+                    btn_arrdate.setText(getDateString(y2, m2, d2));
+                    btn_arrdate.setEnabled(true);
                 }
             }
         });
 
-        depdate.add(Calendar.DATE, 5);
-        arrdate.add(Calendar.DATE, 10);
+        depdate.add(Calendar.DATE, 5);  // 5일 뒤
+        arrdate.add(Calendar.DATE, 10); // 10일 뒤
         y = depdate.get(Calendar.YEAR); m = depdate.get(Calendar.MONTH); d = depdate.get(Calendar.DATE);
         y2 = arrdate.get(Calendar.YEAR); m2 = arrdate.get(Calendar.MONTH); d2 = arrdate.get(Calendar.DATE);
         btn_date.setText(getDateString(y, m, d));
@@ -120,16 +121,14 @@ public class SearchActivity extends AppCompatActivity {
                         else {
                             y = i; m = i1; d = i2;
                             btn_date.setText(getDateString(y, m, d));
+                            depdate.set(y, m, d);
 
-                            depdate.set(Calendar.YEAR, y);
-                            depdate.set(Calendar.MONTH, m);
-                            depdate.set(Calendar.DATE, d);
-
-                            // 왕복여행에서, 도착지 날짜보다 미래 선택 시 도착지 출발 날짜 변경
-                            if(roundtrip && depdate.compareTo(arrdate) == 1) {
+                            // 도착지 날짜보다 미래 선택 시 도착지 출발 날짜 변경, 왕복여행 시에만 날짜 표시
+                            if(depdate.compareTo(arrdate) == 1) {
                                 arrdate.set(y, m, d);
-                                setCalendarDate(arrdate, y2, m2, d2);
-                                btn_arrdate.setText(btn_date.getText());
+                                y2 = arrdate.get(Calendar.YEAR); m2 = arrdate.get(Calendar.MONTH); d2 = arrdate.get(Calendar.DATE);
+                                if(roundtrip)
+                                    btn_arrdate.setText(getDateString(y2, m2, d2));
                             }
                         }
                     }
@@ -155,16 +154,13 @@ public class SearchActivity extends AppCompatActivity {
                         } else {
                             y2 = i; m2 = i1; d2 = i2;
                             btn_arrdate.setText(getDateString(y2, m2, d2));
+                            arrdate.set(y2, m2, d2);
 
-                            arrdate.set(Calendar.YEAR, y2);
-                            arrdate.set(Calendar.MONTH, m2);
-                            arrdate.set(Calendar.DATE, d2);
-
-                            // 왕복여행에서, 출발 날짜보다 과거 선택 시 출발 날짜 변경
-                            if(roundtrip && arrdate.compareTo(depdate) == -1) {
+                            // 출발 날짜보다 과거 선택 시 출발 날짜 변경
+                            if(arrdate.compareTo(depdate) == -1) {
                                 depdate.set(y2, m2, d2);
-                                setCalendarDate(depdate, y, m, d);
-                                btn_date.setText(btn_arrdate.getText());
+                                y = depdate.get(Calendar.YEAR); m = depdate.get(Calendar.MONTH); d = depdate.get(Calendar.DATE);
+                                btn_date.setText(getDateString(y, m, d));
                             }
                         }
                     }
@@ -222,7 +218,6 @@ public class SearchActivity extends AppCompatActivity {
                 pref.put("ROUND", roundtrip);
 
                 // TODO : intent -> pref
-                // TODO : pref.put ( depdate, arrdate, roundtrip )
 
                 pref.put("DATE", getDateString(y, m, d));   // 출발날짜
                 pref.put("RETURN", getDateString(y2, m2, d2)); // 되돌아오는 날짜
@@ -252,7 +247,7 @@ public class SearchActivity extends AppCompatActivity {
         return date;
     }
 
-    void setCalendarDate(Calendar c, int y, int m, int d) {
+    void setCalendarDate(Calendar c, int y, int m, int d) { // NOT WORKING PROPERLY //
         y = c.get(Calendar.YEAR); m = c.get(Calendar.MONTH); d = c.get(Calendar.DATE);
     }
 
