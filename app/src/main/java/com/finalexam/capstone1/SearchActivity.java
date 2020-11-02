@@ -230,7 +230,7 @@ public class SearchActivity extends AppCompatActivity {
                 if(roundtrip){
                     pref.put("RETURN", getDateString(y2, m2, d2)); // 되돌아오는 날짜
                 }else{
-                    pref.put("RETURN", null);
+                    pref.put("RETURN", "0");
                 }
 
                 intent.putExtra("TRAVEL", dep + "/" + arr + "/" + "");

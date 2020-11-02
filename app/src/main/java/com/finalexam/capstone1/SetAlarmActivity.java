@@ -78,7 +78,7 @@ public class SetAlarmActivity extends Activity {
         final String arr = pref.getValue("ARRIVAL", null);
         final String dep = pref.getValue("DEPARTURE", null);
         final String date = pref.getValue("DATE", null);
-        final String arrdate = pref.getValue("ARRDATE", null);
+        final String arrdate = pref.getValue("RETURN", null);
 //        final int int_adlt = pref.getValue("ADULT", 0);
 //        final int int_chld = pref.getValue("CHILD", 0);
         final String adlt = String.valueOf(pref.getValue("ADULT", 0));
@@ -108,10 +108,17 @@ public class SetAlarmActivity extends Activity {
                     final String id = pref.getValue("id", null);
                     Log.d(TAG, "POST response code aa " + id);
 
+//                    Log.d(TAG, "dept " + arrdate);
+                    String roundway;
+                    if (round){roundway="1";}
+                    else{roundway="0";}
+
 //                    PriceDistributionActivity.SaveAlarmActivity task = new PriceDistributionActivity.SaveAlarmActivity();
 //                    task.execute("http://" + "synergyflight.dothome.co.kr" + "/insert_alarm_data.php", dep, arr, date, adlt, chld, limit);
                     SetAlarmActivity.SaveAlarmActivity task = new SetAlarmActivity.SaveAlarmActivity();
-                    task.execute("http://" + "52.78.216.182" + "/insert_alarm_data.php", dep, arr, date, adlt, chld, price_limit, id);
+
+                    task.execute("http://" + "52.78.216.182" + "/insert_alarm_data.php", dep, arr, date, arrdate, adlt, chld, roundway, price_limit, id);
+
                 }
             }
         });// button.setOnClickListener
@@ -236,12 +243,13 @@ public class SetAlarmActivity extends Activity {
             String dept_city= (String) params[1];
             String arr_city = (String) params[2];
             String dept_date = (String) params[3];
-//            String arr_date = // TODO
-            int adult = Integer.parseInt(params[4]);
-            int child = Integer.parseInt(params[5]);
+            String arr_date = (String) params[4];
+            int adult = Integer.parseInt(params[5]);
+            int child = Integer.parseInt(params[6]);
 //            String airline_info = (String) params[6];
-            float price_limit = Float.parseFloat(params[6]);
-            String id=(String) params[7];
+            String round = params[7];
+            float price_limit = Float.parseFloat(params[8]);
+            String id=(String) params[9];
 
 //            System.out.println("in" + token);
 
@@ -250,8 +258,10 @@ public class SetAlarmActivity extends Activity {
             // 여기에 적어준 이름을 나중에 PHP에서 사용하여 값을 얻게 됩니다.
 
             // ex : String postParameters = "name=" + name + "&country=" + country;
-            String postParameters = "dept_city=" + dept_city + "&arr_city=" + arr_city + "&dept_date=" + dept_date
-                    + "&adult=" + adult + "&child=" + child + "&price_limit=" + price_limit + "&id=" + id;
+            Log.d(TAG, dept_city+arr_city+ dept_date+ arr_date+adult+child+round+price_limit+id);
+
+            String postParameters = "dept_city=" + dept_city + "&arr_city=" + arr_city + "&dept_date=" + dept_date+
+                    "&arr_date=" + arr_date + "&adult=" + adult + "&child=" + child + "&round=" + round +"&price_limit=" + price_limit + "&id=" + id;
 
 //            System.out.println("in" + price_limit+ adult);
             Log.d(TAG, "POST response code aa " + id);

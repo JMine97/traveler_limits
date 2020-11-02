@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +32,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import static android.view.View.GONE;
 
 public class MyAlarmsActivity extends AppCompatActivity {
 
@@ -75,6 +76,16 @@ public class MyAlarmsActivity extends AppCompatActivity {
         lv_alarm.setAdapter(adapter);
 
         // 한 번 클릭 -> 상세정보(adapter) // 길게 클릭 -> 삭제
+
+        // list view click evnet
+        lv_alarm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(MyAlarmsActivity.this, "clicked", Toast.LENGTH_SHORT).show();
+                // TODO : 상세정보 POP UP 기능 추가
+            }
+        });
+
         lv_alarm.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id2) {
@@ -115,7 +126,7 @@ public class MyAlarmsActivity extends AppCompatActivity {
                 alert.setMessage("해당 알람을 지우겠습니까?");
                 alert.show();
 
-                return false;
+                return true;
             }
         });
     }//OnCreate()
@@ -151,7 +162,8 @@ public class MyAlarmsActivity extends AppCompatActivity {
         for(int i = 0; i < alarmList.size(); i++){
             // TODO : airline 삭제, 왕복여부, 출발날짜 추가
             list.add(new Alarm(alarmList.get(i).get("dept_city"), alarmList.get(i).get("arr_city"),
-                    Integer.parseInt(alarmList.get(i).get("adult")), Integer.parseInt(alarmList.get(i).get("child")), alarmList.get(i).get("dept_date"), alarmList.get(i).get("price_limit")));
+                    Integer.parseInt(alarmList.get(i).get("adult")), Integer.parseInt(alarmList.get(i).get("child")), alarmList.get(i).get("dept_date"),
+                    alarmList.get(i).get("arr_date"), alarmList.get(i).get("price_limit"), alarmList.get(i).get("round")));
             //            alarmList.get(i).get("airline_info")
         }
     }
@@ -189,7 +201,6 @@ public class MyAlarmsActivity extends AppCompatActivity {
                 view = inflater.inflate(R.layout.mypage_alarm_listitem , viewGroup, false);
             }
 
-            // TODO  : 왕복 출발날짜 추가 (R.id.arm_arrdate)
             TextView tv_dep = (TextView) view.findViewById(R.id.arm_dep);
             TextView tv_arr = (TextView) view.findViewById(R.id.arm_arr);
             TextView tv_depdate = (TextView) view.findViewById(R.id.arm_depdate);
@@ -200,21 +211,17 @@ public class MyAlarmsActivity extends AppCompatActivity {
             Alarm lv_item = list.get(i);
             tv_dep.setText(lv_item.dept);
             tv_arr.setText(lv_item.arrv);
-            tv_depdate.setText(lv_item.date);
+            tv_depdate.setText(lv_item.depdate);
             tv_price.setText(lv_item.price);
+            Log.d("TAG", "bb " + lv_item.round);
 //            tv_detail.setText(lv_item.adlt + " Adult, " + lv_item.airl);
+            if(lv_item.round.equals("1")) { tv_arrdate.setText( lv_item.arrdate ); } else { tv_arrdate.setText( "" );}
+            Log.d("TAG", "cc " + lv_item.adlt);
             tv_detail.setText(lv_item.adlt + " Adult, " + lv_item.chld + " Child");
 
-            // TODO : if(편도) { tv_arrdate.setVisibility(GONE); } else(왕복) { tv_arrdate.setText( lv_item.arrdate ); }
 
-            // list view click evnet
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
-                    // TODO : 상세정보 POP UP 기능 추가
-                }
-            });
+
+
 
             return view;
         }
@@ -282,20 +289,22 @@ public class MyAlarmsActivity extends AppCompatActivity {
                     String arr_date = alarm_info.getString("arr_date");
                     String adult = alarm_info.getString("adult");
                     String child = alarm_info.getString("child");
-                    String clss = alarm_info.getString("class");
+                    String round=alarm_info.getString("round");
+//                    String clss = alarm_info.getString("class");
 //                    String airline_info = alarm_info.getString("airline_info");
                     String price_limit = alarm_info.getString("price_limit");
 
                     HashMap<String, String> alarmMap = new HashMap<String, String>();
                     alarmMap.put("code_alarm", code_alarm);
                     alarmMap.put("dept_city", dept_city);
-                    alarmMap.put("arr_city", arr_city);
                     alarmMap.put("dept_date", dept_date);
+                    alarmMap.put("arr_city", arr_city);
                     alarmMap.put("arr_date", arr_date);
                     alarmMap.put("adult", adult);
                     alarmMap.put("child", child);
-                    alarmMap.put("class", clss);
+//                    alarmMap.put("class", clss);
 //                    alarmMap.put("airline_info", airline_info);
+                    alarmMap.put("round", round);
                     alarmMap.put("price_limit", price_limit);
 
                     alarmList.add(alarmMap);
