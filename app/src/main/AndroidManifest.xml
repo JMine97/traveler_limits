@@ -54,6 +54,8 @@
         <activity android:name=".MemberInfoActivity"/>
         <activity android:name=".BaseActivity"/>
         <activity android:name=".ResultDetailActivity"/>
-    </application>
+        <service android:name=".ForcedTerminationService"
+            android:stopWithTask="false"/>
 
+    </application>
 </manifest>

@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        startService(new Intent(this, ForcedTerminationService.class));
+
         setContentView(R.layout.home3);
         // 로그아웃 상태 : 로그인, 검색하기 버튼
         // 로그인 상태 : 검색하기, 알람목록, 개인정보, 로그아웃 버튼
@@ -114,8 +116,9 @@ public class MainActivity extends AppCompatActivity {
                         pref.clear();
                         // 화면 재시작
                         Intent intent = getIntent();
-                        startActivity(intent);
                         finish();
+                        startActivity(intent);
+                        overridePendingTransition(0, 0);
                     }
                 });
                 alert.setMessage("정말 로그아웃하시겠습니까?");
