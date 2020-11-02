@@ -89,7 +89,8 @@ public class SearchResultActivity extends BaseActivity {
         adlt = pref.getValue("ADULT", 0);
         chld = pref.getValue("CHILD", 0);
         round = pref.getValue("ROUND", true);
-//        Log.d("resultof", arr + dep + date + adlt + chld);
+//        Log.d("resultof", date + "," + redate);
+        Log.d("resultof", arr+"," +redate +"," );
 
         if (round) {
             i_oneway.setVisibility(View.GONE);
@@ -186,6 +187,7 @@ public class SearchResultActivity extends BaseActivity {
     }
 
     private class JsoupAsyncTask extends AsyncTask<Void, Void, FlightResult[]> {
+        FlightOfferSearch[] flightOffers;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -199,10 +201,7 @@ public class SearchResultActivity extends BaseActivity {
                     int size = flightResults[i].getDepCodeSize();
 
                     list.add(new FlightResult(flightResults[i].getDep_code(), flightResults[i].getDep_time(),flightResults[i].getArr_code(),
-                            flightResults[i].getArr_time(),flightResults[i].getCarrierCode(), flightResults[i].getCarrier_eng(), flightResults[i].getCarrier_kor(), flightResults[i].getNumber(), flightResults[i].getTotalTime(), flightResults[i].getDuration(), flightResults[i].getPrice()));
-
-//                    list.add(new FlightResult(flightResults[i].getDep_code(), flightResults[i].getDep_time(), flightResults[i].getArr_code(),
-//                            flightResults[i].getArr_time(), flightResults[i].getCarrierCode(), flightResults[i].getTotalTime(), flightResults[i].getPrice()));
+                                flightResults[i].getArr_time(),flightResults[i].getCarrierCode(), flightResults[i].getCarrier_eng(), flightResults[i].getCarrier_kor(), flightResults[i].getNumber(), flightResults[i].getTotalTime(), flightResults[i].getDuration(), flightResults[i].getPrice()));
 
                     price.add(flightResults[i].getPrice());
                 }
@@ -232,13 +231,24 @@ public class SearchResultActivity extends BaseActivity {
 //                Log.d("resultof", arr + dep + date + adlt + chld);
                 // Flight Choice Prediction
 // Note that the example calls 2 APIs: Flight Offers Search & Flight Choice Prediction
-                // TODO : boolean round -> 왕복 검색결과 포함시키기
-                FlightOfferSearch[] flightOffers = amadeus.shopping.flightOffersSearch.get(
-                        Params.with("originLocationCode", dep)
-                                .and("destinationLocationCode", arr)
-                                .and("departureDate", date)
-                                //.and("returnDate", "2020-11-09")  // TODO : 왕복 기능 추가 수정
-                                .and("adults", adlt).and("children", chld).and("currencyCode", "KRW"));
+
+                if(!round){
+                    flightOffers = amadeus.shopping.flightOffersSearch.get(
+                            Params.with("originLocationCode", dep)
+                                    .and("destinationLocationCode", arr)
+                                    .and("departureDate", date)
+//                                    .and("returnDate", redate)
+                                    .and("adults", adlt).and("children", chld).and("currencyCode", "KRW"));
+
+                }else{
+                    flightOffers = amadeus.shopping.flightOffersSearch.get(
+                            Params.with("originLocationCode", dep)
+                                    .and("destinationLocationCode", arr)
+                                    .and("departureDate", date)
+                                    .and("returnDate", redate)
+                                    .and("adults", adlt).and("children", chld).and("currencyCode", "KRW"));
+                }
+
 
 
                 // Using a JSonObject
@@ -277,6 +287,7 @@ public class SearchResultActivity extends BaseActivity {
                         String arrival_code = String.valueOf(arrival.get("iataCode")).substring(1, 4);
                         flightResults[i].setArr_code(arrival_code, j);
 
+                        //
                         String arrival_time = String.valueOf(arrival.get("at"));
                         String arrival_time2 = arrival_time.substring(1,arrival_time.length()-1);
                         flightResults[i].setArr_time(arrival_time2, j);
