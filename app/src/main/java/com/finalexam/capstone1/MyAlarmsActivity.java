@@ -37,6 +37,7 @@ import static android.view.View.GONE;
 
 public class MyAlarmsActivity extends AppCompatActivity {
 
+    public static Context CONTEXT;
 //    String url = "http://synergyflight.dothome.co.kr/get_alarm_data.php";
     String url = "http://52.78.216.182/get_alarm_data.php";
     ListView lv_alarm;
@@ -44,11 +45,14 @@ public class MyAlarmsActivity extends AppCompatActivity {
     public GetAlarm alrm;
     private List<HashMap<String, String>> alarmList = null;
     private String id;
+    AlarmListAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.myalarms);
+
+        CONTEXT = this; //액티비티 갱신 위한 변수
 
         getWindow().setWindowAnimations(0); //화면전환 효과 제거
         lv_alarm = (ListView) findViewById(R.id.lv_alarm);
@@ -72,7 +76,8 @@ public class MyAlarmsActivity extends AppCompatActivity {
         }
 
         Insert_Listview();
-        final AlarmListAdapter adapter = new AlarmListAdapter(list);
+
+        adapter = new AlarmListAdapter(list);
         lv_alarm.setAdapter(adapter);
 
         // 한 번 클릭 -> 상세정보(adapter) // 길게 클릭 -> 삭제
@@ -81,8 +86,24 @@ public class MyAlarmsActivity extends AppCompatActivity {
         lv_alarm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MyAlarmsActivity.this, "clicked", Toast.LENGTH_SHORT).show();
-                // TODO : 상세정보 POP UP 기능 추가
+//                Toast.makeText(MyAlarmsActivity.this, "clicked" + alarmList.get(position).get("code_alarm"), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(
+                        getApplicationContext(), // 현재화면의 제어권자
+                        AlarmEdit.class); // 다음넘어갈 화면
+
+                // intent 객체에 데이터를 실어서 보내기
+                // 리스트뷰 클릭시 인텐트 (Intent) 생성하고 position 값을 이용하여 인텐트로 넘길값들을 넘긴다
+                intent.putExtra("code_alarm", alarmList.get(position).get("code_alarm"));
+                intent.putExtra("dept_city", alarmList.get(position).get("dept_city"));
+                intent.putExtra("dept_date", alarmList.get(position).get("dept_date"));
+                intent.putExtra("arr_city", alarmList.get(position).get("arr_city"));
+                intent.putExtra("arr_date", alarmList.get(position).get("arr_date"));
+                intent.putExtra("adult", alarmList.get(position).get("adult"));
+                intent.putExtra("child", alarmList.get(position).get("child"));
+                intent.putExtra("round", alarmList.get(position).get("round"));
+                intent.putExtra("price_limit", alarmList.get(position).get("price_limit"));
+
+                startActivity(intent);
             }
         });
 
@@ -118,8 +139,7 @@ public class MyAlarmsActivity extends AppCompatActivity {
 
                         //insert alarm data to list view
                         Insert_Listview();
-
-                        AlarmListAdapter adapter = new AlarmListAdapter(list);
+                        adapter = new AlarmListAdapter(list);
                         lv_alarm.setAdapter(adapter);
                     }
                 });
