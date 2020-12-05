@@ -157,31 +157,31 @@ public class SearchResultActivity extends BaseActivity {
                 PreferenceManager pref = new PreferenceManager(SearchResultActivity.this);
                 id = pref.getValue("id", null);
                 // 로그인 상태
-                if (id != null) {
+//                if (id != null) {
                     Intent intent = new Intent(view.getContext(), SetAlarmActivity.class);
                     startActivity(intent);
-                }
+//                }
                 // 비로그인 상태
-                else {
-                    androidx.appcompat.app.AlertDialog.Builder alert = new AlertDialog.Builder(SearchResultActivity.this);
-                    alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(view.getContext(), LoginActivity.class);
-                            // 로그인 완료 후 검색화면으로 복귀할 수 있도록 CurState 전달
-                            intent.putExtra("CurState", CurState);
-                            startActivity(intent);
-                        }
-                    });
-                    alert.setMessage("먼저 로그인해주세요");
-                    alert.show();
-                }
+//                else {
+//                    androidx.appcompat.app.AlertDialog.Builder alert = new AlertDialog.Builder(SearchResultActivity.this);
+//                    alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                        }
+//                    });
+//                    alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            Intent intent = new Intent(view.getContext(), LoginActivity.class);
+//                            // 로그인 완료 후 검색화면으로 복귀할 수 있도록 CurState 전달
+//                            intent.putExtra("CurState", CurState);
+//                            startActivity(intent);
+//                        }
+//                    });
+//                    alert.setMessage("먼저 로그인해주세요");
+//                    alert.show();
+//                }
             }
         });
     }
@@ -209,7 +209,7 @@ public class SearchResultActivity extends BaseActivity {
                 for (int i = 0; i < price.size(); i++) {
                     jsonArray.add(price.get(i));
                 }
-                //Log.d("json", jsonArray.toString());
+//                Log.d("search json", jsonArray.toString());
                 SearchListViewAdapter adapter = new SearchListViewAdapter(list);
                 lv_search.setAdapter(adapter);
                 lv_search.setVisibility(View.VISIBLE);
