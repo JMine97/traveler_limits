@@ -216,4 +216,17 @@ public class FlightResult implements Serializable {
         this.carrier_kor = carrier_kor;
     }
 
+    public FlightResult(FlightResult fl){
+        this.dep_code = fl.getDep_code();
+        this.dep_time = fl.getDep_time();
+        this.arr_code = fl.getArr_code();
+        this.arr_time = fl.getArr_time();
+        this.carrierCode = fl.getCarrierCode();
+        this.number = fl.getNumber();
+        this.totalTime = fl.getTotalTime();
+        this.price = fl.getPrice();
+        this.duration = fl.getDuration();
+        this.carrier_eng = fl.getCarrier_eng();
+        this.carrier_kor = fl.getCarrier_kor();
+    }
 }
