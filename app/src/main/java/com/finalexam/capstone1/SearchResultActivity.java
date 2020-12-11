@@ -3,13 +3,11 @@ package com.finalexam.capstone1;
 import android.content.DialogInterface;
 import android.content.Intent;
 
-import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,7 +22,6 @@ import com.amadeus.Amadeus;
 import com.amadeus.Params;
 import com.amadeus.exceptions.ResponseException;
 import com.amadeus.resources.FlightOfferSearch;
-import com.finalexam.capstone1.Flight;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -36,7 +33,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class SearchResultActivity extends BaseActivity {
@@ -46,13 +42,14 @@ public class SearchResultActivity extends BaseActivity {
     private Button btn_save;
     private ImageView i_round, i_oneway;
     private ListView lv_search;
-    private ArrayList<FlightResult> list;
+    private ArrayList<FlightResult[]> list;
     private ProgressBar progressBar; // 로딩
     private LinearLayout progress_layout;
     private String id, arr, dep, date, redate, CurState = "FromAlarm";
     private int adlt, chld;
     private boolean round;
     private FlightResult[] flightResults;
+    private FlightResult[][] flightResultsRound;
     private ArrayList<Integer> price = new ArrayList<>();
 
     @Override
@@ -113,37 +110,18 @@ public class SearchResultActivity extends BaseActivity {
         }
 
 
-        lv_search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*lv_search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ArrayList<Flight> list_detail = new ArrayList<>();
 
                 // TODO : 세부정보 표시 or 예약페이지 연결
-                FlightResult lv_item = list.get(position);
+                FlightResult[] lv_item = list.get(position);
 //                Toast.makeText(getApplicationContext(), list_detail + "clicked", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, list_detail + "clicked");
 
-                /*AlertDialog.Builder builder = new AlertDialog.Builder(SearchResultActivity.this);
-
-                builder.setNegativeButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();     //닫기
-                    }
-                });
-                LayoutInflater inflater = getLayoutInflater();
-                View d_view = inflater.inflate(R.layout.dialog_result_detail,null);
-                builder.setView(d_view);
-                final ListView lv_detail = (ListView)view.findViewById(R.id.lv_detail);
-                final AlertDialog dialog = builder.create();
-                for(int i =0; i<lv_item.getDepCodeSize(); i++){
-                    list_detail.add(new Flight(lv_item.getCarrierCode(i), lv_item.getDep_code(i), lv_item.getDep_time(i), lv_item.getArr_code(i), lv_item.getArr_time(i)));
-                }
-                ResultDetailListViewAdapter rd_adapter = new ResultDetailListViewAdapter(list_detail);
-                lv_detail.setAdapter(rd_adapter);
-                dialog.show();*/
             }
-        });
+        }); */
 
 
         JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
@@ -195,15 +173,14 @@ public class SearchResultActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(FlightResult[] flightResults) {
-            list = new ArrayList<FlightResult>();
-            if (flightResults != null) {
-                for (int i = 0; i < flightResults.length; i++) {
-                    int size = flightResults[i].getDepCodeSize();
+            list = new ArrayList<FlightResult[]>();
+            if (flightResultsRound != null) {
+                for (int i = 0; i < flightResultsRound.length; i++) {
 
-                    list.add(new FlightResult(flightResults[i].getDep_code(), flightResults[i].getDep_time(),flightResults[i].getArr_code(),
-                                flightResults[i].getArr_time(),flightResults[i].getCarrierCode(), flightResults[i].getCarrier_eng(), flightResults[i].getCarrier_kor(), flightResults[i].getNumber(), flightResults[i].getTotalTime(), flightResults[i].getDuration(), flightResults[i].getPrice()));
-
-                    price.add(flightResults[i].getPrice());
+                    list.add(flightResultsRound[i]);
+                    for (int j=0; j < flightResultsRound[i].length; j++){
+                        price.add(flightResultsRound[i][j].getPrice());
+                    }
                 }
                 JsonArray jsonArray = new JsonArray();
                 for (int i = 0; i < price.size(); i++) {
@@ -254,16 +231,84 @@ public class SearchResultActivity extends BaseActivity {
                 // Using a JSonObject
                 JsonObject result = flightOffers[1].getResponse().getResult();
                 JsonArray result2 = (JsonArray) result.get("data"); //항공권 정보
-                flightResults = new FlightResult[result2.size()];
-                for (int i = 0; i < result2.size(); i++) {
+                Log.d("result2", Integer.toString(result2.size()));
+                flightResultsRound = new FlightResult[result2.size()][2];
+                if(!round){
+                    flightResultsRound = new FlightResult[result2.size()][1];
+                    flightResults = new FlightResult[result2.size()];
+                } else{
+                    flightResultsRound = new FlightResult[result2.size()][2];
+                    flightResults = new FlightResult[result2.size()*2];
+                }
 
+                for (int i = 0; i < result2.size(); i++) {
+                    JsonObject result3 = (JsonObject) result2.get(i); //oneway(?), price
+                    JsonObject price = (JsonObject) result3.get("price");
+                    double price_total1 = Double.parseDouble(String.valueOf(price.get("total")).substring(1, String.valueOf(price.get("total")).length() - 1));
+                    int price_total = Integer.parseInt(String.valueOf(Math.round(price_total1)));
+                    JsonArray result4 = (JsonArray) result3.get("itineraries");
+                    for (int k = 0; k < result4.size(); k++) {
+                        JsonObject result5 = (JsonObject) result4.get(k);
+                        //왕복일때 size 재야함(for문)
+                        //Log.d("result5", result5.toString());
+                        String totalTime = String.valueOf(result5.get("duration")).substring(3, String.valueOf(result5.get("duration")).length() - 1);//총비행시간
+
+                        JsonArray result6 = (JsonArray) result5.get("segments"); //경유일 때 구분 for문 필요
+                        flightResultsRound[i][k] = new FlightResult(result6.size());
+
+                        flightResultsRound[i][k].setPrice(price_total);
+                        flightResultsRound[i][k].setTotalTime(totalTime);
+
+                        for (int j = 0; j < result6.size(); j++) {
+                            JsonObject result7 = (JsonObject) result6.get(j);
+                            JsonObject departure = (JsonObject) result7.get("departure");
+                            String departure_code = String.valueOf(departure.get("iataCode")).substring(1, 4);
+                            flightResultsRound[i][k].setDep_code(departure_code, j);
+
+                            String departure_time = String.valueOf(departure.get("at"));
+                            String departure_time2 = departure_time.substring(1, departure_time.length() - 1);
+                            flightResultsRound[i][k].setDep_time(departure_time2, j);
+
+
+                            JsonObject arrival = (JsonObject) result7.get("arrival");
+                            String arrival_code = String.valueOf(arrival.get("iataCode")).substring(1, 4);
+                            flightResultsRound[i][k].setArr_code(arrival_code, j);
+
+                            //
+                            String arrival_time = String.valueOf(arrival.get("at"));
+                            String arrival_time2 = arrival_time.substring(1, arrival_time.length() - 1);
+                            flightResultsRound[i][k].setArr_time(arrival_time2, j);
+
+                            String carrierCode = String.valueOf(result7.get("carrierCode")).substring(1, 3);
+                            flightResultsRound[i][k].setCarrierCode(carrierCode, j);
+
+
+                            String number = String.valueOf(result7.get("number"));
+                            String number2 = number.substring(1, number.length() - 1);
+                            flightResultsRound[i][k].setNumber(number2, j);
+
+                            String duration = String.valueOf(result7.get("duration"));
+                            String duration2 = duration.substring(3, duration.length() - 1);
+                            flightResultsRound[i][k].setDuration(duration2, j);
+                        }
+                    }
+                    //list.add(new Flight(carrierCode, departure_time, arrival_time, Double.toString(price_total)));
+                }
+
+                /*for(int i=0; i<flightResultsRound.length; i++){
+                    for(int j =0; j<flightResultsRound[i].length; j++){
+                        flightResults[i*2+j] = new FlightResult(flightResultsRound[i][j]);
+                    }
+                }*/
+
+                /*for (int i = 0; i < result2.size(); i++) {
                     JsonObject result3 = (JsonObject) result2.get(i); //oneway(?), price
                     JsonObject price = (JsonObject) result3.get("price");
                     double price_total1 = Double.parseDouble(String.valueOf(price.get("total")).substring(1, String.valueOf(price.get("total")).length() - 1));
                     int price_total = Integer.parseInt(String.valueOf(Math.round(price_total1)));
                     JsonArray result4 = (JsonArray) result3.get("itineraries");
                     JsonObject result5 = (JsonObject) result4.get(0); //왕복일때 size 재야함(for문)
-
+                    //Log.d("result5", result5.toString());
                     String totalTime = String.valueOf(result5.get("duration")).substring(3, String.valueOf(result5.get("duration")).length() - 1);//총비행시간
 
                     JsonArray result6 = (JsonArray) result5.get("segments"); //경유일 때 구분 for문 필요
@@ -304,13 +349,12 @@ public class SearchResultActivity extends BaseActivity {
                         String duration2 = duration.substring(3,duration.length()-1);
                         flightResults[i].setDuration(duration2, j);
                     }
-
-
                     //list.add(new Flight(carrierCode, departure_time, arrival_time, Double.toString(price_total)));
                 }
+                */
 
                 Log.d("resultof", String.valueOf(result));
-                Log.d("flight_length", Integer.toString(flightResults.length));
+                //Log.d("flight_length", Integer.toString(flightResults.length));
             } catch (ResponseException e) {
                 e.printStackTrace();
             }
@@ -332,22 +376,25 @@ public class SearchResultActivity extends BaseActivity {
 
                 JSONArray jsonArray = new JSONArray(jsonData);
 
-                for(int i = 0; i<flightResults.length; i++){
-                    for(int j=0; j<flightResults[i].getDepCodeSize(); j++){
-                        for(int k =0; k<jsonArray.length(); k++){
-                            JSONObject jo = jsonArray.getJSONObject(k);
+                for(int i = 0; i<flightResultsRound.length; i++){
+                    for(int j=0; j<flightResultsRound[i].length; j++){
+                        for(int k =0; k<flightResultsRound[i][j].getDepCodeSize(); k++){
+                            for(int l =0; l<jsonArray.length(); l++){
+                                JSONObject jo = jsonArray.getJSONObject(l);
 
-                            String en_name = jo.getString("영문명");
-                            String ko_name = jo.getString("한글명");
-                            String iata = jo.getString("IATA_CODE");
-                            String icao = jo.getString("ICAO_CODE");
-                            if(flightResults[i].getCarrierCode(j).equals(iata)||flightResults[i].getCarrierCode(j).equals(icao)){
-                                flightResults[i].setCarrier_eng(en_name, j);
-                                flightResults[i].setCarrier_kor(ko_name, j);
-                                Log.d("영문명", en_name);
-                                break;
+                                String en_name = jo.getString("영문명");
+                                String ko_name = jo.getString("한글명");
+                                String iata = jo.getString("IATA_CODE");
+                                String icao = jo.getString("ICAO_CODE");
+                                if(flightResultsRound[i][j].getCarrierCode(k).equals(iata)||flightResultsRound[i][j].getCarrierCode(k).equals(icao)){
+                                    flightResultsRound[i][j].setCarrier_eng(en_name, k);
+                                    flightResultsRound[i][j].setCarrier_kor(ko_name, k);
+                                    //Log.d("영문명", en_name);
+                                    break;
+                                }
                             }
                         }
+
                     }
                 }
 
@@ -355,7 +402,8 @@ public class SearchResultActivity extends BaseActivity {
             }catch (IOException e){e.printStackTrace();}
             catch (JSONException e){e.printStackTrace();}
 
-            return flightResults;
+            //return flightResults;
+            return new FlightResult[0];
         }
     }//class JSoupAsyncTask
 }
