@@ -2,6 +2,7 @@ package com.finalexam.capstone1;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -141,8 +142,10 @@ public class PriceDistributionActivity extends Activity {
         //Log.d("itemList", itemList.toString());
 
         LineDataSet lineDataSet = new LineDataSet(entries, "가격분포");
-        lineDataSet.setLineWidth(2);
-        /*lineDataSet.setCircleRadius(6);
+        lineDataSet.setLineWidth(10);
+        lineDataSet.setCircleColor(Color.BLUE);
+        lineDataSet.setCircleRadius(6);
+        /*
         lineDataSet.setCircleHoleColor(Color.parseColor("#FFA1B4DC"));
         lineDataSet.setCircleColor(Color.BLUE);
         lineDataSet.setDrawCircleHole(true);

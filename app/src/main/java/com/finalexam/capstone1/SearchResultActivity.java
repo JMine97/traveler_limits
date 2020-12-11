@@ -178,9 +178,7 @@ public class SearchResultActivity extends BaseActivity {
                 for (int i = 0; i < flightResultsRound.length; i++) {
 
                     list.add(flightResultsRound[i]);
-                    for (int j=0; j < flightResultsRound[i].length; j++){
-                        price.add(flightResultsRound[i][j].getPrice());
-                    }
+                    price.add(flightResultsRound[i][0].getPrice());
                 }
                 JsonArray jsonArray = new JsonArray();
                 for (int i = 0; i < price.size(); i++) {
