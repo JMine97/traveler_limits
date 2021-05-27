@@ -1,10 +1,11 @@
 # traveler_limits (항공권 지정가 알림 서비스)
 
-
+<br><br>
 ## 목차
 * [작품 소개](#1-작품-소개)
 * [사용 기술](#2-사용-기술)
-* [주요 기능](#3-주요-기능)<br><br>
+* [주요 기능](#3-주요-기능)
+* [역할 분배](#4-역할-분배)<br><br>
 
 
 ## 1. 작품 소개
@@ -38,5 +39,9 @@
 
 ![image](https://user-images.githubusercontent.com/52027965/119843336-6b11af80-bf42-11eb-9aaf-3886347c3d55.png)<br><br>
 사용자가 지정 가격 알람을 저장하면 웹 서버에서 해당 항공권 가격 정보를 주기적으로 모니터링합니다. 
-지정 가격의 항공권을 발견하면 정확한 사용자에게 알람 서비스를 제공합니다.<br><br><br>
+지정 가격의 항공권을 발견하면 정확한 사용자에게 알람 서비스를 제공합니다.<br><br>
 
+## 4. 역할 분배
+* 주혜경 : 기획, Android Studio, UI/UX, 프로젝트 관리
+* 안예린 : Firebase, Amadeus API, 안정화&최적화, Android Studio
+* 최정민 : AWS 서버구축, php, Data Base, Android Studio
