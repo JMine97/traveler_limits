@@ -38,6 +38,7 @@
 지정 가격의 항공권을 발견하면 정확한 사용자에게 알람 서비스를 제공합니다.<br><br>
 
 ## 3. 역할 분배
+* 최정민(본인) : AWS 서버구축, php, Data Base, Android Studio
 * 주혜경 : 기획, Android Studio, UI/UX, 프로젝트 관리
 * 안예린 : Firebase, Amadeus API, 안정화&최적화, Android Studio
-* 최정민 : AWS 서버구축, php, Data Base, Android Studio
+
