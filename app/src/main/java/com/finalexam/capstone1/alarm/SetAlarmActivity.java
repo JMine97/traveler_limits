@@ -1,4 +1,4 @@
-package com.finalexam.capstone1;
+package com.finalexam.capstone1.alarm;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,8 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
@@ -24,8 +22,8 @@ import java.util.List;
 
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-
+import com.finalexam.capstone1.PreferenceManager;
+import com.finalexam.capstone1.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -36,10 +34,10 @@ import com.github.mikephil.charting.data.LineDataSet;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import static com.finalexam.capstone1.SearchActivity.TAG;
 
 public class SetAlarmActivity extends Activity {
 
+    private static final String TAG = "SetAlarmActivity";
     private Button btn_save;
     private EditText ed_price_limit;
 //    private float price_limit;

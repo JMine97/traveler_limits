@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".GlobalApplication">
+        android:name=".notuse.GlobalApplication">
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -27,38 +27,38 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".login.MainActivity">
 
         </activity>
 
         <!-- mypage -->
-        <activity android:name=".MyAlarmsActivity"/>
+        <activity android:name=".alarm.MyAlarmsActivity"/>
 
         <!-- flight -->
-        <activity android:name=".SearchActivity">
+        <activity android:name=".flightticket.SearchActivity">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity android:name=".SearchResultActivity"/>
-        <activity android:name=".SetAlarmActivity"/>
+        <activity android:name=".flightticket.SearchResultActivity"/>
+        <activity android:name=".alarm.SetAlarmActivity"/>
 
         <!-- signup-->
-        <activity android:name=".SignupActivity">
+        <activity android:name=".signup.SignupActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".MemberInfoActivity"/>
+        <activity android:name=".login.LoginActivity"/>
+        <activity android:name=".mypage.MemberInfoActivity"/>
         <activity android:name=".BaseActivity"/>
-        <activity android:name=".ResultDetailActivity"/>
-        <service android:name=".ForcedTerminationService"
+        <activity android:name=".notuse.ResultDetailActivity"/>
+        <service android:name=".login.ForcedTerminationService"
             android:stopWithTask="false"/>
-        <activity android:name=".AlarmEdit"/>
+        <activity android:name=".alarm.AlarmEdit"/>
 
     </application>
 </manifest>

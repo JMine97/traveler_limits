@@ -1,4 +1,4 @@
-package com.finalexam.capstone1;
+package com.finalexam.capstone1.notuse;
 
 import android.app.Activity;
 import android.os.Bundle;

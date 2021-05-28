@@ -1,4 +1,4 @@
-package com.finalexam.capstone1;
+package com.finalexam.capstone1.alarm;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,11 +13,14 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.finalexam.capstone1.PreferenceManager;
+import com.finalexam.capstone1.R;
+import com.finalexam.capstone1.login.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,8 +35,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
-import static android.view.View.GONE;
 
 public class MyAlarmsActivity extends AppCompatActivity {
 

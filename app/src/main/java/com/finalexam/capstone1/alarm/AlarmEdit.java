@@ -1,4 +1,4 @@
-package com.finalexam.capstone1;
+package com.finalexam.capstone1.alarm;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -7,12 +7,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.finalexam.capstone1.PreferenceManager;
+import com.finalexam.capstone1.R;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -20,7 +22,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.BreakIterator;
 
 
 public class AlarmEdit extends AppCompatActivity {

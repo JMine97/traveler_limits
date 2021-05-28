@@ -1,4 +1,4 @@
-package com.finalexam.capstone1;
+package com.finalexam.capstone1.flightticket;
 
 public class Airport {
     private String name_en, name_kr, city;

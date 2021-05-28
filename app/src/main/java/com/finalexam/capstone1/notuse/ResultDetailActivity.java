@@ -1,21 +1,20 @@
-package com.finalexam.capstone1;
+package com.finalexam.capstone1.notuse;
 
-import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTabHost;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.finalexam.capstone1.PreferenceManager;
+import com.finalexam.capstone1.R;
+import com.finalexam.capstone1.ViewPagerAdapter;
+import com.finalexam.capstone1.flightticket.FlightDetail;
+import com.finalexam.capstone1.flightticket.FlightResult;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;

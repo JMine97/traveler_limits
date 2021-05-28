@@ -1,4 +1,4 @@
-package com.finalexam.capstone1;
+package com.finalexam.capstone1.flightticket;
 
 public class FlightDetail {
     private String dep_code, arr_code, dep_time, arr_time, carrierCode, number, duration, carrier_kor;

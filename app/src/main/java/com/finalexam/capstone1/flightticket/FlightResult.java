@@ -1,4 +1,4 @@
-package com.finalexam.capstone1;
+package com.finalexam.capstone1.flightticket;
 
 import java.io.Serializable;
 

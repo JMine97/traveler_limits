@@ -1,4 +1,4 @@
-package com.finalexam.capstone1;
+package com.finalexam.capstone1.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.finalexam.capstone1.mypage.MypageActivity;
+import com.finalexam.capstone1.PreferenceManager;
+import com.finalexam.capstone1.R;
+import com.finalexam.capstone1.flightticket.SearchResultActivity;
+import com.finalexam.capstone1.signup.SignupActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;

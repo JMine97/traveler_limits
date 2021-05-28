@@ -1,4 +1,4 @@
-package com.finalexam.capstone1;
+package com.finalexam.capstone1.login;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.finalexam.capstone1.mypage.MemberInfoActivity;
+import com.finalexam.capstone1.alarm.MyAlarmsActivity;
+import com.finalexam.capstone1.PreferenceManager;
+import com.finalexam.capstone1.R;
+import com.finalexam.capstone1.flightticket.SearchActivity;
 
 public class MainActivity extends AppCompatActivity {
     private Button b_login, b_search, b_alarm, b_info, b_logout;

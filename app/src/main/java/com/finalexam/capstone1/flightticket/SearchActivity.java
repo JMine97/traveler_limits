@@ -1,19 +1,21 @@
-package com.finalexam.capstone1;
+package com.finalexam.capstone1.flightticket;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.finalexam.capstone1.PreferenceManager;
+import com.finalexam.capstone1.R;
+import com.finalexam.capstone1.login.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;

@@ -1,6 +1,5 @@
-package com.finalexam.capstone1;
+package com.finalexam.capstone1.flightticket;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.content.res.AssetManager;
@@ -16,12 +15,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 
 import com.amadeus.Amadeus;
 import com.amadeus.Params;
 import com.amadeus.exceptions.ResponseException;
 import com.amadeus.resources.FlightOfferSearch;
+import com.finalexam.capstone1.BaseActivity;
+import com.finalexam.capstone1.PreferenceManager;
+import com.finalexam.capstone1.R;
+import com.finalexam.capstone1.alarm.SetAlarmActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 

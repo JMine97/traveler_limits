@@ -1,4 +1,4 @@
-package com.finalexam.capstone1;
+package com.finalexam.capstone1.alarm;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
+
+import com.finalexam.capstone1.flightticket.PriceDistributionActivity;
+import com.finalexam.capstone1.R;
 
 public class CreateActivity extends Activity {
 

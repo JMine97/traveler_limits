@@ -1,4 +1,4 @@
-package com.finalexam.capstone1;
+package com.finalexam.capstone1.mypage;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,6 +17,12 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+
+import com.finalexam.capstone1.PreferenceManager;
+import com.finalexam.capstone1.R;
+import com.finalexam.capstone1.alarm.MyAlarmsActivity;
+import com.finalexam.capstone1.login.LoginActivity;
+import com.finalexam.capstone1.login.MainActivity;
 
 import java.util.ArrayList;
 
