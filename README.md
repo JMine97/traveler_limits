@@ -7,7 +7,8 @@
 ## 목차
 * [사용 기술](#1-사용-기술)
 * [주요 기능](#2-주요-기능)
-* [역할 분배](#3-역할-분배)<br><br>
+* [역할 분배](#3-역할-분배)
+* [발표 파일](#4-발표-파일)<br><br>
 
 
 
@@ -42,3 +43,10 @@
 * 주혜경 : 기획, Android Studio, UI/UX, 프로젝트 관리
 * 안예린 : Firebase, Amadeus API, 안정화&최적화, Android Studio
 
+
+## 4. 발표 파일
+[화면동작.pptx](https://github.com/JMine97/traveler_limits/files/6560470/default.pptx) <br>
+[시너지_중간보고서.pdf](https://github.com/JMine97/traveler_limits/files/6560473/_.pdf) <br>
+[시너지팀 발표 (2학기 2차) _발표용.pptx](https://github.com/JMine97/traveler_limits/files/6560474/2.2._.pptx) <br>
+[[위즈컴자료제출] (작품집자료) 시너지.pptx](https://github.com/JMine97/traveler_limits/files/6560478/default.pptx) <br>
+[시너지팀 마지막발표.pptx](https://github.com/JMine97/traveler_limits/files/6560482/default.pptx) <br>
