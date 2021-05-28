@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".login.MainActivity"
+    tools:context=".MainActivity"
     android:paddingBottom="15dp"
     android:paddingTop="15dp"
     android:background="@drawable/background">
